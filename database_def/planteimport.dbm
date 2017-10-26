@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+         Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel pgmodeler-ver="0.9.0-beta2" last-position="122,228" last-zoom="0.8"
+	 default-schema="public" default-owner="postgres">
+<role name="planteimport">
+</role>
+
+<role name="admin"
+      createrole="true">
+	<appended-sql><![CDATA[GRANT admin to "jens.astrom";]]></appended-sql>
+</role>
+
+<role name="planteuser"
+      encrypted="true"
+      password="planteuser">
+	<roles names="planteimport" role-type="member" />
+</role>
+
+<role name="testuser"
+      login="true"
+      password="testuser">
+	<roles names="planteimport" role-type="member" />
+</role>
+
+<database name="planteimport" encoding="LATIN1" append-at-eod="true" prepend-at-bod="true">
+	<appended-sql><![CDATA[GRANT USAGE ON SCHEMA 
+plants 
+TO
+planteimport;
+
+GRANT USAGE ON SCHEMA 
+common 
+TO
+planteimport;
+
+GRANT USAGE ON SCHEMA 
+insects 
+TO
+planteimport;
+
+GRANT SELECT, INSERT, UPDATE, DELETE, TRIGGER 
+ON ALL TABLES IN SCHEMA plants
+TO 
+planteimport;
+
+GRANT SELECT, INSERT, UPDATE, DELETE, TRIGGER 
+ON ALL TABLES IN SCHEMA common
+TO 
+planteimport;
+
+GRANT SELECT, INSERT, UPDATE, DELETE, TRIGGER 
+ON ALL TABLES IN SCHEMA insects
+TO 
+planteimport;
+
+--------------
+GRANT USAGE ON SCHEMA 
+plants 
+TO
+planteuser;
+
+GRANT USAGE ON SCHEMA 
+common 
+TO
+planteuser;
+
+GRANT USAGE ON SCHEMA 
+insects 
+TO
+planteuser;
+
+GRANT SELECT 
+ON ALL TABLES IN SCHEMA plants
+TO 
+planteuser;
+
+GRANT SELECT
+ON ALL TABLES IN SCHEMA common
+TO 
+planteuser;
+
+GRANT SELECT  
+ON ALL TABLES IN SCHEMA insects
+TO 
+planteuser;
+
+GRANT ALL ON DATABASE planteimport TO admin;]]></appended-sql>
+	<prepended-sql><![CDATA[CREATE EXTENSION IF NOT EXISTS "uuid-ossp";]]></prepended-sql>
+</database>
+
+<schema name="public" fill-color="#e1e1e1" sql-disabled="true">
+</schema>
+
+<schema name="common" rect-visible="true" fill-color="#e1e1e1">
+	<role name="admin"/>
+</schema>
+
+<schema name="plants" rect-visible="true" fill-color="#e1e1e1">
+	<role name="admin"/>
+</schema>
+
+<table name="exporter">
+	<schema name="common"/>
+	<role name="admin"/>
+	<position x="1040" y="268"/>
+	<column name="id" not-null="true" default-value="uuid_generate_v1()">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="exporter" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="eksportør_pk" type="pk-constr" table="common.exporter">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="eksportør_uq" type="uq-constr" table="common.exporter">
+		<columns names="exporter" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="country">
+	<schema name="common"/>
+	<role name="admin"/>
+	<position x="1040" y="128"/>
+	<column name="id" not-null="true" default-value="uuid_generate_v1()">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="country" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="land_uq" type="uq-constr" table="common.country">
+		<columns names="country" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="land_pk" type="pk-constr" table="common.country">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="transport">
+	<schema name="common"/>
+	<role name="admin"/>
+	<position x="1040" y="428"/>
+	<column name="id" not-null="true" default-value="uuid_generate_v1()">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="transport" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="transport_pk" type="pk-constr" table="common.transport">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="transport_uk" type="uq-constr" table="common.transport">
+		<columns names="transport" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="containers">
+	<schema name="common"/>
+	<role name="admin"/>
+	<position x="1040" y="608"/>
+	<column name="id" not-null="true" default-value="uuid_generate_v1()">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="container">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="subsample">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="locality" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="date_sampled" not-null="true">
+		<type name="date" length="0"/>
+	</column>
+	<column name="date_in" not-null="true">
+		<type name="date" length="0"/>
+		<comment><![CDATA[Date when the sample was brought in to lab]]></comment>
+	</column>
+	<column name="date_out" not-null="true">
+		<type name="date" length="0"/>
+		<comment><![CDATA[Date when the sample was brought out from lab]]></comment>
+	</column>
+	<column name="netting_type">
+		<type name="text" length="0"/>
+	</column>
+	<column name="species_latin" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="plant_comment">
+		<type name="text" length="0"/>
+	</column>
+	<column name="wet_volume">
+		<type name="double precision" length="0"/>
+		<comment><![CDATA[Volume in litres of sample wet weight]]></comment>
+	</column>
+	<column name="wet_weight">
+		<type name="double precision" length="0"/>
+	</column>
+	<column name="dry_volume">
+		<type name="double precision" length="0"/>
+	</column>
+	<column name="dry_weight">
+		<type name="double precision" length="0"/>
+	</column>
+	<column name="exporter" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="country" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="transport_type">
+		<type name="text" length="0"/>
+	</column>
+	<column name="pdf_present" not-null="true">
+		<type name="boolean" length="0"/>
+	</column>
+	<column name="mattilsynet" not-null="true">
+		<type name="boolean" length="0"/>
+	</column>
+	<column name="comment_certificate">
+		<type name="text" length="0"/>
+	</column>
+	<column name="oh_recieved">
+		<type name="text" length="0"/>
+	</column>
+	<column name="container_weight">
+		<type name="double precision" length="0"/>
+		<comment><![CDATA[Container weight in kg]]></comment>
+	</column>
+	<column name="number_of_articles">
+		<type name="integer" length="0"/>
+		<comment><![CDATA[Number of articles per plant species (?)]]></comment>
+	</column>
+	<column name="number_of_species">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="number_total">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="volume_per_crate">
+		<type name="text" length="0"/>
+	</column>
+	<column name="comment_contents">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="container_pk" type="pk-constr" table="common.containers">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="container_subsample_uq" type="uq-constr" table="common.containers">
+		<columns names="container,subsample" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="netting">
+	<schema name="common"/>
+	<role name="admin"/>
+	<position x="1320" y="108"/>
+	<column name="id" not-null="true" default-value="uuid_generate_v1()">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="type" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="net_pk" type="pk-constr" table="common.netting">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="net_uk" type="uq-constr" table="common.netting">
+		<columns names="type" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="species">
+	<schema name="plants"/>
+	<role name="admin"/>
+	<position x="340" y="360"/>
+	<column name="id" not-null="true" default-value="uuid_generate_v1()">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="species_latin" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="species_norsk">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="planter_pk" type="pk-constr" table="plants.species">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="plante_latin_uq" type="uq-constr" table="plants.species">
+		<columns names="species_latin" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="locality">
+	<schema name="common"/>
+	<role name="admin"/>
+	<position x="1340" y="288"/>
+	<column name="id" not-null="true" default-value="uuid_generate_v1()">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="locality" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="region" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="fylke" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="kommune" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="utm_e">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="utm_n">
+		<type name="integer" length="0"/>
+	</column>
+	<constraint name="loc_pk" type="pk-constr" table="common.locality">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="lok_uq" type="uq-constr" table="common.locality">
+		<columns names="locality" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="records">
+	<schema name="plants"/>
+	<role name="admin"/>
+	<position x="320" y="540"/>
+	<column name="id" not-null="true" default-value="uuid_generate_v1()">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="container" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="subsample" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="species_latin" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="amount" not-null="true" default-value="0">
+		<type name="integer" length="0"/>
+	</column>
+	<constraint name="records_pk" type="pk-constr" table="plants.records">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="plant_records_uq" type="uq-constr" table="plants.records">
+		<columns names="container,subsample,species_latin" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<schema name="insects" rect-visible="true" fill-color="#e1e1e1">
+	<role name="admin"/>
+</schema>
+
+<table name="species">
+	<schema name="insects"/>
+	<role name="admin"/>
+	<position x="1740" y="360"/>
+	<column name="id" not-null="true" default-value="uuid_generate_v1()">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="phylum">
+		<type name="text" length="0"/>
+	</column>
+	<column name="class">
+		<type name="text" length="0"/>
+	</column>
+	<column name="subclass">
+		<type name="text" length="0"/>
+	</column>
+	<column name="order">
+		<type name="text" length="0"/>
+	</column>
+	<column name="underorder">
+		<type name="text" length="0"/>
+	</column>
+	<column name="family">
+		<type name="text" length="0"/>
+	</column>
+	<column name="old_description">
+		<type name="text" length="0"/>
+	</column>
+	<column name="species_latin" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="stadium" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="indetermined" not-null="true" default-value="FALSE">
+		<type name="boolean" length="0"/>
+	</column>
+	<column name="alien" default-value="FALSE">
+		<type name="boolean" length="0"/>
+	</column>
+	<column name="blacklist_cat">
+		<type name="varchar" length="8"/>
+	</column>
+	<column name="native" not-null="true" default-value="FALSE">
+		<type name="boolean" length="0"/>
+	</column>
+	<constraint name="insect_species_pk" type="pk-constr" table="insects.species">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="insect_species_uq" type="uq-constr" table="insects.species">
+		<columns names="species_latin" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="records">
+	<schema name="insects"/>
+	<role name="admin"/>
+	<position x="1720" y="720"/>
+	<column name="id" not-null="true" default-value="uuid_generate_v1()">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="container" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="subsample" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="species_latin" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="amount" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<constraint name="insect_records_pk" type="pk-constr" table="insects.records">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="insect_records_uq" type="uq-constr" table="insects.records">
+		<columns names="container,subsample,species_latin" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<constraint name="container_netting_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="common.netting" table="common.containers">
+	<columns names="netting_type" ref-type="src-columns"/>
+	<columns names="type" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="container_species_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="plants.species" table="common.containers">
+	<columns names="species_latin" ref-type="src-columns"/>
+	<columns names="species_latin" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="container_exporter_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="common.exporter" table="common.containers">
+	<columns names="exporter" ref-type="src-columns"/>
+	<columns names="exporter" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="container_country_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="common.country" table="common.containers">
+	<columns names="country" ref-type="src-columns"/>
+	<columns names="country" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="container_locality_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="common.locality" table="common.containers">
+	<columns names="locality" ref-type="src-columns"/>
+	<columns names="locality" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="container_transport_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="common.transport" table="common.containers">
+	<columns names="transport_type" ref-type="src-columns"/>
+	<columns names="transport" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="records_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="common.containers" table="plants.records">
+	<columns names="container,subsample" ref-type="src-columns"/>
+	<columns names="container,subsample" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="records_species_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="plants.species" table="plants.records">
+	<columns names="species_latin" ref-type="src-columns"/>
+	<columns names="species_latin" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="insect_records_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="common.containers" table="insects.records">
+	<columns names="container,subsample" ref-type="src-columns"/>
+	<columns names="container,subsample" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="insect_records_species_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="insects.species" table="insects.records">
+	<columns names="species_latin" ref-type="src-columns"/>
+	<columns names="species_latin" ref-type="dst-columns"/>
+</constraint>
+
+<relationship name="rel_samples_netting" type="relfk"
+	 src-table="common.containers"
+	 dst-table="common.netting"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_samples_plant" type="relfk"
+	 src-table="common.containers"
+	 dst-table="plants.species"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_samples_exporter" type="relfk"
+	 src-table="common.containers"
+	 dst-table="common.exporter"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_samples_country" type="relfk"
+	 src-table="common.containers"
+	 dst-table="common.country"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_records_containers" type="relfk"
+	 src-table="plants.records"
+	 dst-table="common.containers"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_records_plant" type="relfk"
+	 src-table="plants.records"
+	 dst-table="plants.species"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_containers_locality" type="relfk"
+	 src-table="common.containers"
+	 dst-table="common.locality"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_containers_transport" type="relfk"
+	 src-table="common.containers"
+	 dst-table="common.transport"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_records_containers1" type="relfk"
+	 src-table="insects.records"
+	 dst-table="common.containers"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_records_species" type="relfk"
+	 src-table="insects.records"
+	 dst-table="insects.species"
+	 src-required="false" dst-required="false"/>
+
+<permission>
+	<object name="plants" type="schema"/>
+	<roles names="planteimport"/>
+	<privileges usage="true"/>
+</permission>
+<permission>
+	<object name="plants" type="schema"/>
+	<roles names="admin"/>
+	<privileges create="true" usage="true"/>
+</permission>
+</dbmodel>

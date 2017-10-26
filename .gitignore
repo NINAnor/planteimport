@@ -1,0 +1,6 @@
+access/*.dsn
+access/psqlodbc*
+.Rproj.user
+.Rhistory
+.RData
+.Rdata

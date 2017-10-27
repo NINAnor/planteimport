@@ -3,12 +3,12 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.9.0-beta2" last-position="122,228" last-zoom="0.8"
+<dbmodel pgmodeler-ver="0.9.0" last-position="0,19" last-zoom="0.8"
 	 default-schema="public" default-owner="postgres">
 <role name="planteimport">
 </role>
 
-<role name="admin"
+<role name="planteimport_admin"
       createrole="true">
 	<appended-sql><![CDATA[GRANT admin to "jens.astrom";]]></appended-sql>
 </role>
@@ -22,10 +22,16 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <role name="testuser"
       login="true"
       password="testuser">
-	<roles names="planteimport" role-type="member" />
+	<roles names="planteimport,planteuser" role-type="admin" />
+</role>
+
+<role name="planteimport_shiny"
+      password="container">
+	<roles names="planteuser" role-type="admin" />
 </role>
 
 <database name="planteimport" encoding="LATIN1" append-at-eod="true" prepend-at-bod="true">
+	<role name="planteimport_admin"/>
 	<appended-sql><![CDATA[GRANT USAGE ON SCHEMA 
 plants 
 TO
@@ -87,25 +93,28 @@ ON ALL TABLES IN SCHEMA insects
 TO 
 planteuser;
 
-GRANT ALL ON DATABASE planteimport TO admin;]]></appended-sql>
-	<prepended-sql><![CDATA[CREATE EXTENSION IF NOT EXISTS "uuid-ossp";]]></prepended-sql>
+GRANT ALL ON DATABASE planteimport TO planteimport_admin;
+
+ALTER DATABASE planteimport SET TABLESPACE planteimport]]></appended-sql>
+	<prepended-sql><![CDATA[CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+CREATE EXTENSION IF NOT EXISTS "postgis";]]></prepended-sql>
 </database>
 
 <schema name="public" fill-color="#e1e1e1" sql-disabled="true">
 </schema>
 
 <schema name="common" rect-visible="true" fill-color="#e1e1e1">
-	<role name="admin"/>
+	<role name="planteimport_admin"/>
 </schema>
 
 <schema name="plants" rect-visible="true" fill-color="#e1e1e1">
-	<role name="admin"/>
+	<role name="planteimport_admin"/>
 </schema>
 
 <table name="exporter">
 	<schema name="common"/>
-	<role name="admin"/>
-	<position x="1040" y="268"/>
+	<role name="planteimport_admin"/>
+	<position x="1040" y="260"/>
 	<column name="id" not-null="true" default-value="uuid_generate_v1()">
 		<type name="uuid" length="0"/>
 	</column>
@@ -122,8 +131,8 @@ GRANT ALL ON DATABASE planteimport TO admin;]]></appended-sql>
 
 <table name="country">
 	<schema name="common"/>
-	<role name="admin"/>
-	<position x="1040" y="128"/>
+	<role name="planteimport_admin"/>
+	<position x="1040" y="120"/>
 	<column name="id" not-null="true" default-value="uuid_generate_v1()">
 		<type name="uuid" length="0"/>
 	</column>
@@ -140,8 +149,8 @@ GRANT ALL ON DATABASE planteimport TO admin;]]></appended-sql>
 
 <table name="transport">
 	<schema name="common"/>
-	<role name="admin"/>
-	<position x="1040" y="428"/>
+	<role name="planteimport_admin"/>
+	<position x="1040" y="420"/>
 	<column name="id" not-null="true" default-value="uuid_generate_v1()">
 		<type name="uuid" length="0"/>
 	</column>
@@ -158,8 +167,8 @@ GRANT ALL ON DATABASE planteimport TO admin;]]></appended-sql>
 
 <table name="containers">
 	<schema name="common"/>
-	<role name="admin"/>
-	<position x="1040" y="608"/>
+	<role name="planteimport_admin"/>
+	<position x="1040" y="600"/>
 	<column name="id" not-null="true" default-value="uuid_generate_v1()">
 		<type name="uuid" length="0"/>
 	</column>
@@ -256,8 +265,8 @@ GRANT ALL ON DATABASE planteimport TO admin;]]></appended-sql>
 
 <table name="netting">
 	<schema name="common"/>
-	<role name="admin"/>
-	<position x="1320" y="108"/>
+	<role name="planteimport_admin"/>
+	<position x="1320" y="100"/>
 	<column name="id" not-null="true" default-value="uuid_generate_v1()">
 		<type name="uuid" length="0"/>
 	</column>
@@ -274,7 +283,7 @@ GRANT ALL ON DATABASE planteimport TO admin;]]></appended-sql>
 
 <table name="species">
 	<schema name="plants"/>
-	<role name="admin"/>
+	<role name="planteimport_admin"/>
 	<position x="340" y="360"/>
 	<column name="id" not-null="true" default-value="uuid_generate_v1()">
 		<type name="uuid" length="0"/>
@@ -295,8 +304,8 @@ GRANT ALL ON DATABASE planteimport TO admin;]]></appended-sql>
 
 <table name="locality">
 	<schema name="common"/>
-	<role name="admin"/>
-	<position x="1340" y="288"/>
+	<role name="planteimport_admin"/>
+	<position x="1340" y="280"/>
 	<column name="id" not-null="true" default-value="uuid_generate_v1()">
 		<type name="uuid" length="0"/>
 	</column>
@@ -318,6 +327,9 @@ GRANT ALL ON DATABASE planteimport TO admin;]]></appended-sql>
 	<column name="utm_n">
 		<type name="integer" length="0"/>
 	</column>
+	<column name="geom">
+		<type name="geometry" length="0" spatial-type="POINT" variation="0" srid="25833"/>
+	</column>
 	<constraint name="loc_pk" type="pk-constr" table="common.locality">
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
@@ -328,7 +340,7 @@ GRANT ALL ON DATABASE planteimport TO admin;]]></appended-sql>
 
 <table name="records">
 	<schema name="plants"/>
-	<role name="admin"/>
+	<role name="planteimport_admin"/>
 	<position x="320" y="540"/>
 	<column name="id" not-null="true" default-value="uuid_generate_v1()">
 		<type name="uuid" length="0"/>
@@ -354,12 +366,12 @@ GRANT ALL ON DATABASE planteimport TO admin;]]></appended-sql>
 </table>
 
 <schema name="insects" rect-visible="true" fill-color="#e1e1e1">
-	<role name="admin"/>
+	<role name="planteimport_admin"/>
 </schema>
 
 <table name="species">
 	<schema name="insects"/>
-	<role name="admin"/>
+	<role name="planteimport_admin"/>
 	<position x="1740" y="360"/>
 	<column name="id" not-null="true" default-value="uuid_generate_v1()">
 		<type name="uuid" length="0"/>
@@ -413,7 +425,7 @@ GRANT ALL ON DATABASE planteimport TO admin;]]></appended-sql>
 
 <table name="records">
 	<schema name="insects"/>
-	<role name="admin"/>
+	<role name="planteimport_admin"/>
 	<position x="1720" y="720"/>
 	<column name="id" not-null="true" default-value="uuid_generate_v1()">
 		<type name="uuid" length="0"/>
@@ -437,6 +449,40 @@ GRANT ALL ON DATABASE planteimport TO admin;]]></appended-sql>
 		<columns names="container,subsample,species_latin" ref-type="src-columns"/>
 	</constraint>
 </table>
+
+<schema name="functions" rect-visible="true" fill-color="#e1e1e1">
+	<role name="planteimport_admin"/>
+</schema>
+
+<function name="create_location_geom_from_utm"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="CALLED ON NULL INPUT"
+		function-type="VOLATILE"
+		security-type="SECURITY INVOKER"
+		execution-cost="1"
+		row-amount="0">
+	<schema name="functions"/>
+	<role name="planteimport_admin"/>
+	<language name="plpgsql" sql-disabled="true"/>
+	<return-type>
+	<type name="trigger" length="0"/>
+	</return-type>
+	<definition><![CDATA[BEGIN
+ UPDATE common.locality
+ SET geom = ST_SetSRID(ST_MakePoint(NEW.utm_e, NEW.utm_n), 25833)
+ WHERE id = NEW.id;
+RETURN NULL;
+END;
+]]></definition>
+</function>
+
+<trigger name="tr_update_location_geom" firing-type="AFTER" per-line="true" constraint="false"
+	 ins-event="true" del-event="false" upd-event="true" trunc-event="false"
+	 table="common.locality">
+		<function signature="functions.create_location_geom_from_utm()"/>
+		<columns names="utm_e,utm_n"/>
+</trigger>
 
 <constraint name="container_netting_fk" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="common.netting" table="common.containers">
@@ -555,7 +601,7 @@ GRANT ALL ON DATABASE planteimport TO admin;]]></appended-sql>
 </permission>
 <permission>
 	<object name="plants" type="schema"/>
-	<roles names="admin"/>
+	<roles names="planteimport_admin"/>
 	<privileges create="true" usage="true"/>
 </permission>
 </dbmodel>

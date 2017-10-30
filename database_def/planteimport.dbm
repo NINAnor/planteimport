@@ -328,7 +328,7 @@ CREATE EXTENSION IF NOT EXISTS "postgis";]]></prepended-sql>
 		<type name="integer" length="0"/>
 	</column>
 	<column name="geom">
-		<type name="geometry" length="0" spatial-type="POINT" variation="0" srid="25833"/>
+		<type name="geometry" length="0" spatial-type="POINT" variation="0" srid="25832"/>
 	</column>
 	<constraint name="loc_pk" type="pk-constr" table="common.locality">
 		<columns names="id" ref-type="src-columns"/>
@@ -470,7 +470,7 @@ CREATE EXTENSION IF NOT EXISTS "postgis";]]></prepended-sql>
 	</return-type>
 	<definition><![CDATA[BEGIN
  UPDATE common.locality
- SET geom = ST_SetSRID(ST_MakePoint(NEW.utm_e, NEW.utm_n), 25833)
+ SET geom = ST_SetSRID(ST_MakePoint(NEW.utm_e, NEW.utm_n), 25832)
  WHERE id = NEW.id;
 RETURN NULL;
 END;

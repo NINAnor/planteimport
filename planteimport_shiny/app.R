@@ -20,14 +20,16 @@ ui<-shinyUI(
                                                     end   = Sys.Date()),
                                      uiOutput("choose_species"),
                                      downloadButton('downloadData', 'Last ned CSV')), 
-                        mainPanel(fluidRow(column(12,leafletOutput("mymap", height=600))))),
+                        mainPanel(fluidRow(column(12,leafletOutput("mymap", height=600)))))
+                      ),
              tabPanel("Oversikt Containere",
-                      DT::dataTableOutput('container')),
-             tabPanel("Oversikt Insekter",
-                      DT::dataTableOutput('insekter')),
-             tabPanel("Oversikt Planter", 
-                     DT::dataTableOutput('planter'))))
-)
+                      DT::dataTableOutput('containers')),
+             tabPanel("Oversikt Insektsfunn",
+                      DT::dataTableOutput('insekt_records')),
+             tabPanel("Insektarter funne",
+                      DT::dataTableOutput('insekt_species'))
+
+))
 
 
 
@@ -71,99 +73,42 @@ server<-function(input, output, session) {
   }
   
   
+
+  
   output$choose_species<- renderUI({
     selectInput('species', 'Species', c("Insekter", "Planter"), selected = "Insekter")
   })
   
   
-  
-  output$activeLoggingSessions <- DT::renderDataTable({
-    sessions <- dbGetQuery(con, "SELECT * FROM views.active_logging_sessions")
-    sessions
+  output$containers <- DT::renderDataTable({
+    containers <- dbGetQuery(con, "SELECT * FROM common.containers")
+    out <- containers[names(containers) != "id"]
+    out
   })
   
-  output$shortTable <- DT::renderDataTable({
-    
-    shortSum <-"
-    SELECT count(distinct(species)) \"Antall arter\", count(distinct(colony)) \"Antall kolonier\",
-    count(distinct(year_tracked)) \"Antall år\", count(*) \"Antall positions\",
-    count(distinct(ring_number)) \"Antall individer\"
-    FROM postable"
-    
-    # shortSum <- "
-    # SELECT * FROM
-    # shorttable"
-    
-    shortTable <- dbGetQuery(con, shortSum)
-    rownames(shortTable) <- ""
-    colnames(shortTable) <- c("Antall arter", "Antall kolonier", "Antall år", "Antall posisjoner", "Antall individer")
-    
-    shortTable
-    
-  }
-  ,
-  caption = "Summeringstabell for alle funn",
-  rownames = F
-  # caption.placement = getOption("xtable.caption.placement", "bottom"),
-  # caption.width = getOption("xtable.caption.width", NULL)
-  )
+  output$insekt_species <- DT::renderDataTable({
+  species <- dbGetQuery(con, "SELECT phylum,
+  class,
+  subclass,
+  \"order\",
+  underorder,
+  family 
+  old_description,
+  species_latin,
+  stadium,
+  indetermined,
+  alien,
+  blacklist_cat,
+  native
+  FROM insects.species")
+
+  species
+  })
   
-  
-  output$shortTableEqfilter3 <- DT::renderDataTable({
-    
-    
-    shortSumEqfilter3 <-"
-    SELECT count(distinct(species)) antall_arter, count(distinct(colony)) antall_kolonier, count(distinct(year_tracked)) antall_år, count(*) antall_positions,
-    count(distinct(ring_number)) antall_individer
-    FROM postable
-    WHERE eqfilter3 = 1"
-    
-    # shortSumEqfilter3 <- "
-    # SELECT *
-    # FROM shorttableeqfilter3"
-    
-    shortTable <- dbGetQuery(con, shortSumEqfilter3)
-    rownames(shortTable) <- ""
-    colnames(shortTable) <- c("Antall arter", "Antall kolonier", "Antall år", "Antall posisjoner", "Antall individer")
-    shortTable
-    
-    
-  }
-  ,
-  caption = "Summeringstabell for alle funn med eqfilter = 3",
-  rownames = F
-  # caption.placement = getOption("xtable.caption.placement", "bottom"),
-  # caption.width = getOption("xtable.caption.width", NULL)
-  )
-  
-  
-  
-  output$longerTable <- DT::renderDataTable({
-    
-    longerSum <-"
-    SELECT year_tracked år, species, count(distinct(ring_number)) antall_unike_ring_nummer, count(*) antall_posisjoner, count(distinct(colony)) antall_kolonier
-    FROM postable
-    GROUP BY år, species
-    ORDER BY år, species"
-    
-    # longerSum <- "
-    # SELECT *
-    # FROM longersum
-    # "
-    
-    longerTable <- dbGetQuery(con, longerSum)
-    #rownames(shortTable) <- ""
-    colnames(longerTable) <- c("Logger-år", "Art", "Antall individer", "Antall posisjoner", "Antall kolonier")
-    longerTable
-    
-  }
-  ,
-  caption = "Tabell over ringer",
-  rownames = F
-  # caption.placement = getOption("xtable.caption.placement", "bottom"),
-  # caption.width = getOption("xtable.caption.width", NULL)
-  )
-  
+  output$insekt_records <- DT::renderDataTable({
+    insect_records <- dbGetQuery(con, "SELECT container, subsample, species_latin, amount FROM insects.records")
+    insect_records
+  })
   
   locationsQuery <- reactive({
     fetch.q <- "SELECT *, ST_X(ST_transform(geom, 4326)) lon, ST_Y(ST_transform(geom, 4326)) lat

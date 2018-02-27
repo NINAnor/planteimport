@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.9.0" last-position="0,19" last-zoom="0.8"
+<dbmodel pgmodeler-ver="0.9.0" last-position="0,1" last-zoom="0.8"
 	 default-schema="public" default-owner="postgres">
 <role name="planteimport">
 </role>
@@ -95,7 +95,7 @@ planteuser;
 
 GRANT ALL ON DATABASE planteimport TO planteimport_admin;
 
-ALTER DATABASE planteimport SET TABLESPACE planteimport]]></appended-sql>
+]]></appended-sql>
 	<prepended-sql><![CDATA[CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS "postgis";]]></prepended-sql>
 </database>
@@ -338,7 +338,7 @@ CREATE EXTENSION IF NOT EXISTS "postgis";]]></prepended-sql>
 	</constraint>
 </table>
 
-<table name="records">
+<table name="container_records">
 	<schema name="plants"/>
 	<role name="planteimport_admin"/>
 	<position x="320" y="540"/>
@@ -357,10 +357,10 @@ CREATE EXTENSION IF NOT EXISTS "postgis";]]></prepended-sql>
 	<column name="amount" not-null="true" default-value="0">
 		<type name="integer" length="0"/>
 	</column>
-	<constraint name="records_pk" type="pk-constr" table="plants.records">
+	<constraint name="records_pk" type="pk-constr" table="plants.container_records">
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
-	<constraint name="plant_records_uq" type="uq-constr" table="plants.records">
+	<constraint name="plant_records_uq" type="uq-constr" table="plants.container_records">
 		<columns names="container,subsample,species_latin" ref-type="src-columns"/>
 	</constraint>
 </table>
@@ -423,7 +423,7 @@ CREATE EXTENSION IF NOT EXISTS "postgis";]]></prepended-sql>
 	</constraint>
 </table>
 
-<table name="records">
+<table name="container_records">
 	<schema name="insects"/>
 	<role name="planteimport_admin"/>
 	<position x="1720" y="720"/>
@@ -442,10 +442,10 @@ CREATE EXTENSION IF NOT EXISTS "postgis";]]></prepended-sql>
 	<column name="amount" not-null="true">
 		<type name="integer" length="0"/>
 	</column>
-	<constraint name="insect_records_pk" type="pk-constr" table="insects.records">
+	<constraint name="insect_records_pk" type="pk-constr" table="insects.container_records">
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
-	<constraint name="insect_records_uq" type="uq-constr" table="insects.records">
+	<constraint name="insect_records_uq" type="uq-constr" table="insects.container_records">
 		<columns names="container,subsample,species_latin" ref-type="src-columns"/>
 	</constraint>
 </table>
@@ -484,62 +484,92 @@ END;
 		<columns names="utm_e,utm_n"/>
 </trigger>
 
+<schema name="views" rect-visible="true" fill-color="#e1e1e1">
+	<role name="postgres"/>
+</schema>
+
+<view name="recorded_plants">
+	<schema name="views"/>
+	<role name="postgres"/>
+	<position x="366.25" y="1030"/>
+	<reference>
+		<expression><![CDATA[SELECT r.	species_latin, s.species_norsk, 	 sum(r.amount)
+FROM plants.container_records r, plants.species s
+WHERE r.species_latin = s.species_latin
+GROUP BY r.species_latin, s.species_norsk
+ORDER BY r.species_latin]]></expression>
+	</reference>
+</view>
+
+<view name="recorded_insects">
+	<schema name="views"/>
+	<role name="postgres"/>
+	<position x="402.5" y="968.75"/>
+	<reference alias="foo">
+		<expression><![CDATA[SELECT r.	species_latin,	 sum(r.amount)
+FROM insects.container_records r, insects.species s
+WHERE r.species_latin = s.species_latin
+GROUP BY r.species_latin
+ORDER BY r.species_latin]]></expression>
+	</reference>
+</view>
+
 <constraint name="container_netting_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="common.netting" table="common.containers">
+	 upd-action="CASCADE" del-action="RESTRICT" ref-table="common.netting" table="common.containers">
 	<columns names="netting_type" ref-type="src-columns"/>
 	<columns names="type" ref-type="dst-columns"/>
 </constraint>
 
 <constraint name="container_species_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="plants.species" table="common.containers">
+	 upd-action="CASCADE" del-action="RESTRICT" ref-table="plants.species" table="common.containers">
 	<columns names="species_latin" ref-type="src-columns"/>
 	<columns names="species_latin" ref-type="dst-columns"/>
 </constraint>
 
 <constraint name="container_exporter_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="common.exporter" table="common.containers">
+	 upd-action="CASCADE" del-action="RESTRICT" ref-table="common.exporter" table="common.containers">
 	<columns names="exporter" ref-type="src-columns"/>
 	<columns names="exporter" ref-type="dst-columns"/>
 </constraint>
 
 <constraint name="container_country_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="common.country" table="common.containers">
+	 upd-action="CASCADE" del-action="RESTRICT" ref-table="common.country" table="common.containers">
 	<columns names="country" ref-type="src-columns"/>
 	<columns names="country" ref-type="dst-columns"/>
 </constraint>
 
 <constraint name="container_locality_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="common.locality" table="common.containers">
+	 upd-action="CASCADE" del-action="RESTRICT" ref-table="common.locality" table="common.containers">
 	<columns names="locality" ref-type="src-columns"/>
 	<columns names="locality" ref-type="dst-columns"/>
 </constraint>
 
 <constraint name="container_transport_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="common.transport" table="common.containers">
+	 upd-action="CASCADE" del-action="RESTRICT" ref-table="common.transport" table="common.containers">
 	<columns names="transport_type" ref-type="src-columns"/>
 	<columns names="transport" ref-type="dst-columns"/>
 </constraint>
 
 <constraint name="records_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="common.containers" table="plants.records">
+	 upd-action="CASCADE" del-action="RESTRICT" ref-table="common.containers" table="plants.container_records">
 	<columns names="container,subsample" ref-type="src-columns"/>
 	<columns names="container,subsample" ref-type="dst-columns"/>
 </constraint>
 
 <constraint name="records_species_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="plants.species" table="plants.records">
+	 upd-action="CASCADE" del-action="RESTRICT" ref-table="plants.species" table="plants.container_records">
 	<columns names="species_latin" ref-type="src-columns"/>
 	<columns names="species_latin" ref-type="dst-columns"/>
 </constraint>
 
 <constraint name="insect_records_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="common.containers" table="insects.records">
+	 upd-action="CASCADE" del-action="RESTRICT" ref-table="common.containers" table="insects.container_records">
 	<columns names="container,subsample" ref-type="src-columns"/>
 	<columns names="container,subsample" ref-type="dst-columns"/>
 </constraint>
 
 <constraint name="insect_records_species_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="insects.species" table="insects.records">
+	 upd-action="CASCADE" del-action="RESTRICT" ref-table="insects.species" table="insects.container_records">
 	<columns names="species_latin" ref-type="src-columns"/>
 	<columns names="species_latin" ref-type="dst-columns"/>
 </constraint>
@@ -565,12 +595,12 @@ END;
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_records_containers" type="relfk"
-	 src-table="plants.records"
+	 src-table="plants.container_records"
 	 dst-table="common.containers"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_records_plant" type="relfk"
-	 src-table="plants.records"
+	 src-table="plants.container_records"
 	 dst-table="plants.species"
 	 src-required="false" dst-required="false"/>
 
@@ -585,12 +615,12 @@ END;
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_records_containers1" type="relfk"
-	 src-table="insects.records"
+	 src-table="insects.container_records"
 	 dst-table="common.containers"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_records_species" type="relfk"
-	 src-table="insects.records"
+	 src-table="insects.container_records"
 	 dst-table="insects.species"
 	 src-required="false" dst-required="false"/>
 

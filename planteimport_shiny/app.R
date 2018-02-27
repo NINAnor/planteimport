@@ -6,6 +6,7 @@ require(xtable)
 require(DBI)
 require(RPostgres)
 require(dplyr)
+require(ggplot2)
 
 #tags$head(tags$link(rel='stylesheet', type='text/css', href='styles.css')),
 
@@ -256,7 +257,7 @@ server<-function(input, output, session) {
   
   output$cumPlot <- renderPlot({
 
-  input <- read.table("planteimport2.csv", sep = ",", header = T)
+  #input <- read.table("planteimport2.csv", sep = ",", header = T)
     cumPlot(input = fields(), what = plotInput()$what)
     
   })

@@ -12,15 +12,21 @@ require(dplyr)
 
 ui<-shinyUI(
   navbarPage("Planteimport - overvåking av fripassagerer",
-             tabPanel('Data download',
+             tabPanel('Accumulation graphs and data download',
                       sidebarLayout(
                         sidebarPanel(width=2,
                                      dateRangeInput("daterange", "Date range:",
                                                     start = Sys.Date() -365*5,
                                                     end   = Sys.Date()),
-                                     uiOutput("choose_species"),
+                                     selectInput("taxa", "Species", c("Insekter", "Planter"), selected = "Insekter"),
+                                     uiOutput("container_species"),
+                                     uiOutput("country"),
+                                     selectInput("plotLevel", "What to Plot", c("Species", "Individuals"), selected = "Species"),
                                      downloadButton('downloadData', 'Last ned CSV')), 
-                        mainPanel(fluidRow(column(12,leafletOutput("mymap", height=600)))))
+                        #mainPanel(fluidRow(column(12, leafletOutput("mymap", height=600)))
+                        mainPanel(plotOutput("cumPlot"),
+                        fluidRow(column(1, offset=0,"Database dialog:"), column(11, verbatimTextOutput("nText"))))
+             )
                       ),
              tabPanel("Oversikt Containere",
                       DT::dataTableOutput('containers')),
@@ -38,6 +44,8 @@ ui<-shinyUI(
 
 server<-function(input, output, session) {
   
+  source("planteShinyFunctions.R")
+  
   con <- DBI::dbConnect(RPostgres::Postgres(), 
                         dbname = "planteimport", 
                         user = "planteimport_shiny", 
@@ -46,7 +54,8 @@ server<-function(input, output, session) {
   
   
   datasetInput <- reactive({
-    fields()$fields})
+    fields()
+    })
   
   output$downloadData <- downloadHandler(
     filename = function() { "planteimport.csv" },
@@ -56,15 +65,15 @@ server<-function(input, output, session) {
   
   select_categories<-function(){
     
-    dbGetQuery(con,"SET search_path = positions, public;")
+    dbSendQuery(con, "SET search_path = common, public;")
     
-    cat.query<-"SELECT  species as species_cat, colony as colony_cat, data_responsible as responsible_cat
-    , ring_number as ring_number_cat
-    FROM positions.postable
-    GROUP BY species, colony, data_responsible, ring_number
+    cat.query<-"SELECT  netting_type as netting_cat, exporter as exporter_cat, country as country_cat
+    , transport_type as transport_type_cat, species_latin as species_cat
+    FROM common.containers
+    GROUP BY netting_type, exporter_cat, country_cat, transport_type, species_cat
     "
     
-    suppressWarnings(categories<-dbGetQuery(con, cat.query))
+    suppressWarnings(categories <- dbGetQuery(con, cat.query))
     
     #categories<-fetch(res,-1)
     #dbClearResult(res)
@@ -73,11 +82,18 @@ server<-function(input, output, session) {
   }
   
   
-
-  
-  output$choose_species<- renderUI({
-    selectInput('species', 'Species', c("Insekter", "Planter"), selected = "Insekter")
+  output$container_species <- renderUI({
+    selectInput("container_species", "Import species", c("All", sort(as.character(unique(select_categories()$species_cat)))), selected="All")
   })
+  
+  output$country <- renderUI({
+    selectInput("country", "Import country", c("All", sort(as.character(unique(select_categories()$country_cat)))), selected="All")
+  })
+  
+  
+  #output$taxa<- renderUI({
+  #  selectInput('taxa', 'Species', c("Insekter", "Planter"), selected = "Insekter")
+  #})
   
   
   output$containers <- DT::renderDataTable({
@@ -121,47 +137,70 @@ server<-function(input, output, session) {
       return(NULL)
     } else
       
-    start_time<-as.character(input$daterange[1])
-    end_time<-as.character(input$daterange[2])
+    start_time <- as.character(input$daterange[1])
+    end_time <- as.character(input$daterange[2])
     
-    date_range<-paste("\n WHERE date_time::date >= '", 
+    date_range <- paste("\n LEFT JOIN common.containers c 
+                      ON r.container = c.container
+                      WHERE c.date_sampled >= '", 
                       start_time,
                       "' ", 
-                      "AND date_time::date <= '", 
+                      "AND c.date_sampled <= '", 
                       end_time, 
                       "'", 
                       sep="")
 
 
-    if(input$taxa=="Insekter"){
-    fetch.q<-paste("SELECT *
-                   FROM insects.records"
-                   , date_range, 
-                   sep="")
+    if(input$taxa == "Insekter"){
+    fetch.q <- paste0("SELECT r.*
+                     FROM insects.records r"
+                   , date_range,
+                   "\n")
     }
     
-    if(input$taxa=="Planter"){
-      fetch.q<-paste("SELECT *
-                     FROM plants.records"
-                     , date_range, 
-                     sep="")
+    if(input$taxa == "Planter"){
+      fetch.q <- paste0("SELECT r.*
+                     FROM plants.records r"
+                     , date_range,
+                     "\n"
+                     )
     }
     
-    fetch.q
+    if(input$container_species != "All"){
+      
+        fetch.q <- paste0(fetch.q, 
+                        "AND c.species_latin = '", 
+                        input$container_species, 
+                        "'",
+                        "\n")
+    }
     
+    
+    if(input$country != "All"){
+      
+      fetch.q <- paste0(fetch.q, 
+                        "AND c.country = '",
+                        input$country, 
+                        "'",
+                        "\n")
+    }
+    
+    return(fetch.q)
+    #return(input$taxa)
   })
   
   
+
   
-  fields<-reactive({
-    if (is.null(input$taxa)){
-      return(NULL)
-    } else
+  fields <- reactive({
+   # if (is.null(input$taxa)){
+    #  return(NULL)
+    #} else
   
-      dbGetQuery(con, "SET CLIENT_ENCODING TO 'UTF8'")
+      dbSendQuery(con, "SET CLIENT_ENCODING TO 'UTF8'")
     
-    suppressWarnings(post.fields <- dbGetQuery(con,as.character(recordsQuery())))
-  list(fields=post.fields)
+    suppressWarnings(post.fields <- dbGetQuery(con, as.character(recordsQuery())))
+  post.fields
  })
   
   
@@ -170,16 +209,16 @@ server<-function(input, output, session) {
     #   return(NULL)
     # } else
       
-    dbGetQuery(con, "SET CLIENT_ENCODING TO 'UTF8'")
+    dbSendQuery(con, "SET CLIENT_ENCODING TO 'UTF8'")
     
-    suppressWarnings(post.fields <- dbGetQuery(con,as.character(locationsQuery())))
+    suppressWarnings(post.fields <- dbGetQuery(con, as.character(locationsQuery())))
     return(post.fields)
   })
   
   
   
   output$mymap<-renderLeaflet({
-    if (is.null(input$species)){
+    if (is.null(input$taxa)){
       return(NULL)
     } else
          {
@@ -202,12 +241,24 @@ server<-function(input, output, session) {
   
   
   ntext<-reactive(
-    query()
-    
-  )
+    recordsQuery()
+)
   
   output$nText <- renderText({
     ntext()
+  })
+  
+  plotInput <- reactive({
+    out <- list("what" =  input$plotLevel)
+    
+    out
+  })
+  
+  output$cumPlot <- renderPlot({
+
+  input <- read.table("planteimport2.csv", sep = ",", header = T)
+    cumPlot(input = fields(), what = plotInput()$what)
+    
   })
   
 }

@@ -47,7 +47,7 @@ cumPlot <- function(input,
                       size = 2) 
     }
   
-  g + labs(title = paste0("Cumulative number of ", what, " from shipping country: ", country, ", shipping species: ", species),
+  g + labs(title = paste0(what, " from shipping country: ", country, ", shipping species: ", species),
            x = "Number of containers",
            y = paste("Number of", what))
   

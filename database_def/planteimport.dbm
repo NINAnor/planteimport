@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.9.0" last-position="0,1" last-zoom="0.8"
+<dbmodel pgmodeler-ver="0.9.0" last-position="0,0" last-zoom="0.8"
 	 default-schema="public" default-owner="postgres">
 <role name="planteimport">
 </role>
@@ -30,7 +30,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<roles names="planteuser" role-type="admin" />
 </role>
 
-<database name="planteimport" encoding="LATIN1" append-at-eod="true" prepend-at-bod="true">
+<database name="planteimport" encoding="UTF8" template="template0" lc-collate="en_US.UTF-8" lc-ctype="en_US.UTF-8" append-at-eod="true" prepend-at-bod="true">
 	<role name="planteimport_admin"/>
 	<appended-sql><![CDATA[GRANT USAGE ON SCHEMA 
 plants 
@@ -284,15 +284,31 @@ CREATE EXTENSION IF NOT EXISTS "postgis";]]></prepended-sql>
 <table name="species">
 	<schema name="plants"/>
 	<role name="planteimport_admin"/>
-	<position x="340" y="360"/>
+	<position x="340" y="358.75"/>
 	<column name="id" not-null="true" default-value="uuid_generate_v1()">
 		<type name="uuid" length="0"/>
+	</column>
+	<column name="latinsknavnid">
+		<type name="bigint" length="0"/>
+		<comment><![CDATA[latinsknavnid as defined by artsdatabanken]]></comment>
+	</column>
+	<column name="projectid" not-null="true" default-value="uuid_generate_v1()">
+		<type name="uuid" length="0"/>
+		<comment><![CDATA[species id within the project, only of temporary use when matching old records to new]]></comment>
+	</column>
+	<column name="genus">
+		<type name="text" length="0"/>
+		<comment><![CDATA[for matching with artsdatabanken ids]]></comment>
 	</column>
 	<column name="species_latin" not-null="true">
 		<type name="text" length="0"/>
 	</column>
 	<column name="species_norsk">
 		<type name="text" length="0"/>
+	</column>
+	<column name="species">
+		<type name="text" length="0"/>
+		<comment><![CDATA[for matching with artsdatabanken]]></comment>
 	</column>
 	<constraint name="planter_pk" type="pk-constr" table="plants.species">
 		<columns names="id" ref-type="src-columns"/>
@@ -351,6 +367,12 @@ CREATE EXTENSION IF NOT EXISTS "postgis";]]></prepended-sql>
 	<column name="subsample" not-null="true">
 		<type name="smallint" length="0"/>
 	</column>
+	<column name="latinsknavnid">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="projectid">
+		<type name="uuid" length="0"/>
+	</column>
 	<column name="species_latin" not-null="true">
 		<type name="text" length="0"/>
 	</column>
@@ -376,6 +398,14 @@ CREATE EXTENSION IF NOT EXISTS "postgis";]]></prepended-sql>
 	<column name="id" not-null="true" default-value="uuid_generate_v1()">
 		<type name="uuid" length="0"/>
 	</column>
+	<column name="latinsknavnid">
+		<type name="bigint" length="0"/>
+		<comment><![CDATA[matching the ids from artsdatabanken]]></comment>
+	</column>
+	<column name="projectid" not-null="true" default-value="uuid_generate_v1()">
+		<type name="uuid" length="0"/>
+		<comment><![CDATA[species id within project, of temporary use for matching with latinskid]]></comment>
+	</column>
 	<column name="phylum">
 		<type name="text" length="0"/>
 	</column>
@@ -396,6 +426,14 @@ CREATE EXTENSION IF NOT EXISTS "postgis";]]></prepended-sql>
 	</column>
 	<column name="old_description">
 		<type name="text" length="0"/>
+	</column>
+	<column name="genus">
+		<type name="text" length="0"/>
+		<comment><![CDATA[for matching with artsdatabanken]]></comment>
+	</column>
+	<column name="species">
+		<type name="text" length="0"/>
+		<comment><![CDATA[for matching with artsdatabanken]]></comment>
 	</column>
 	<column name="species_latin" not-null="true">
 		<type name="text" length="0"/>
@@ -426,7 +464,7 @@ CREATE EXTENSION IF NOT EXISTS "postgis";]]></prepended-sql>
 <table name="container_records">
 	<schema name="insects"/>
 	<role name="planteimport_admin"/>
-	<position x="1720" y="720"/>
+	<position x="1721.25" y="720"/>
 	<column name="id" not-null="true" default-value="uuid_generate_v1()">
 		<type name="uuid" length="0"/>
 	</column>
@@ -435,6 +473,12 @@ CREATE EXTENSION IF NOT EXISTS "postgis";]]></prepended-sql>
 	</column>
 	<column name="subsample" not-null="true">
 		<type name="smallint" length="0"/>
+	</column>
+	<column name="latinsknavnid">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="projectid">
+		<type name="uuid" length="0"/>
 	</column>
 	<column name="species_latin" not-null="true">
 		<type name="text" length="0"/>

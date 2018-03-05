@@ -310,7 +310,10 @@ server = (function(input, output,session) {
   output$cumPlot <- renderPlot({
     
     #input <- read.table("planteimport2.csv", sep = ",", header = T)
-    cumPlot(input = fields(), what = plotInput()$what)
+    cumPlot(input = fields(), 
+            what = plotInput()$what, 
+            country = input$country, 
+            species = input$container_species)
     
   })
   

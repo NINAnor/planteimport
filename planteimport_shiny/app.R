@@ -70,7 +70,7 @@ server = (function(input, output,session) {
                                      selectInput("taxa", "Species", c("Insekter", "Planter"), selected = "Insekter"),
                                      uiOutput("container_species"),
                                      uiOutput("country"),
-                                     selectInput("plotLevel", "What to Plot", c("Species", "Individuals"), selected = "Species"),
+                                     selectInput("plotLevel", "What to Plot", c("Taxon", "Individuals"), selected = "Taxon"),
                                      downloadButton('downloadPlot', 'Last ned figur')), 
                         #mainPanel(fluidRow(column(12, leafletOutput("mymap", height=600)))
                         mainPanel(plotOutput("cumPlot"),

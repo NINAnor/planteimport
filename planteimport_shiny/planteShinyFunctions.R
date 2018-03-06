@@ -2,7 +2,7 @@
 ## Cumulative plot function
 
 cumPlot <- function(input, 
-                    what = c("Species", "Individuals"),
+                    what = c("Taxon", "Individuals"),
                     species = "All",
                     country = "All",
                     col = NinaR::ninaPalette()[3]){
@@ -20,7 +20,7 @@ cumPlot <- function(input,
   
   g <- ggplot(aggData)  
   
-  if(what == "Species"){
+  if(what == "Taxon"){
     if(nrow(aggData) == 1){
      g <-  g + geom_point(mapping = aes(x = noContainer,
                                    y = noSpec, group = 1),

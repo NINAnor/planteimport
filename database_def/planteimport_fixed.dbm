@@ -3,14 +3,8 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.9.0" last-position="0,0" last-zoom="0.8"
-	 default-schema="public" default-owner="postgres">
-<role name="planteuser"
-      encrypted="true"
-      password="planteuser">
-	<roles names="planteimport" role-type="member" />
-</role>
-
+<dbmodel pgmodeler-ver="0.9.0" last-position="0,198" last-zoom="0.75"
+	 default-owner="postgres">
 <role name="planteimport_admin"
       createrole="true"
       inherit="true">
@@ -21,18 +15,22 @@ CAUTION: Do not modify this file unless you know what you are doing.
       inherit="true">
 </role>
 
+<role name="planteuser"
+      encrypted="true"
+      password="planteuser">
+</role>
+
 <role name="testuser"
+      inherit="true"
       login="true"
       encrypted="true"
       password="testuser">
-	<roles names="planteimport,planteuser" role-type="admin" />
 </role>
 
 <role name="planteimport_shiny"
       inherit="true"
       encrypted="true"
       password="container">
-	<roles names="planteuser" role-type="admin" />
 </role>
 
 <role name="oddvar.hanssen"
@@ -40,7 +38,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
       login="true"
       encrypted="true"
       password="oddvar.hanssen">
-	<roles names="planteimport" role-type="refer" />
 </role>
 
 <role name="kristine.westergaard"
@@ -48,7 +45,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
       login="true"
       encrypted="true"
       password="kristine.westergaard">
-	<roles names="planteuser" role-type="refer" />
 </role>
 
 <role name="anders.endrestol"
@@ -56,7 +52,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
       login="true"
       encrypted="true"
       password="anders.endrestol">
-	<roles names="planteimport" role-type="refer" />
 </role>
 
 <role name="anders.often"
@@ -64,7 +59,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
       login="true"
       encrypted="true"
       password="anders.often">
-	<roles names="planteuser" role-type="refer" />
 </role>
 
 <role name="frode.fossoy"
@@ -72,14 +66,13 @@ CAUTION: Do not modify this file unless you know what you are doing.
       login="true"
       encrypted="true"
       password="frode.fossoy">
-	<roles names="planteuser" role-type="refer" />
 </role>
 
 <tablespace name="planteimport" directory="'/data/planteimport'">
 	<role name="postgres"/>
 </tablespace>
 
-<database name="planteimport" encoding="UTF8" template="template0" lc-collate="en_US.UTF-8" lc-ctype="en_US.UTF-8" append-at-eod="true">
+<database name="planteimport" encoding="UTF8" template="template0" lc-collate="en_US.UTF-8" lc-ctype="en_US.UTF-8" append-at-eod="true" prepend-at-bod="true">
 	<role name="planteimport_admin"/>
 	<tablespace name="planteimport"/>
 	<appended-sql><![CDATA[GRANT USAGE ON SCHEMA 
@@ -151,24 +144,7 @@ planteuser;
 GRANT ALL ON DATABASE planteimport TO planteimport_admin;
 
 GRANT planteimport_admin TO "jens.astrom";
-
-
-CREATE EXTENSION postgres_fdw;
-
-CREATE SERVER ninsrv16
-	FOREIGN DATA WRAPPER postgres_fdw
-	OPTIONS(host 'ninsrv16.nina.no', port '5432', dbname 'gisdata');
-	
-	
-CREATE USER MAPPING FOR "jens.astrom"
-	SERVER ninsrv16
-	OPTIONS(user 'postgjest', password 'gjestpost');
-
-CREATE SCHEMA darwin;
-	
-IMPORT FOREIGN SCHEMA lookup_tables
-	FROM SERVER ninsrv16 INTO darwin;
-	]]></appended-sql>
+]]></appended-sql>
 	<prepended-sql><![CDATA[CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS "postgis";]]></prepended-sql>
 </database>
@@ -436,7 +412,7 @@ CREATE EXTENSION IF NOT EXISTS "postgis";]]></prepended-sql>
 <table name="container_records">
 	<schema name="plants"/>
 	<role name="planteimport_admin"/>
-	<position x="335" y="583.75"/>
+	<position x="369.667" y="634.417"/>
 	<column name="id" not-null="true" default-value="uuid_generate_v1()">
 		<type name="uuid" length="0"/>
 	</column>
@@ -610,7 +586,7 @@ CREATE EXTENSION IF NOT EXISTS "postgis";]]></prepended-sql>
 	<type name="trigger" length="0"/>
 	</return-type>
 	<definition><![CDATA[BEGIN
- UPDATE common.locality
+ UPDATE common.locations
  SET geom = ST_SetSRID(ST_MakePoint(NEW.utm_e, NEW.utm_n), 25832)
  WHERE id = NEW.id;
 RETURN NULL;
@@ -670,7 +646,7 @@ ORDER BY r.species_latin]]></expression>
 	<type name="trigger" length="0"/>
 	</return-type>
 	<definition><![CDATA[BEGIN
-	NEW.last_updated_by = current_user();
+	NEW.last_updated_by = current_user;
 	NEW.last_updated = now();
 
 RETURN NEW;
@@ -761,37 +737,27 @@ END;]]></definition>
 	<columns names="species_latin" ref-type="dst-columns"/>
 </constraint>
 
-<relationship name="rel_samples_netting" type="relfk"
+<relationship name="rel_containers_netting" type="relfk"
 	 src-table="common.containers"
 	 dst-table="common.netting"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_samples_plant" type="relfk"
+<relationship name="rel_containers_species" type="relfk"
 	 src-table="common.containers"
 	 dst-table="plants.species"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_samples_exporter" type="relfk"
+<relationship name="rel_containers_exporter" type="relfk"
 	 src-table="common.containers"
 	 dst-table="common.exporter"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_samples_country" type="relfk"
+<relationship name="rel_containers_country" type="relfk"
 	 src-table="common.containers"
 	 dst-table="common.country"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_records_containers" type="relfk"
-	 src-table="plants.container_records"
-	 dst-table="common.containers"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_records_plant" type="relfk"
-	 src-table="plants.container_records"
-	 dst-table="plants.species"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_containers_locality" type="relfk"
+<relationship name="rel_containers_locations" type="relfk"
 	 src-table="common.containers"
 	 dst-table="common.locations"
 	 src-required="false" dst-required="false"/>
@@ -801,12 +767,22 @@ END;]]></definition>
 	 dst-table="common.transport"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_records_containers1" type="relfk"
+<relationship name="rel_container_records_containers" type="relfk"
+	 src-table="plants.container_records"
+	 dst-table="common.containers"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_container_records_species" type="relfk"
+	 src-table="plants.container_records"
+	 dst-table="plants.species"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_container_records_containers1" type="relfk"
 	 src-table="insects.container_records"
 	 dst-table="common.containers"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_records_species" type="relfk"
+<relationship name="rel_container_records_species1" type="relfk"
 	 src-table="insects.container_records"
 	 dst-table="insects.species"
 	 src-required="false" dst-required="false"/>

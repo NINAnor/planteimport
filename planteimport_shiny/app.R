@@ -94,7 +94,7 @@ server = (function(input, output,session) {
   
   con <- DBI::dbConnect(RPostgres::Postgres(), 
                         dbname = "planteimport", 
-                        user = "planteimport_shiny", 
+                        user = "shinyuser", 
                         password = "container", 
                         host = "ninpgsql02.nina.no")
   
@@ -175,7 +175,7 @@ server = (function(input, output,session) {
   })
   
   output$insekt_records <- DT::renderDataTable({
-    insect_records <- dbGetQuery(con, "SELECT container, subsample, species_latin, amount FROM insects.records")
+    insect_records <- dbGetQuery(con, "SELECT container, subsample, species_latin, amount FROM insects.container_records")
     insect_records
   })
   
@@ -206,14 +206,14 @@ server = (function(input, output,session) {
     
     if(input$taxa == "Insekter"){
       fetch.q <- paste0("SELECT r.*
-                        FROM insects.records r"
+                        FROM insects.container_records r"
                         , date_range,
                         "\n")
     }
     
     if(input$taxa == "Planter"){
       fetch.q <- paste0("SELECT r.*
-                        FROM plants.records r"
+                        FROM plants.container_records r"
                         , date_range,
                         "\n"
       )

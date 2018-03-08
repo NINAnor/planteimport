@@ -1,0 +1,142 @@
+---
+title: "Initialize planteimport with data"
+author: "Jens Åström"
+date: "`r format(Sys.Date(), "%d %B, %Y")`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+require(DBI)
+require(RPostgres)
+require(tidyverse)
+
+
+```
+
+```{r}
+knitr::opts_chunk$set(echo = TRUE, tidy = T, dev = c('pdf', 'png'), dpi = 600, fig.path = "figure/", eval = F)
+options(xtable.include.rownames = F, xtable.comment = F)
+
+con <- dbConnect(RPostgres::Postgres(), 
+                 host = "ninpgsql02.nina.no", 
+                 dbname = "planteimport", 
+                 user = "jens.astrom", 
+                 password = "booPuoshaixah2U")
+
+dbSendQuery(con,"SET search_path = common, public;")
+
+
+```
+
+```{r}
+to_load <- list.files(path = "../database_def/startup_data", 
+                      pattern = "csv", 
+                      full.names = T)   
+to_load
+
+readCSVs <- function(x){
+  tmp <- read_csv(x, locale = locale(encoding = "windows-1252"))
+  name <- gsub("(.*)(\\.csv)", "\\1", basename(x))
+  assign(name, tmp, .GlobalEnv)
+} 
+
+lapply(to_load, readCSVs)
+
+```
+
+```{r}
+setID <- function(x){
+  suppressWarnings(apply(x, 1,  UUIDgenerate))
+}
+
+```
+
+
+```{r}
+#common_country <- common_country %>% mutate(id = setID(.)) %>% select(id, country)
+
+dbWriteTable(con, "country", common_country, append = T, row.names = F)
+
+```
+
+```{r}
+#common_exporter <- common_exporter %>% 
+  # mutate(id = setID(.)) %>% 
+  # select(id,
+  #        exporter)
+
+dbWriteTable(con , "exporter", common_exporter, append = T, row.names = F)
+```
+
+```{r}
+# common_locations <- common_locations %>% 
+#   mutate(id = setID(.)) %>% 
+#   select(id,
+#          everything()) %>% 
+#   as.data.frame()
+
+
+dbWriteTable(con, "locations", common_locations, append = T, row.names = F)
+```
+
+```{r}
+dbWriteTable(con, "netting", common_netting, append = T, row.names = F)
+```
+
+
+```{r}
+dbWriteTable(con, "transport", common_transports, append = T, row.names = F)
+```
+
+```{r}
+dbSendQuery(con,"SET search_path = plants, public;")
+plants_species <- plants_species %>% select(-projectid)
+dbWriteTable(con, "species", plants_species, append = T, row.names = F )
+```
+
+
+```{r}
+common_containers <- common_containers %>% mutate(pdf_present = as.logical(pdf_present),
+                                                  mattilsynet = as.logical(mattilsynet),
+                                                  number_of_articles = as.numeric(number_of_articles))
+
+
+
+##fix nas in number_of_articles
+
+dbSendQuery(con,"SET search_path = common, public;")
+dbWriteTable(con, "containers", common_containers, append = T, row.names = F)
+```
+
+
+```{r}
+dbSendQuery(con,"SET search_path = plants, public;")
+
+dbWriteTable(con, "container_records", plants_records, append = T, row.names = F )
+```
+
+```{r}
+
+dbSendQuery(con,"SET search_path = insects, public;")
+insects_species$projectid <- NULL
+insects_species <- insects_species %>% mutate(alien = as.logical(alien),
+                                              native = as.logical(native),
+                                              indetermined = as.logical(indetermined)
+                                              )
+dbWriteTable(con, "species", insects_species, append = T, row.names = F )
+```
+
+```{r}
+dbWriteTable(con, "container_records", insects_records, append = T, row.names = F)
+```
+
+
+```{r}
+dbSendQuery(con, "VACUUM ANALYZE")
+```
+

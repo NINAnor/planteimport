@@ -1,0 +1,351 @@
+---
+title: "Data prep"
+author: "Jens Åström"
+date: "9/25/2018"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This is some scripts to clean the data before entering it to the database. 
+
+So far this only contains actions on the plant container records. Mainly to aggregate the abundances according to container, subsample, vernaculation status and species. We didn't include vernacularisation status in the database the first time around. This is to fix this.
+
+```{r, include = F}
+require(tidyverse)
+```
+
+
+2014-2016 data
+===========
+
+```{r}
+plantRaw <- read_csv("../rawData/PlanterSamletabell2014-2016.csv",
+                     locale = locale(encoding = "Windows-1252"))
+
+plantRaw <- plantRaw %>% 
+  select(-c("X9", "X10"))
+
+
+```
+
+Remove plants from contamination (forurensing)
+```{r}
+plant <- plantRaw %>% 
+  filter(!grepl("orurens", comment))
+
+
+
+plant <- plant %>% 
+  filter(!grepl("Trolig frø fra prydplante", comment))
+
+plant <- plant %>% 
+  filter(!grepl("Trolig kulturplante selvsådd", comment))
+
+plant <- plantRaw %>% 
+    filter(grepl("Rosetkarse hadde frødd seg", comment))  %>% 
+  bind_rows(plant)
+
+```
+
+
+Fix some typos.
+```{r}
+
+plant %>% 
+  filter(grepl("^([a-z])", plant$Art))
+
+plant$Art[grepl("^([a-z])", plant$Art)] <- "Sonchus oleraceus"
+
+##Likely typos from 1 to a 7
+plant$Brett[paste(plant$Last, plant$Brett) == "25 7"] <- 1
+plant$Brett[paste(plant$Last, plant$Brett) == "51 7"] <- 1
+
+
+plant %>% 
+  filter(!is.na(comment)) %>% 
+  print(n = Inf)
+```
+
+
+
+
+Aggregate numbers
+
+```{r}
+aggPlant <- plant %>% 
+  group_by(Last, Brett, Kode, Art, Vernalisering) %>% 
+  summarize(Antall = sum(`Antall planter`)) %>% 
+  select(container = Last,
+         subsample = Brett,
+         kode = Kode,
+         latinsknavnid = NULL,
+         projectid = NULL,
+         species_latin = Art,
+         amount = Antall,
+         vernalisation = Vernalisering)
+
+
+aggPlant <- aggPlant[-nrow(aggPlant),] ##Remove empty last row
+
+tail(aggPlant)
+
+```
+
+Check of kode, container and brett
+```{r}
+tt <- separate(aggPlant, col = "kode", sep = "-", into = c("cont2", "subsamp2")) %>% 
+  mutate(cont2 = as.integer(cont2),
+         subsamp2 = as.integer(subsamp2))
+
+all(tt$container == tt$cont2)
+all(tt$subsample == tt$subsamp2)
+
+tt[tt$subsample != tt$subsamp2,] ##Only the fixed typos remain
+
+```
+
+```{r}
+
+aggPlant <- aggPlant %>% 
+  ungroup() %>% 
+  select(-(kode))
+
+aggPlant <- aggPlant %>% 
+  mutate(vernalisation = vernalisation == "EV")
+
+aggPlant %>% 
+  filter(grepl(" $", species_latin)) ##No trailing empty spaces
+
+aggPlant
+```
+
+```{r}
+aggPlant$species_latin[aggPlant$species_latin == "Calamagrostis epigeios"] <- "Calamagrostis epigejos"
+aggPlant$species_latin[aggPlant$species_latin == "Solanum nigrum ssp.  nigrum"] <- "Solanum nigrum ssp. nigrum"
+aggPlant$species_latin[aggPlant$species_latin == "Cirsium arvensis"] <- "Cirsium arvense"
+aggPlant$species_latin[aggPlant$species_latin == "Olea europaea (cf.)"] <- "Olea cf. europaea"
+
+aggPlant$amount[is.na(aggPlant$amount)] <- 1
+
+aggPlant$species_latin <- gsub(" sp.$", "",  aggPlant$species_latin)
+
+```
+
+
+```{r}
+write_csv(aggPlant, path = "../out/containerPlants2014-2016.csv")
+##This could be imported into the database without errors
+```
+
+2017-2018 data 
+=======
+
+
+```{r}
+plant2017Raw <- read_csv("../rawData/plant_records_2017-2018.csv",
+                         locale = locale(encoding = "Windows-1252"))
+
+plant2017Raw
+```
+
+```{r}
+
+plant2017 <- plant2017Raw
+  
+plant2017$species_latin <- gsub(" sp.$", "", plant2017$species_latin)
+
+##Anders O says container 19 and 59 should be deleted
+
+# plant2017$container[plant2017$container == 19] <- 69
+# plant2017$container[plant2017$container == 59] <- 69
+
+plant2017 <- plant2017 %>% 
+  filter(!(container == 19 |
+           container == 59))
+
+
+##Assume subsample 15 is a 5. THIS IS PROBABLY WRONG.
+plant2017$subsample[plant2017$subsample == 15] <- 5
+
+plant2017 %>% filter(subsample == 15)
+
+##Get rid of the non numeric containers
+table(plant2017$container)
+plant2017 <- plant2017 %>% 
+  filter(!container == "G5")
+
+plant2017 <- plant2017 %>% 
+  filter(!container == "x")
+
+plant2017 <- plant2017 %>% 
+  filter(!container == "Y")
+
+plant2017 <- plant2017 %>% 
+  filter(!container == "Y3")
+
+#NEED TO DECIDE WHAT TO DO WITH THESE SAMPLES. They should be included in a separate table, of non-standard samples
+
+```
+
+
+```{r}
+plant2017$species_latin[plant2017$species_latin == "Sonchus oleraceaus"] <- "Sonchus oleraceus"
+plant2017$species_latin[plant2017$species_latin == "Elusine indica ssp. africana"] <- "Eleusine indica ssp. africana"
+plant2017$species_latin[plant2017$species_latin == "Euphorbia cf. chaemasyce"] <- "Euphorbia cf. chamaesyce"
+plant2017$species_latin[plant2017$species_latin == "Euphorbia chaemasyce"] <- "Euphorbia chamaesyce"
+plant2017$species_latin[plant2017$species_latin == "Oxalis corniculata var. atropurpurea var. atropurpurea"] <- "Oxalis corniculata var. atropurpurea"
+plant2017$species_latin[plant2017$species_latin == "Oxalis  corniculata var. atropurpurea"] <- "Oxalis corniculata var. atropurpurea"
+plant2017$species_latin[plant2017$species_latin == "Cerastium cf. Fontanum"] <- "Cerastium cf. fontanum"
+plant2017$species_latin[plant2017$species_latin == "Chenopodiium album"] <- "Chenopodium album"
+
+```
+
+
+```{r}
+aggPlant2017 <- plant2017 %>% 
+  group_by(container, subsample, species_latin, vernalisation) %>% 
+  summarize(amount = sum(amount)) %>% 
+  arrange(container, subsample, species_latin, vernalisation)
+
+
+aggPlant2017
+
+tail(aggPlant2017)
+```
+
+
+```{r}
+write_csv(aggPlant2017, path = "../out/containerPlants2017-2018_prel.csv")
+```
+
+
+2018-2019 data
+================
+
+```{r}
+plant2018Raw <- read_csv("../rawData/plant_records_2018-2019.csv",
+                          locale = locale(encoding = "Windows-1252"))
+
+plant2018Raw
+```
+
+```{r}
+plant2018 <- plant2018Raw
+
+plant2018$species_latin <- gsub(" sp.$", "", plant2018$species_latin)
+plant2018$species_latin <- gsub(" coll$", "", plant2018$species_latin)
+plant2018$species_latin <- gsub(" coll.", "", plant2018$species_latin)
+
+
+plant2018$species_latin[plant2018$species_latin == "Rumex acetosella ssp. Acetosella"] <- "Rumex acetosella ssp. acetosella"
+plant2018$species_latin[plant2018$species_latin == "Solanum sarracoides"] <- "Solanum sarrachoides"
+plant2018$species_latin[plant2018$species_latin == "Cerastium  glomeratum"] <- "Cerastium glomeratum"
+plant2018$species_latin[plant2018$species_latin == "Cirisium vulgare"] <- "Cirsium vulgare"
+plant2018$species_latin[plant2018$species_latin == "Cirisum vulgare"] <- "Cirsium vulgare"
+plant2018$species_latin[plant2018$species_latin == "Chenopodium abrosioides"] <- "Chenopodium ambrosioides"
+plant2018$species_latin[plant2018$species_latin == "Euphorbia cf. Chamaesyce"] <- "Euphorbia cf. chamaesyce"
+plant2018$species_latin[plant2018$species_latin == "Rhicinus communis"] <- "Ricinus communis"
+plant2018$species_latin[plant2018$species_latin == "Amaranthus palmerii"] <- "Amaranthus palmeri"
+plant2018$species_latin[plant2018$species_latin == "Lycopersicum esculenteum"] <- "Lycopersicon esculentum"
+plant2018$species_latin[plant2018$species_latin == "Sali caprea"] <- "Salix caprea"
+plant2018$species_latin[plant2018$species_latin == "Juncus cf. Effusus"] <- "Juncus cf. effusus"
+plant2018$species_latin[plant2018$species_latin == "Solanum nigrum ssp. Nigrum"] <- "Solanum nigrum ssp. nigrum"
+plant2018$species_latin[plant2018$species_latin == "Carex cf. Canescens"] <- "Carex cf. canescens"
+plant2018$species_latin[plant2018$species_latin == "Euphorbia chamaepsyce"] <- "Euphorbia chamaesyce"
+
+
+plant2018 <- plant2018 %>%
+  filter(!is.na(amount))
+
+unique(plant2018$species_latin)
+
+```
+
+```{r}
+
+##These corrections based on info from Anders O.
+plant2018 <- plant2018 %>%
+  filter(container != 4)
+
+plant2018 <- plant2018 %>%
+  filter(container != 53)
+
+plant2018 <- plant2018 %>%
+  filter(container != 70)
+
+plant2018 <- plant2018 %>% 
+  filter(container != "xx")
+
+
+
+```
+
+
+
+```{r}
+aggPlant2018 <- plant2018 %>% 
+  group_by(container, subsample, species_latin, vernalisation) %>% 
+  summarize(amount = sum(amount)) %>% 
+  arrange(container, subsample, species_latin, vernalisation)
+
+head(aggPlant2018)
+
+tail(aggPlant2018)
+```
+
+```{r}
+write_csv(aggPlant2018, "../out/containerPlants2018-2019.csv")
+```
+
+
+Insekter 2017-2018 data
+=============
+
+
+Arrange Coleoptera data
+-----------------
+
+```{r}
+coleoptRaw <- read_csv(file = "../rawData/biller_62-87.csv", locale = locale(encoding = "Windows-1252"))
+
+##Collect/spread/gather the data
+
+coleo <- coleoptRaw %>% 
+  gather(key = cont, amount, -c(Taxa, stadium)) %>%
+  extract(cont, c("container", "subsample"), "(.*)-(.*)") %>%
+  transmute(species_latin = Taxa,
+            stadium = stadium,
+            container = as.integer(container),
+            subsample = as.integer(subsample),
+            amount = as.integer(amount)) %>%
+  filter(!is.na(amount))
+
+
+coleo
+```
+
+The juveniles are only two "species" and we can drop the stadium column.
+```{r}
+coleo %>%
+  filter(stadium != "voksne") %>%
+  select(species_latin) %>%
+  distinct()
+
+
+```
+
+```{r}
+coleoptera <- coleo %>%
+  select(container,
+         subsample,
+         species_latin,
+         amount)
+
+coleoptera
+
+write_csv(coleoptera, path = "../out/coleoptera_62-87.csv")
+```
+

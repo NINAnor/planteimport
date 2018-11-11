@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.9.0" last-position="0,198" last-zoom="0.75"
+<dbmodel pgmodeler-ver="0.9.0" last-position="0,0" last-zoom="0.75"
 	 default-owner="postgres">
 <role name="planteimport_admin"
       createrole="true"
@@ -68,13 +68,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
       password="frode.fossoy">
 </role>
 
-<tablespace name="planteimport" directory="'/data/planteimport'">
-	<role name="postgres"/>
-</tablespace>
-
 <database name="planteimport" encoding="UTF8" template="template0" lc-collate="en_US.UTF-8" lc-ctype="en_US.UTF-8" append-at-eod="true" prepend-at-bod="true">
 	<role name="planteimport_admin"/>
-	<tablespace name="planteimport"/>
+	<tablespace name="pg_default"/>
 	<appended-sql><![CDATA[GRANT USAGE ON SCHEMA 
 plants 
 TO
@@ -349,15 +345,18 @@ CREATE EXTENSION IF NOT EXISTS "postgis";]]></prepended-sql>
 		<type name="text" length="0"/>
 		<comment><![CDATA[for matching with artsdatabanken ids]]></comment>
 	</column>
+	<column name="species">
+		<type name="text" length="0"/>
+		<comment><![CDATA[for matching with artsdatabanken]]></comment>
+	</column>
 	<column name="species_latin" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="autorstring">
 		<type name="text" length="0"/>
 	</column>
 	<column name="species_norsk">
 		<type name="text" length="0"/>
-	</column>
-	<column name="species">
-		<type name="text" length="0"/>
-		<comment><![CDATA[for matching with artsdatabanken]]></comment>
 	</column>
 	<column name="last_updated_by">
 		<type name="text" length="0"/>
@@ -412,7 +411,7 @@ CREATE EXTENSION IF NOT EXISTS "postgis";]]></prepended-sql>
 <table name="container_records">
 	<schema name="plants"/>
 	<role name="planteimport_admin"/>
-	<position x="369.667" y="634.417"/>
+	<position x="344.334" y="637.084"/>
 	<column name="id" not-null="true" default-value="uuid_generate_v1()">
 		<type name="uuid" length="0"/>
 	</column>
@@ -495,6 +494,9 @@ CREATE EXTENSION IF NOT EXISTS "postgis";]]></prepended-sql>
 	<column name="species">
 		<type name="text" length="0"/>
 		<comment><![CDATA[for matching with artsdatabanken]]></comment>
+	</column>
+	<column name="autorstring">
+		<type name="text" length="0"/>
 	</column>
 	<column name="species_latin" not-null="true">
 		<type name="text" length="0"/>
@@ -675,6 +677,66 @@ END;]]></definition>
 	 ins-event="true" del-event="false" upd-event="true" trunc-event="false"
 	 table="insects.species">
 		<function signature="functions.fn_last_update()"/>
+</trigger>
+
+<function name="update_insect_artnavn"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="CALLED ON NULL INPUT"
+		function-type="VOLATILE"
+		security-type="SECURITY INVOKER"
+		execution-cost="1"
+		row-amount="0">
+	<schema name="functions"/>
+	<role name="planteimport_admin"/>
+	<language name="plpgsql" sql-disabled="true"/>
+	<return-type>
+	<type name="trigger" length="0"/>
+	</return-type>
+	<definition><![CDATA[BEGIN
+NEW.latinsknavnid := pk_latinsknavnid
+FROM darwin.species_names_artsdatabanken_animalia d
+	WHERE NEW.genus = d.slekt
+	AND NEW.species = d.art
+	LIMIT 1;
+     RETURN NEW;
+END]]></definition>
+</function>
+
+<function name="update_plants_artnavn"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="CALLED ON NULL INPUT"
+		function-type="VOLATILE"
+		security-type="SECURITY INVOKER"
+		execution-cost="1"
+		row-amount="0">
+	<schema name="functions"/>
+	<role name="planteimport_admin"/>
+	<language name="plpgsql" sql-disabled="true"/>
+	<return-type>
+	<type name="trigger" length="0"/>
+	</return-type>
+	<definition><![CDATA[BEGIN
+NEW.latinsknavnid := pk_latinsknavnid
+FROM darwin.species_names_artsdatabanken_plantae d
+	WHERE NEW.genus = d.slekt
+	AND NEW.species = d.art
+	LIMIT 1;
+     RETURN NEW;
+END]]></definition>
+</function>
+
+<trigger name="update_insect_artsnavn" firing-type="BEFORE" per-line="true" constraint="false"
+	 ins-event="true" del-event="false" upd-event="true" trunc-event="false"
+	 table="insects.species">
+		<function signature="functions.update_insect_artnavn()"/>
+</trigger>
+
+<trigger name="update_plants_artsnavn" firing-type="BEFORE" per-line="true" constraint="false"
+	 ins-event="true" del-event="false" upd-event="true" trunc-event="false"
+	 table="plants.species">
+		<function signature="functions.update_plants_artnavn()"/>
 </trigger>
 
 <constraint name="container_netting_fk" type="fk-constr" comparison-type="MATCH FULL"

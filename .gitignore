@@ -6,3 +6,4 @@ access/psqlodbc*
 .Rdata
 database_def/startup_data
 planteimport_shiny/*.Rdata
+credentials.Rdata

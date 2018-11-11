@@ -1,0 +1,14 @@
+[ODBC]
+DRIVER=PostgreSQL ODBC Driver(UNICODE)
+UID=jens.astrom
+A1=7.4
+CX=1c890089
+C2=
+BI=0
+B1=8190
+B0=255
+A7=100
+CA=d
+PORT=5432
+SERVER=ninpgsql02.nina.no
+DATABASE=planteimport

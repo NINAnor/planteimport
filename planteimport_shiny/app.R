@@ -195,6 +195,7 @@ server = (function(input, output,session) {
     
     date_range <- paste("\n LEFT JOIN common.containers c 
                         ON r.container = c.container
+                        AND r.subsample = c.subsample
                         WHERE c.date_sampled >= '", 
                         start_time,
                         "' ", 

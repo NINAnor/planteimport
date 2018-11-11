@@ -1,0 +1,451 @@
+container,subsample,species_latin,vernalisation,amount
+62,1,Solanum nigrum ssp. nigrum,no,2
+62,1,Solanum nigrum ssp. schultzii,no,1
+62,1,Sonchus asper,no,1
+62,10,Salix nigricans,no,8
+62,2,Calluna vulgaris,yes,1
+62,3,Calluna vulgaris,no,1
+62,3,Cardamine hirsuta,no,1
+62,3,Conyza canadensis,no,2
+62,3,Vaccinium oxycoccus,no,1
+62,4,Calluna vulgaris,yes,1
+62,4,Epilobium parviflorum,no,1
+62,4,Sagina procumbens,no,8
+62,4,Sagina procumbens,yes,16
+62,4,Senecio vulgaris,no,1
+62,5,Agrostis stolonifera,no,1
+62,5,Epilobium ciliatum ssp. ciliatum,no,2
+62,5,Taraxacum gr. Ruderalia,no,1
+62,6,Cardamine hirsuta,no,2
+62,6,Epilobium hirsutum,yes,1
+62,6,Sagina procumbens,no,2
+62,7,Calluna vulgaris,no,2
+62,7,Salix myrsinifolia ssp. myrsinifolia,no,3
+62,8,Epilobium ciliatum ssp. ciliatum,no,1
+62,8,Spartina cf. anglica,no,1
+62,9,Cirsium vulgare,no,1
+62,9,Conyza canadensis,no,1
+62,9,Poa annua,no,1
+63,1,Epilobium ciliatum ssp. ciliatum,yes,1
+63,1,Senecio viscosus,no,1
+63,1,Taraxacum gr. Ruderalia,no,1
+63,10,Cardamine hirsuta,no,12
+63,10,Cardamine hirsuta,yes,1
+63,10,Euphorbia maculata,no,12
+63,10,Howia cf.,no,1
+63,10,Portulaca oleraceae ssp. xx,no,1
+63,10,Sonchus oleraceus,no,1
+63,2,Calluna vulgaris,no,1
+63,2,Cardamine hirsuta,no,2
+63,2,Euphorbia maculata,no,10
+63,2,Euphorbia serpens,no,1
+63,2,Salix,no,2
+63,2,Senecio vulgaris,no,1
+63,3,Viola arvensis,no,1
+63,4,Amaranthus,no,3
+63,4,Amaranthus viridis,no,1
+63,4,Cardamine hirsuta,yes,2
+63,4,Digitaria ischaemum,no,1
+63,4,Portulaca oleraceae ssp. xx,no,2
+63,5,Cardamine hirsuta,no,1
+63,5,Cardamine hirsuta,yes,11
+63,5,Euphorbia maculata,no,8
+63,6,Cardamine hirsuta,no,1
+63,6,Epilobium ciliatum ssp. ciliatum,no,1
+63,7,Epilobium ciliatum ssp. ciliatum,yes,1
+63,7,Taraxacum gr. Ruderalia,no,1
+63,8,Cardamine hirsuta,no,2
+63,8,Cardamine hirsuta,yes,1
+63,8,Euphorbia maculata,no,4
+63,8,Oxalis corniculata var. atropurpurea,no,1
+63,8,Portulaca oleraceae ssp. xx,no,4
+63,8,Senecio vulgaris,yes,1
+63,9,Amaranthus,no,1
+63,9,Portulaca oleraceae ssp. xx,no,5
+64,1,Calluna vulgaris,no,1
+64,1,Cardamine hirsuta,no,2
+64,1,Cerastium glomeratum,no,1
+64,10,Carex cf. rostrata,no,2
+64,10,Carex rostrata,no,1
+64,10,Digitaria ischaemum,no,3
+64,10,Epilobium ciliatum ssp. ciliatum,yes,1
+64,10,Poa annua,no,1
+64,2,Juncus bufonius,no,2
+64,3,Cardamine hirsuta,yes,1
+64,3,Echinochloa crus-galli,no,1
+64,5,Betula pendula,no,1
+64,6,Cardamine hirsuta,no,2
+64,7,Betula pendula,no,1
+64,7,Cardamine hirsuta,no,5
+64,7,Cardamine hirsuta,yes,2
+64,7,Chenopodium glaucum,no,1
+64,7,Digitaria ischaemum,no,1
+64,7,Euphorbia maculata,no,16
+64,7,Oxalis corniculata var. atropurpurea,no,1
+64,7,Panicum capillaceum,no,4
+64,7,Poa annua,no,1
+64,7,Portulaca oleraceae ssp. xx,no,5
+64,7,Setaria viridis,no,1
+64,7,Sonchus oleraceus,no,1
+64,8,Cardamine hirsuta,yes,1
+64,8,Cerastium glomeratum,no,50
+64,8,Cerastium glomeratum,yes,61
+64,8,Epilobium hirsutum,yes,12
+64,8,Poa annua,yes,2
+64,8,Senecio vulgaris,yes,5
+64,8,Stellaria media,yes,4
+64,9,Epilobium ciliatum ssp. ciliatum,yes,1
+65,1,Epilobium hirsutum,yes,1
+65,1,Taraxacum gr. Ruderalia,no,1
+65,10,Digitaria ischaemum,no,1
+65,10,Digitaria ischaemum,yes,2
+65,10,Digitaria sanguinalis,no,2
+65,10,Epilobium hirsutum,yes,1
+65,2,Calluna vulgaris,no,2
+65,2,Cardamine hirsuta,yes,3
+65,2,Cerastium glomeratum,no,1
+65,2,Chenopodium album,no,1
+65,2,Senecio viscosus,no,1
+65,3,Calluna vulgaris,yes,1
+65,3,Cardamine hirsuta,yes,3
+65,3,Epilobium ciliatum ssp. ciliatum,yes,2
+65,3,Salix myrsinifolia ssp. myrsinifolia,no,1
+65,4,Cardamine hirsuta,no,1
+65,4,Epilobium lanceolatum,no,1
+65,5,Cardamine hirsuta,no,5
+65,5,Cardamine hirsuta,yes,11
+65,5,Epilobium ciliatum ssp. ciliatum,no,1
+65,6,Calluna vulgaris,no,1
+65,6,Cardamine hirsuta,yes,3
+65,7,Cardamine hirsuta,no,1
+65,7,Cardamine hirsuta,yes,1
+65,7,Epilobium ciliatum ssp. ciliatum,yes,1
+65,7,Epilobium hirsutum,yes,2
+65,8,Amaranthus,no,1
+65,8,Cardamine hirsuta,yes,1
+65,8,Coronopus didymus,no,1
+65,8,Epilobium ciliatum ssp. ciliatum,yes,22
+65,8,Euphorbia maculata,no,5
+65,8,Euphorbia serpens,no,1
+65,8,Portulaca oleraceae ssp. xx,no,2
+65,9,Epilobium ciliatum ssp. ciliatum,yes,8
+65,9,Epilobium hirsutum,yes,2
+66,1,Calluna vulgaris,no,1
+66,1,Oxalis corniculata,yes,1
+66,1,Rosmarinus officinalis,no,1
+66,1,Rosmarinus officinalis,yes,1
+66,1,Rubus idaeus,yes,1
+66,10,Cardamine hirsuta,yes,2
+66,10,Epilobium ciliatum ssp. ciliatum,yes,1
+66,10,Epilobium hirsutum,yes,2
+66,10,Taraxacum gr. Ruderalia,no,1
+66,2,Epilobium ciliatum ssp. ciliatum,yes,1
+66,2,Oxalis corniculata,yes,1
+66,3,Cardamine hirsuta,yes,1
+66,3,Juncus conglomeratus,no,1
+66,4,Cardamine hirsuta,no,4
+66,4,Cardamine hirsuta,yes,1
+66,4,Carex canescens,no,1
+66,4,Oxalis corniculata var. atropurpurea,no,2
+66,5,Cerastium glomeratum,no,1
+66,5,Erica cf. ciliaris,no,1
+66,5,Oxalis corniculata var. atropurpurea,yes,3
+66,6,Cardamine hirsuta,no,11
+66,7,Cardamine hirsuta,no,1
+66,7,Cerastium glomeratum,no,2
+66,7,Epilobium ciliatum ssp. ciliatum,yes,2
+66,8,Cardamine hirsuta,no,2
+66,8,Cardamine hirsuta,yes,1
+66,8,Chenopodium album,no,1
+66,8,Epilobium ciliatum ssp. ciliatum,no,1
+66,8,Epilobium ciliatum ssp. ciliatum,yes,2
+66,8,Epilobium hirsutum,yes,1
+66,8,Persicaria maculosa,no,2
+66,8,Poa annua,no,1
+66,8,Rorippa palustris,no,5
+66,9,Cardamine hirsuta,yes,2
+66,9,Erica cf. ciliaris,yes,1
+66,9,Matricaria perforata,yes,1
+66,9,Oxalis corniculata var. atropurpurea,yes,1
+66,9,Ranunculus acris,yes,1
+67,10,Cardamine hirsuta,no,3
+67,10,Cardamine hirsuta,yes,2
+67,10,Epilobium hirsutum,yes,2
+67,3,Carex canescens,no,1
+67,3,Sonchus oleraceus,no,3
+67,4,Calluna vulgaris,no,3
+67,4,Juncus filiformis,no,1
+67,6,Calluna vulgaris,no,1
+67,6,Cardamine hirsuta,no,9
+67,6,Cardamine hirsuta,yes,1
+67,6,Cerastium glomeratum,no,1
+67,6,Cerastium glomeratum,yes,1
+67,6,Chenopodium album,no,1
+67,6,Epilobium ciliatum ssp. ciliatum,yes,1
+67,6,Euphorbia chamaesyce,no,10
+67,6,Euphorbia maculata,no,103
+67,6,Juncus cf. filiformis,no,1
+67,6,Panicum cf. capillare,no,5
+67,6,Poa annua,no,1
+67,6,Poa annua,yes,3
+67,6,Sonchus oleraceus,no,3
+67,7,Euphorbia serpens,no,1
+67,8,Cerastium glomeratum,yes,1
+67,8,Epilobium ciliatum ssp. ciliatum,no,1
+67,8,Euphorbia cf. chamaesyce,no,2
+67,8,Euphorbia maculata,no,2
+67,8,Oxalis corniculata var. atropurpurea,yes,1
+67,8,Panicum cf. capillare,no,2
+67,8,Poa annua,yes,6
+67,8,Sonchus oleraceus,no,4
+68,1,Cardamine hirsuta,no,1
+68,1,Poa annua,no,1
+68,1,Poa annua,yes,3
+68,1,Taraxacum gr. Ruderalia,no,1
+68,10,Betula pendula,no,1
+68,10,Calluna vulgaris,yes,2
+68,10,Cardamine hirsuta,yes,4
+68,10,Sagina procumbens,no,2
+68,2,Calluna vulgaris,yes,1
+68,2,Rosmarinus officinalis,no,1
+68,3,Calluna vulgaris,no,2
+68,3,Carex cf. rostrata,no,1
+68,3,Carex rostrata,no,1
+68,3,Poa annua,yes,1
+68,4,Poa annua,no,2
+68,4,Poa annua,yes,2
+68,6,Cardamine hirsuta,no,6
+68,6,Cardamine hirsuta,yes,1
+68,6,Sagina procumbens,no,6
+68,7,Calluna vulgaris,no,1
+68,7,Carex canescens,no,1
+68,7,Chenopodium album,no,14
+68,7,Poa annua,no,1
+68,7,Poa annua,yes,3
+68,7,Senecio vulgaris,no,1
+68,7,Thuja occidentalis,no,3
+68,8,Chenopodium album,no,1
+68,8,Epilobium ciliatum ssp. ciliatum,no,1
+68,8,Epilobium ciliatum ssp. ciliatum,yes,3
+68,8,Poa annua,no,1
+68,8,Sagina procumbens,no,3
+68,9,Poa annua,no,1
+69,1,Cardamine hirsuta,no,598
+69,1,Cardamine hirsuta,yes,137
+69,1,Cerastium glomeratum,yes,22
+69,1,Epilobium hirsutum,yes,1
+69,1,Euphorbia maculata,no,2
+69,1,Oxalis corniculata var. atropurpurea,no,5
+69,1,Poa annua,no,1
+69,1,Sonchus oleraceus,no,8
+69,1,Sonchus oleraceus,yes,1
+69,10,Cardamine hirsuta,no,355
+69,10,Cardamine hirsuta,yes,4
+69,10,Conyza canadensis,no,1
+69,10,Epilobium ciliatum ssp. ciliatum,yes,1
+69,10,Euphorbia maculata,no,4
+69,10,Oxalis corniculata var. atropurpurea,yes,1
+69,10,Sonchus oleraceus,no,4
+69,10,Sonchus oleraceus,yes,1
+69,2,Cardamine hirsuta,no,3
+69,2,Cardamine hirsuta,yes,1
+69,2,Cardamine pratensis coll.,yes,1
+69,2,Senecio vulgaris,yes,1
+69,3,Cardamine hirsuta,no,250
+69,3,Cardamine hirsuta,yes,21
+69,3,Cerastium cf. fontanum,yes,1
+69,3,Conyza canadensis,yes,1
+69,3,Euphorbia maculata,no,2
+69,3,Oxalis corniculata,yes,15
+69,3,Oxalis corniculata var. atropurpurea,no,6
+69,3,Oxalis corniculata var. atropurpurea,yes,14
+69,3,Poa annua,no,19
+69,3,Poa annua,yes,14
+69,3,Sonchus oleraceus,no,1
+69,3,Stellaria media,yes,2
+69,4,Amaranthus,no,1
+69,4,Poa annua,yes,9
+69,5,Cardamine hirsuta,yes,15
+69,5,Carex cf. rostrata,no,1
+69,5,Carex rostrata,no,1
+69,5,Cerastium glomeratum,yes,1
+69,5,Epilobium hirsutum,yes,5
+69,5,Euphorbia cf. chamaesyce,no,1
+69,5,Poa annua,yes,1
+69,6,Cardamine hirsuta,no,1
+69,6,Epilobium ciliatum ssp. ciliatum,yes,12
+69,6,Erica cf. ciliaris,no,1
+69,6,Erica cf. ciliaris,yes,2
+69,6,Juncus bufonius,no,1
+69,6,Sonchus oleraceus,no,1
+69,7,Cardamine hirsuta,no,1
+69,7,Cardamine hirsuta,yes,1
+69,7,Epilobium ciliatum ssp. ciliatum,yes,16
+69,7,Sonchus oleraceus,yes,1
+69,8,Amaranthus,no,1
+70,1,Cardamine hirsuta,yes,1
+70,1,Carex canescens,no,1
+70,1,Digitaria ischaemum,no,1
+70,10,Conyza canadensis,yes,4
+70,10,Epilobium ciliatum ssp. ciliatum,no,1
+70,10,Omalotheca sylvatica,no,1
+70,10,Oxalis corniculata,yes,4
+70,10,Poa annua,no,24
+70,10,Poa annua,yes,42
+70,10,Rorippa palustris,yes,1
+70,10,Rorippa sylvestris,no,2
+70,10,Sagina procumbens,yes,22
+70,2,Erica cf. ciliaris,no,1
+70,3,Calluna vulgaris,no,1
+70,6,Cardamine hirsuta,yes,1
+70,6,Epilobium hirsutum,yes,2
+70,6,Juncus bufonius,no,1
+70,6,Stellaria media,yes,1
+70,7,Cardamine hirsuta,no,2
+70,7,Cardamine hirsuta,yes,1
+70,7,Cerastium glomeratum,yes,1
+70,7,Epilobium hirsutum,yes,1
+70,7,Euphorbia maculata,no,1
+70,7,Poa annua,no,3
+70,7,Poa annua,yes,1
+70,7,Rosmarinus officinalis,no,1
+70,7,Sonchus oleraceus,no,2
+70,7,Taraxacum gr. Ruderalia,no,1
+70,8,Cardamine hirsuta,no,1
+70,8,Cardamine hirsuta,yes,1
+70,8,Erica cf. ciliaris,yes,1
+70,9,Juncus articulatus,no,1
+70,9,Juncus conglomeratus,no,1
+70,9,Poa annua,no,2
+71,1,Arabis thaliana,yes,1
+71,1,Erica cf. ciliaris,yes,1
+71,1,Filaginella uliginosa,yes,1
+71,1,Holcus lanatus,no,1
+71,1,Urtica urens,no,1
+71,10,Cardamine hirsuta,yes,3
+71,10,Chenopodium album,no,1
+71,10,Conyza canadensis,no,1
+71,10,Epilobium ciliatum ssp. ciliatum,no,3
+71,10,Epilobium ciliatum ssp. ciliatum,yes,2
+71,10,Poa annua,yes,2
+71,10,Senecio vulgaris,no,3
+71,10,Senecio vulgaris,yes,1
+71,2,Arabis hirsuta ssp. hirsuta,yes,1
+71,2,Arabis thaliana,yes,2
+71,2,Epilobium ciliatum ssp. ciliatum,no,1
+71,2,Juncus bufonius,no,1
+71,2,Rorippa palustris,no,1
+71,2,Solanum nigrum ssp. nigrum,no,1
+71,3,Echinochloa crus-galli,no,1
+71,3,Urtica urens,no,1
+71,4,Arabis thaliana,yes,1
+71,4,Capsella bursa-pastoris,no,1
+71,4,Cardamine hirsuta,no,1
+71,4,Chenopodium album,no,1
+71,4,Epilobium ciliatum ssp. ciliatum,yes,2
+71,4,Juncus bufonius,yes,1
+71,4,Poa annua,no,2
+71,4,Rorippa palustris,no,1
+71,4,Sagina procumbens,no,1
+71,4,Sagina procumbens,yes,1
+71,4,Veronica peregrina ssp. peregrina,no,1
+71,5,Cardamine hirsuta,yes,1
+71,5,Persicaria lapathifolia ssp. lapathifolia,no,1
+71,5,Rumex acetosella ssp. acetosella,no,1
+71,5,Urtica urens,no,1
+71,6,Arabis thaliana,yes,1
+71,6,Calluna vulgaris,yes,1
+71,6,Cardamine hirsuta,no,2
+71,6,Cardamine hirsuta,yes,6
+71,6,Poa annua,yes,3
+71,6,Rorippa palustris,no,1
+71,6,Senecio vulgaris,no,1
+71,6,Solanum nigrum ssp. nigrum,no,1
+71,6,Veronica arvensis,no,1
+71,6,Veronica peregrina ssp. peregrina,no,1
+71,7,Calluna vulgaris,no,1
+71,7,Cardamine hirsuta,yes,1
+71,7,Cirsium arvense,no,1
+71,7,Poa annua,no,1
+71,7,Senecio vulgaris,no,1
+71,7,Urtica urens,no,1
+71,8,Cardamine hirsuta,yes,5
+71,8,Cirsium arvense,no,1
+71,8,Conyza canadensis,no,1
+71,8,Echinochloa crus-galli,no,1
+71,8,Epilobium ciliatum ssp. ciliatum,no,1
+71,8,Humulus cf. yunnanensis,no,1
+71,8,Panicum repens,no,1
+71,8,Poa annua,no,1
+71,8,Poa annua,yes,1
+71,8,Sagina procumbens,no,1
+71,8,Urtica urens,no,5
+71,9,Calluna vulgaris,no,2
+71,9,Capsella bursa-pastoris,no,1
+71,9,Conyza canadensis,no,3
+71,9,Epilobium ciliatum ssp. ciliatum,no,2
+71,9,Persicaria lapathifolia ssp. 'mørkegrønn V ',no,1
+71,9,Poa annua,no,3
+71,9,Solanum nigrum ssp. nigrum,no,1
+71,9,Veronica peregrina ssp. peregrina,no,1
+72,1,Cardamine hirsuta,no,1
+72,1,Cardamine hirsuta,yes,4
+72,1,Euphorbia chamaesyce,no,1
+72,10,Amaranthus viridis,no,1
+72,10,Cardamine hirsuta,yes,4
+72,10,Cerastium glomeratum,no,2
+72,10,Conyza canadensis,no,2
+72,10,Echinochloa,no,1
+72,10,Eleusine indica ssp. africana,no,1
+72,10,Euphorbia maculata,no,60
+72,10,Euphorbia serpens,no,1
+72,10,Portulaca oleraceae ssp. xx,no,6
+72,10,Sagina procumbens,no,6
+72,10,Sagina procumbens,yes,35
+72,10,Sonchus oleraceus,no,2
+72,2,Cardamine hirsuta,yes,6
+72,2,Chenopodium album,no,1
+72,3,Cardamine hirsuta,yes,5
+72,4,Cardamine hirsuta,no,4
+72,4,Cardamine hirsuta,yes,9
+72,4,Euphorbia maculata,no,1
+72,5,Cardamine hirsuta,yes,14
+72,5,Galium,yes,1
+72,5,Oxalis corniculata,yes,4
+72,5,Oxalis corniculata var. atropurpurea,yes,1
+72,5,Sagina procumbens,yes,1
+72,6,Cardamine hirsuta,yes,8
+72,6,Oxalis corniculata,yes,2
+72,7,Cardamine hirsuta,no,6
+72,7,Cardamine hirsuta,yes,21
+72,7,Euphorbia maculata,no,2
+72,7,Oxalis corniculata var. atropurpurea,yes,2
+72,7,Sagina procumbens,no,1
+72,7,Sagina procumbens,yes,38
+72,8,Cardamine hirsuta,yes,3
+72,8,Chenopodium album,no,2
+72,8,Oxalis corniculata var. atropurpurea,yes,9
+72,8,Poa annua,no,6
+72,8,Rorippa palustris,no,3
+72,9,Calluna vulgaris,no,2
+72,9,Cardamine hirsuta,yes,3
+72,9,Oxalis corniculata,yes,3
+72,9,Oxalis corniculata var. atropurpurea,no,5
+72,9,Oxalis corniculata var. atropurpurea,yes,11
+72,9,Sagina procumbens,yes,2
+73,2,Epilobium ciliatum ssp. ciliatum,yes,1
+73,3,Calluna vulgaris,no,1
+73,3,Epilobium ciliatum ssp. ciliatum,no,1
+73,3,Poa annua,no,2
+73,5,Epilobium ciliatum ssp. ciliatum,yes,2
+73,6,Cerastium glomeratum,yes,2
+73,6,Claytonia sibirica,yes,1
+73,6,Rumex acetosella ssp. acetosella,no,1
+73,6,Sagina procumbens,no,1
+73,6,Senecio vulgaris,no,1
+73,7,Cerastium glomeratum,no,37
+73,7,Cerastium glomeratum,yes,2
+73,7,Poa annua,no,1
+73,8,Poa annua,no,10
+73,8,Poa annua,yes,2
+73,8,Rumex acetosella ssp. acetosella,yes,1

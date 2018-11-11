@@ -15,8 +15,12 @@ require(DBI)
 require(RPostgres)
 require(tidyverse)
 
-
 ```
+
+```{r}
+load(file = "credentials.Rdata")
+```
+
 
 ```{r}
 knitr::opts_chunk$set(echo = TRUE, tidy = T, dev = c('pdf', 'png'), dpi = 600, fig.path = "figure/", eval = F)
@@ -25,8 +29,8 @@ options(xtable.include.rownames = F, xtable.comment = F)
 con <- dbConnect(RPostgres::Postgres(), 
                  host = "ninpgsql02.nina.no", 
                  dbname = "planteimport", 
-                 user = "jens.astrom", 
-                 password = "booPuoshaixah2U")
+                 user = user, 
+                 password = password)
 
 dbSendQuery(con,"SET search_path = common, public;")
 

@@ -7,6 +7,10 @@ require(DBI)
 require(RPostgres)
 require(dplyr)
 require(ggplot2)
+require(tidyr)
+require(NinaR)
+require(forcats)
+palette(ninaPalette())
 
 #tags$head(tags$link(rel='stylesheet', type='text/css', href='styles.css')),
 
@@ -61,7 +65,7 @@ server = (function(input, output,session) {
       ##############END LOGIN STUFF, begin ui part#####################
       
       output$page <- renderUI({navbarPage("Planteimport - overvåking av fripassagerer",
-             tabPanel('Accumulation graphs and data download',
+             tabPanel('Akkumuleringskurver',
                       sidebarLayout(
                         sidebarPanel(width=2,
                                      dateRangeInput("daterange", "Date range:",
@@ -71,12 +75,16 @@ server = (function(input, output,session) {
                                      uiOutput("container_species"),
                                      uiOutput("country"),
                                      selectInput("plotLevel", "What to Plot", c("Taxon", "Individuals"), selected = "Taxon"),
+                                     checkboxInput("alien", "Show only alien species", FALSE),
                                      downloadButton('downloadPlot', 'Last ned figur')), 
                         #mainPanel(fluidRow(column(12, leafletOutput("mymap", height=600)))
-                        mainPanel(plotOutput("cumPlot"),
+                        mainPanel(plotOutput("cumPlot2"),
                                   fluidRow(column(1, offset=0,"Database dialog:"), column(11, verbatimTextOutput("nText"))))
                       )
              ),
+             tabPanel("Vernalisering",
+             mainPanel(plotOutput("vernPlot")),
+             tableOutput("vernSpecTable")),
              tabPanel("Oversikt Containere",
                       DT::dataTableOutput('containers')),
              tabPanel("Oversikt Insektsfunn",
@@ -193,9 +201,7 @@ server = (function(input, output,session) {
       start_time <- as.character(input$daterange[1])
     end_time <- as.character(input$daterange[2])
     
-    date_range <- paste("\n LEFT JOIN common.containers c 
-                        ON r.container = c.container
-                        AND r.subsample = c.subsample
+    date_range <- paste("\n 
                         WHERE c.date_sampled >= '", 
                         start_time,
                         "' ", 
@@ -206,15 +212,25 @@ server = (function(input, output,session) {
     
     
     if(input$taxa == "Insekter"){
-      fetch.q <- paste0("SELECT r.*
-                        FROM insects.container_records r"
+      fetch.q <- paste0("SELECT r.*, c.country, s.alien, s.blacklist_cat
+                        FROM insects.container_records r
+                        LEFT JOIN common.containers c 
+                          ON r.container = c.container
+                        AND r.subsample = c.subsample
+                        LEFT JOIN insects.species s 
+                          ON r.species_latin = s.species_latin"
                         , date_range,
                         "\n")
     }
     
     if(input$taxa == "Planter"){
-      fetch.q <- paste0("SELECT r.*
-                        FROM plants.container_records r"
+      fetch.q <- paste0("SELECT r.*, c.country, s.alien, s.blacklist_cat
+                        FROM plants.container_records r
+                        LEFT JOIN common.containers c 
+                          ON r.container = c.container
+                        AND r.subsample = c.subsample
+                        LEFT JOIN plants.species s 
+                          ON r.species_latin = s.species_latin"
                         , date_range,
                         "\n"
       )
@@ -239,6 +255,14 @@ server = (function(input, output,session) {
                         "\n")
     }
     
+    if(input$alien){
+      
+      fetch.q <- paste0(fetch.q, 
+                        "AND s.alien IS True",
+                        "\n")
+    }
+    
+    
     return(fetch.q)
     #return(input$taxa)
   })
@@ -256,6 +280,27 @@ server = (function(input, output,session) {
     suppressWarnings(post.fields <- dbGetQuery(con, as.character(recordsQuery())))
     post.fields
   })
+  
+  vernData <- reactive({
+    
+    vernq <- "SELECT foo.*, (foo.after_vern - foo.pre_vern)::integer as add_vern
+    FROM(
+    SELECT a.container, count(distinct b.species_latin)::integer as pre_vern, count(distinct(a.species_latin))::integer as after_vern
+    FROM (SELECT DISTINCT ON (container, species_latin) container, species_latin
+    FROM plants.container_records) a LEFT JOIN
+    (SELECT DISTINCT ON (container, species_latin) container, species_latin
+    FROM plants.container_records
+    WHERE vernalisation IS NOT TRUE) b ON (a.species_latin = b.species_latin AND a.container = b.container)
+    GROUP BY a.container) foo"
+    suppressWarnings(vern <- dbGetQuery(con, vernq))
+    
+    vern %>% as_tibble()
+    vern <- vern %>%
+      select(-after_vern) %>%
+      gather(vernalisation, no_species, -container)
+    vern
+  })
+  
   
   
   locations <- reactive({
@@ -317,6 +362,64 @@ server = (function(input, output,session) {
             species = input$container_species)
     
   })
+  
+  output$cumPlot2 <- renderPlot({
+    
+    tt <- fields() 
+    tt$blacklist_cat[tt$alien == F] <- "Stedegne"
+    tt$blacklist_cat[is.na(tt$blacklist_cat)] <- "Ikke vurd."
+    
+     toPlot <-  tt %>% acumData()
+     if(is.null(toPlot)){return(NULL)}
+     
+      g <- cumPlot2(toPlot,
+               what = plotInput()$what) 
+      
+      if(plotInput()$what == "Taxon") {
+        g <- g + ggtitle("Kumulativt antall arter funne i kontainene, etter fremmedartskategori")
+      }
+      
+      if(plotInput()$what == "Individuals") {
+        g <- g + ggtitle("Kumulativt antall individer funne i kontainene, etter fremmedartskategori")
+      }
+      g
+      
+  })
+  
+
+  output$vernPlot <- renderPlot({
+    
+   toPlot <- vernData()
+   
+   ggplot(toPlot) +
+     geom_bar(aes(x = container, y = no_species, group = vernalisation, fill = vernalisation), stat = "identity") +
+     ylab("Antall arter") +
+     xlab("Kontainere") +
+     scale_fill_manual(name = "Vernalisering", values = c(3, 2), labels=c("Etter","Før")) +
+     ggtitle("Antall plantearter som spirte føre og etter vernalisering")
+    
+  })
+  
+  
+  output$vernSpecTable <- renderTable({
+    
+    vernSpeciesQ <- "SELECT spec_after FROM
+      (SELECT distinct species_latin spec_after
+      FROM plants.container_records
+      WHERE vernalisation IS TRUE) _after LEFT JOIN
+      (SELECT distinct species_latin spec_before
+      FROM plants.container_records
+      WHERE vernalisation IS NOT TRUE) _before
+       ON _after.spec_after = _before.spec_before
+      WHERE spec_before IS NULL
+      ORDER BY spec_after"
+    vernSpecies <- dbGetQuery(con, vernSpeciesQ)
+    names(vernSpecies) <- "Arter kun funne\netter vernalisering"
+    
+    vernSpecies
+  }, rownames = T
+  )
+  
   
     }
   

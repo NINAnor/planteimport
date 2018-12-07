@@ -255,6 +255,10 @@ plant2018$species_latin[plant2018$species_latin == "Juncus cf. Effusus"] <- "Jun
 plant2018$species_latin[plant2018$species_latin == "Solanum nigrum ssp. Nigrum"] <- "Solanum nigrum ssp. nigrum"
 plant2018$species_latin[plant2018$species_latin == "Carex cf. Canescens"] <- "Carex cf. canescens"
 plant2018$species_latin[plant2018$species_latin == "Euphorbia chamaepsyce"] <- "Euphorbia chamaesyce"
+plant2018$species_latin[plant2018$species_latin == "Chamomilla suaveolens"] <- "Matricaria discoidea"
+plant2018$species_latin[plant2018$species_latin == "Mycelis muralis"] <- "Lactuca muralis"
+plant2018$species_latin[plant2018$species_latin == "Cerasium glomeratum"] <- "Cerastium glomeratum"
+
 
 
 plant2018 <- plant2018 %>%
@@ -347,5 +351,201 @@ coleoptera <- coleo %>%
 coleoptera
 
 write_csv(coleoptera, path = "../out/coleoptera_62-87.csv")
+```
+
+Arrange collembola data
+--------------
+
+2017
+-----
+
+
+```{r}
+coll2017Raw <- read_csv("../rawData/Collembola_63-73.csv", locale = locale(encoding = "Windows-1252"))
+
+#coll2017Raw$`Sample nr.`
+```
+
+Basic reorganization.
+```{r}
+coll2017 <- coll2017Raw %>%
+  gather(key = temp, value = amount, -`Sample nr.`) %>%
+  transform(container = as.numeric(substr(temp, 1, 2)),
+            subsample = as.numeric(substr(temp, 4, 5))) %>%
+  select(species_latin = Sample.nr.,
+         container,
+         subsample,
+         amount) %>% 
+  filter(amount != 0) %>%
+  as_tibble()
+
+coll2017
+```
+
+
+Clean up species names, getting rid of author string etc.
+
+```{r}
+nameParts <- strsplit(coll2017$species_latin, " ")
+
+part1 <- sapply(nameParts ,`[`, 1)
+part2 <- sapply(nameParts, `[`, 2)
+part3 <- sapply(nameParts, `[`, 3)
+
+coll2017 <- coll2017 %>%
+  transform(genus = part1,
+            species = part2,
+            rest = part3)
+
+coll2017$rest[is.na(coll2017$rest)] <- ""
+coll2017$newName[coll2017$rest == "" | coll2017$rest != "juv."] <- paste(coll2017$genus, coll2017$species)[coll2017$rest == "" | coll2017$rest != "juv."]
+coll2017$newName[coll2017$rest == "juv." | coll2017$species == "cf."] <- paste(coll2017$genus, coll2017$species, coll2017$rest)[coll2017$rest == "juv." | coll2017$species == "cf."]
+
+coll2017 <- coll2017 %>%
+  select(container,
+         subsample,
+          species_latin = newName,
+         amount
+         ) %>% as_tibble()
+
+
+coll2017 
+```
+
+
+```{r}
+write_csv(coll2017, path = "../out/collembola2017Cleaned.csv")
+```
+
+2018
+---------
+
+
+
+```{r}
+coll2018Raw <- read_csv("../rawData/collembola_74-87.csv", locale = locale(encoding = "Windows-1252"))
+
+coll2018Raw
+
+```
+
+
+Basic reorganization.
+```{r}
+coll2018 <- coll2018Raw %>%
+  gather(key = temp, value = amount, -species_latin, na.rm = T) %>%
+  transform(container = as.numeric(substr(temp, 1, 2)),
+            subsample = as.numeric(substr(temp, 4, 5))) %>%
+  select(species_latin,
+         container,
+         subsample,
+         amount) %>% 
+  filter(amount != 0) %>%
+  as_tibble()
+
+coll2018
+```
+
+Clean up species names, getting rid of author string etc.
+
+```{r}
+nameParts <- strsplit(coll2018$species_latin, " ")
+
+part1 <- sapply(nameParts ,`[`, 1)
+part2 <- sapply(nameParts, `[`, 2)
+part3 <- sapply(nameParts, `[`, 3)
+
+coll2018 <- coll2018 %>%
+  transform(genus = as.character(part1),
+            species = as.character(part2),
+            rest = as.character(part3) )
+
+coll2018$genus <- as.character(coll2018$genus)
+coll2018$species <- as.character(coll2018$species)
+coll2018$rest <- as.character(coll2018$rest)
+
+
+
+coll2018$rest[is.na(coll2018$rest)] <- ""
+coll2018$newName[coll2018$rest == "" | coll2018$rest != "juv."] <- paste(coll2018$genus, coll2018$species)[coll2018$rest == "" | coll2018$rest != "juv."]
+coll2018$newName[coll2018$rest == "juv." | coll2018$species == "cf."] <- paste(coll2018$genus, coll2018$species, coll2018$rest)[coll2018$rest == "juv." | coll2018$species == "cf."]
+
+coll2018 <- coll2018 %>%
+  select(container,
+         subsample,
+          species_latin = newName,
+         amount
+         ) %>% as_tibble()
+
+
+coll2018 
+```
+
+```{r}
+write_csv(coll2018, path = "../out/collembola2018Cleaned.csv")
+```
+
+Aranae_2018
+---------
+Some spiders from the 2018 data, container 74-87
+
+
+```{r}
+aranae2018Raw <- read_csv("../rawData/aranae_74-87.csv", locale = locale(encoding = "Windows-1252"))
+
+aranae2018Raw
+```
+
+
+Basic reorganization.
+```{r}
+aranae2018 <- aranae2018Raw %>%
+  gather(key = temp, value = amount, -species_latin, na.rm = T) %>%
+  transform(container = as.numeric(substr(temp, 1, 2)),
+            subsample = as.numeric(substr(temp, 4, 5))) %>%
+  select(species_latin,
+         container,
+         subsample,
+         amount) %>% 
+  filter(amount != 0) %>%
+  as_tibble()
+
+aranae2018
+```
+
+```{r}
+write_csv(aranae2018, "../out/aranae2018.csv")
+```
+
+
+The rest of the invertebrates from 2017-2018
+------------
+
+
+```{r}
+rest2018Raw <- read_csv("../rawData/ovrige_inv_62-87.csv", locale = locale(encoding = "Windows-1252"))
+
+rest2018Raw
+```
+
+
+Basic reorganization.
+```{r}
+rest2018 <- rest2018Raw %>%
+    gather(key = temp, value = amount, -Taxa, na.rm = T) %>%
+  transform(container = as.numeric(substr(temp, 1, 2)),
+            subsample = as.numeric(substr(temp, 4, 5))) %>%
+  select(species_latin = Taxa,
+         container,
+         subsample,
+         amount) %>% 
+  filter(amount != 0) %>%
+  as_tibble()
+
+rest2018
+```
+
+```{r}
+write_csv(rest2018, path = "../out/rest_62-87.csv")
 ```
 

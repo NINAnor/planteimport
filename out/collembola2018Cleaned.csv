@@ -1,0 +1,655 @@
+container,subsample,species_latin,amount
+74,1,Micranurida pygmaea,2
+74,1,Mesaphorura yosii,8
+74,1,Parisotoma notabilis,16
+74,2,Mesaphorura yosii,20
+74,2,Folsomia candida,8
+74,2,Murcrosomia garretti,12
+74,2,Proisotoma subminuta,8
+74,2,Parisotoma notabilis,36
+74,2,Entomobrya sp. juv.,4
+74,2,Lepidocyrtus pallidus,8
+74,2,Lepidocyrtus sp.,4
+74,3,Micraphorura absoloni,20
+74,3,Mesaphorura yosii,8
+74,3,Proisotoma subminuta,12
+74,3,Parisotoma notabilis,36
+74,3,Entomobrya sp. juv.,4
+74,3,Lepidocyrtus pallidus,12
+74,4,Mesaphorura yosii,20
+74,4,Folsomia candida,4
+74,4,Proisotoma minuta,4
+74,4,Proisotoma subminuta,4
+74,4,Parisotoma notabilis,8
+74,4,Lepidocyrtus pallidus,4
+74,5,Friesea mirabilis,1
+74,5,Thalassaphorura encarpata,5
+74,5,Mesaphorura sp. juv.,1
+74,5,Parisotoma notabilis,5
+74,5,Lepidocyrtus pallidus,14
+74,6,Micranurida pygmaea,1
+74,6,Thalassaphorura encarpata,1
+74,6,Mesaphorura yosii,10
+74,6,Murcrosomia garretti,10
+74,6,Proisotoma minuta,1
+74,6,Proisotoma subminuta,3
+74,6,Parisotoma notabilis,21
+74,6,Lepidocyrtus pallidus,3
+74,7,Thalassaphorura encarpata,1
+74,7,Mesaphorura yosii,140
+74,7,Folsomia candida,6
+74,7,Proisotoma subminuta,7
+74,7,Parisotoma notabilis,26
+74,7,Lepidocyrtus pallidus,1
+74,8,Micranurida pygmaea,2
+74,8,Mesaphorura yosii,96
+74,8,Proisotoma minuta,2
+74,8,Proisotoma subminuta,6
+74,8,Parisotoma notabilis,70
+74,8,Lepidocyrtus pallidus,4
+74,9,Mesaphorura simoni,4
+74,9,Mesaphorura yosii,12
+74,9,Proisotoma subminuta,4
+74,9,Parisotoma notabilis,88
+74,9,Lepidocyrtus pallidus,8
+74,10,Mesaphorura yosii,76
+74,10,Murcrosomia garretti,12
+74,10,Proisotoma subminuta,4
+74,10,Parisotoma notabilis,68
+74,10,Entomobrya sp.,4
+75,1,Mesaphorura macrochaeta,8
+75,1,Folsomia similis,148
+75,1,Proisotoma subminuta,10
+75,1,Parisotoma notabilis,4
+75,2,Thalassaphorura encarpata,32
+75,2,Mesaphorura macrochaeta,12
+75,2,Mesaphorura yosii,4
+75,2,Folsomia similis,80
+75,2,Desoria trispinata,8
+75,2,Parisotoma notabilis,44
+75,3,Mesaphorura macrochaeta,60
+75,3,Mesaphorura yosii,20
+75,3,Folsomia similis,120
+75,3,Desoria trispinata,8
+75,3,Parisotoma notabilis,112
+75,3,Megalothorax minimus,4
+75,3,Sminthurinus trinotatus,12
+75,4,Thalassaphorura encarpata,32
+75,4,Mesaphorura macrochaeta,36
+75,4,Mesaphorura jevanica,4
+75,4,Mesaphorura yosii,76
+75,4,Folsomia similis,100
+75,4,Proisotoma subminuta,16
+75,4,Desoria trispinata,24
+75,4,Parisotoma notabilis,32
+75,4,Entomobrya sp.,4
+75,4,Entomobrya sp. juv.,4
+75,4,Sminthurinus trinotatus,16
+75,5,Mesaphorura macrochaeta,64
+75,5,Mesaphorura yosii,12
+75,5,Folsomia similis,84
+75,5,Parisotoma notabilis,88
+75,5,Entomobrya sp. juv.,4
+75,5,Sminthurinus trinotatus,4
+75,6,Thalassaphorura encarpata,2
+75,6,Mesaphorura macrochaeta,8
+75,6,Mesaphorura yosii,16
+75,6,Folsomia similis,58
+75,6,Desoria trispinata,4
+75,6,Parisotoma notabilis,46
+75,6,Entomobrya sp. juv.,2
+75,7,Protaphorura sp. juv.,8
+75,7,Thalassaphorura encarpata,4
+75,7,Mesaphorura sp. juv.,4
+75,7,Folsomia similis,76
+75,7,Proisotoma subminuta,4
+75,7,Parisotoma notabilis,32
+75,8,Ceratophysella sp. juv.,4
+75,8,Friesea mirabilis,4
+75,8,Thalassaphorura encarpata,72
+75,8,Mesaphorura macrochaeta,8
+75,8,Mesaphorura yosii,8
+75,8,Folsomia similis,124
+75,8,Proisotoma subminuta,8
+75,8,Desoria trispinata,76
+75,8,Isotomurus sp. juv.,4
+75,8,Sminthurinus trinotatus,32
+75,9,Ceratophysella engadinensis,2
+75,9,Thalassaphorura encarpata,2
+75,9,Mesaphorura yosii,26
+75,9,Folsomia similis,56
+75,9,Parisotoma notabilis,36
+75,9,Megalothorax minimus,2
+75,9,Sminthurinus trinotatus,2
+75,10,Friesea mirabilis,8
+75,10,Onychiurus normalis,8
+75,10,Thalassaphorura encarpata,84
+75,10,Mesaphorura macrochaeta,8
+75,10,Mesaphorura yosii,4
+75,10,Folsomia similis,136
+75,10,Desoria trispinata,20
+75,10,Parisotoma notabilis,24
+75,10,Entomobrya sp.,4
+75,10,Sminthurinus trinotatus,12
+76,1,Micranurida pygmaea,4
+76,1,Thalassaphorura encarpata,12
+76,1,Mesaphorura macrochaeta,4
+76,1,Mesaphorura yosii,36
+76,1,Folsomia similis,4
+76,1,Proisotoma subminuta,32
+76,1,Parisotoma notabilis,68
+76,1,Entomobrya sp. juv.,3
+76,2,Mesaphorura macrochaeta,20
+76,3,Mesaphorura macrochaeta,4
+76,3,Mesaphorura sp. juv.,4
+76,4,Friesea truncata,4
+76,4,Mesaphorura macrochaeta,12
+76,4,Parisotoma notabilis,4
+76,4,Entomobrya sp. juv.,4
+76,4,Sminthurides sp. juv.,4
+76,4,Bourletiella sp. juv.,4
+76,5,Mesaphorura yosii,16
+76,5,Proisotoma subminuta,4
+76,5,Parisotoma notabilis,6
+76,6,Mesaphorura macrochaeta,1
+76,6,Willowsia nigromaculata,2
+76,7,Micranurida pygmaea,4
+76,7,Mesaphorura yosii,28
+76,7,Proisotoma subminuta,44
+76,7,Parisotoma notabilis,40
+76,8,Mesaphorura macrochaeta,1
+76,8,Mesaphorura yosii,5
+76,8,Willowsia nigromaculata,5
+76,8,Lepidocyrtus sp.,1
+76,8,Bourletiella sp. juv.,4
+76,9,Mesaphorura macrochaeta,50
+76,9,Proisotoma subminuta,4
+76,10,Mesaphorura macrochaeta,4
+77,1,Mesaphorura macrochaeta,10
+77,2,Mesaphorura macrochaeta,4
+77,4,Mesaphorura macrochaeta,9
+77,4,Folsomia candida,2
+77,5,Mesaphorura macrochaeta,8
+77,5,Mesaphorura sp. juv.,24
+77,6,Entomobrya nigrocincta/multifasciata,4
+77,7,Mesaphorura macrochaeta,36
+77,7,Desoria trispinata,4
+77,8,Mesaphorura macrochaeta,20
+77,9,Mesaphorura macrochaeta,6
+77,9,Hemisotoma thermophila,2
+77,10,Mesaphorura macrochaeta,2
+78,1,Neanura muscorum,32
+78,1,Protaphorura sp. juv.,6
+78,1,Mesaphorura yosii,10
+78,1,Folsomia fimetaria,42
+78,1,Proisotoma subminuta,12
+78,1,Isotoma anglicana,2
+78,1,Parisotoma notabilis,62
+78,1,Isotomurus pseudopalustris,18
+78,1,Entomobrya nigrocincta/multifasciata,2
+78,2,Hypogastrura distincta,4
+78,2,Ceratophysella engadinensis,4
+78,2,Thalassaphorura encarpata,84
+78,2,Mesaphorura yosii,133
+78,2,Folsomina onychiurina,4
+78,2,Proisotoma minuta,4
+78,2,Proisotoma subminuta,12
+78,2,Hemisotoma thermophila,24
+78,2,Isotomurus pseudopalustris,20
+78,3,Ceratophysella engadinensis,2
+78,3,Parisotoma notabilis,2
+78,4,Ceratophysella engadinensis,100
+78,4,Friesea claviseta,120
+78,4,Folsomides centralis,296
+78,4,Proisotoma subminuta,64
+78,4,Hemisotoma thermophila,168
+78,4,Isotomurus sp. juv.,24
+78,5,Hypogastrura assimilis,128
+78,5,Proisotoma minuta,136
+78,5,Proisotoma subminuta,160
+78,5,Hemisotoma thermophila,48
+78,6,Thalassaphorura encarpata,4
+78,6,Parisotoma notabilis,4
+78,7,Hypogastrura assimilis,8
+78,7,Ceratophysella engadinensis,8
+78,7,Thalassaphorura encarpata,8
+78,7,Proisotoma subminuta,16
+78,7,Isotoma viridis,8
+78,7,Isotomurus palustris,16
+78,7,Isotomurus sp. juv.,528
+78,7,Sminthurinus trinotatus,240
+78,8,Hypogastrura assimilis,2
+78,8,Thalassaphorura encarpata,2
+78,8,Mesaphorura macrochaeta,6
+78,8,Parisotoma notabilis,2
+78,8,Isotomurus palustris,8
+78,9,Thalassaphorura encarpata,66
+78,9,Folsomia similis,2
+78,9,Folsomina onychiurina,2
+78,9,Proisotoma minuta,2
+78,9,Proisotoma subminuta,6
+78,9,Hemisotoma thermophila,28
+78,9,Entomobrya sp. juv.,6
+78,9,Lepidocyrtus pallidus,10
+78,10,Xenylla sp. juv.,4
+78,10,Proisotoma minuta,72
+79,1,Lepidocyrtus pallidus,6
+79,2,Proisotoma minuta,24
+79,2,Proisotoma subminuta,12
+79,2,Lepidocyrtus pallidus,88
+79,3,Ceratophysella gibbosa,112
+79,3,Proisotoma minuta,336
+79,3,Lepidocyrtus pallidus,16
+79,4,Mesaphorura macrochaeta,10
+79,4,Proisotoma subminuta,2
+79,5,Proisotoma minuta,2
+79,5,Hemisotoma thermophila,4
+79,5,Lepidocyrtus pallidus,16
+79,5,Megalothorax minimus,2
+79,6,Thalassaphorura encarpata,4
+79,6,Mesaphorura krausbaueri,4
+79,6,Proisotoma minuta,256
+79,6,Lepidocyrtus pallidus,20
+79,7,Friesea claviseta,608
+79,7,Mesaphorura yosii,24
+79,7,Folsomia similis,24
+79,7,Proisotoma subminuta,40
+79,7,Sminthurinus trinotatus,40
+79,8,Micranurida pygmaea,16
+79,8,Folsomia similis,40
+79,8,Proisotoma subminuta,8
+79,8,Parisotoma notabilis,96
+79,8,Isotomurus sp. juv.,8
+79,8,Entomobrya nigrocincta/multifasciata,16
+79,8,Lepidocyrtus pallidus,20
+79,8,Sminthurinus trinotatus,16
+79,9,Friesea claviseta,4
+79,9,Thalassaphorura encarpata,318
+79,9,Mesaphorura macrochaeta,82
+79,9,Mesaphorura simoni,232
+79,9,Parisotoma notabilis,8
+79,9,Isotomurus sp. juv.,4
+79,10,Xenylla malayana,28
+79,10,Thalassaphorura encarpata,40
+79,10,Mesaphorura macrochaeta,4
+79,10,Mesaphorura simoni,4
+79,10,Mesaphorura yosii,12
+79,10,Parisotoma notabilis,4
+79,10,Lepidocyrtus pallidus,32
+80,1,Hypogastrura assimilis,4
+80,1,Willemia intermedia,16
+80,1,Mesaphorura macrochaeta,39
+80,1,Proisotoma subminuta,54
+80,1,Hemisotoma thermophila,207
+80,1,Parisotoma notabilis,72
+80,1,Isotomurus maculatus,16
+80,2,Brachystomella parvula,1
+80,2,Friesea truncata,4
+80,2,Isotoma anglicana,3
+80,2,Parisotoma notabilis,2
+80,2,Isotomurus sp. juv.,4
+80,3,Hypogastrura assimilis,32
+80,3,Willemia intermedia,16
+80,3,Mesaphorura macrochaeta,32
+80,3,Proisotoma minuta,32
+80,3,Proisotoma subminuta,400
+80,3,Parisotoma notabilis,240
+80,4,Mesaphorura macrochaeta,48
+80,4,Proisotoma subminuta,128
+80,4,Hemisotoma thermophila,880
+80,4,Parisotoma notabilis,160
+80,4,Isotomurus palustris,32
+80,4,Sminthurinus lawrencei,48
+80,5,Friesea truncata,262
+80,5,Thalassaphorura encarpata,16
+80,5,Proisotoma subminuta,64
+80,5,Parisotoma notabilis,200
+80,5,Isotomurus palustris,32
+80,5,Tomocerus vulgaris,16
+80,5,Megalothorax minimus,16
+80,6,Hypogastrura assimilis,16
+80,6,Willemia intermedia,16
+80,6,Micranurida pygmaea,16
+80,6,Mesaphorura macrochaeta,32
+80,6,Proisotoma minuta,368
+80,6,Proisotoma subminuta,160
+80,6,Parisotoma notabilis,544
+80,6,Isotomurus palustris,80
+80,6,Entomobrya nigrocincta/multifasciata,16
+80,7,Hypogastrura assimilis,16
+80,7,Micranurida pygmaea,8
+80,7,Pseudachorutes parvulus,8
+80,7,Mesaphorura macrochaeta,80
+80,7,Proisotoma subminuta,544
+80,7,Hemisotoma thermophila,64
+80,7,Parisotoma notabilis,64
+80,7,Isotomurus palustris,8
+80,7,Entomobrya nigrocincta/multifasciata,16
+80,7,Tomocerus vulgaris,8
+80,8,Brachystomella parvula,1
+80,8,Friesea truncata,4
+80,8,Parisotoma notabilis,4
+80,9,Mesaphorura macrochaeta,30
+80,9,Mesaphorura hylophila,2
+80,9,Mesaphorura simoni,10
+80,9,Proisotoma minuta,2
+80,9,Proisotoma subminuta,20
+80,9,Parisotoma notabilis,26
+80,9,Lepidocyrtus sp.,2
+80,10,Ceratophysella engadinensis,4
+80,10,Ceratophysella denticulata,2
+80,10,Mesaphorura macrochaeta,12
+80,10,Proisotoma subminuta,110
+80,10,Parisotoma notabilis,4
+80,10,Sminthurinus lawrencei,2
+81,1,Onychiurus normalis,16
+81,1,Thalassaphorura encarpata,192
+81,1,Entomobrya sp.,32
+81,2,Onychiurus normalis,68
+81,2,Mesaphorura macrochaeta,4
+81,2,Folsomia similis,4
+81,2,Proisotoma subminuta,4
+81,2,Parisotoma notabilis,4
+81,3,Onychiurus normalis,56
+81,3,Mesaphorura macrochaeta,12
+81,3,Folsomia similis,4
+81,3,Hemisotoma thermophila,4
+81,3,Parisotoma notabilis,16
+81,4,Ceratophysella engadinensis,8
+81,4,Friesea mirabilis,4
+81,4,Mesaphorura yosii,12
+81,4,Folsomia similis,4
+81,4,Proisotoma subminuta,304
+81,4,Entomobrya nigrocincta/multifasciata,4
+81,4,Entomobrya sp.,4
+81,5,Ceratophysella engadinensis,48
+81,5,Sminthurinus lawrencei,16
+81,6,Hemisotoma thermophila,48
+81,6,Isotoma sp. juv.,4
+81,6,Parisotoma notabilis,320
+81,6,Entomobrya sp. juv.,16
+81,6,Lepidocyrtus sp.,16
+81,7,Micranurida pygmaea,16
+81,7,Mesaphorura yosii,192
+81,7,Hemisotoma thermophila,16
+81,7,Parisotoma notabilis,192
+81,7,Entomobrya sp. juv.,64
+81,7,Sminthurinus trinotatus,48
+81,8,Mesaphorura macrochaeta,320
+81,8,Proisotoma subminuta,16
+81,8,Hemisotoma thermophila,32
+81,8,Parisotoma notabilis,432
+81,8,Isotomurus sp. juv.,16
+81,8,Entomobrya sp. juv.,32
+81,8,Lepidocyrtus sp.,16
+81,8,Tomocerus sp. juv.,32
+81,8,Megalothorax minimus,32
+81,9,Entomobrya sp. juv.,8
+81,10,Ceratophysella engadinensis,4
+81,10,Friesea mirabilis,4
+81,10,Thalassaphorura encarpata,16
+81,10,Folsomides parvulus,4
+81,10,Folsomides centralis,12
+81,10,Hemisotoma thermophila,104
+81,10,Parisotoma notabilis,12
+81,10,Isotomurus sp. juv.,12
+82,1,Brachystomella parvula,14
+82,1,Mesaphorura macrochaeta,32
+82,1,Isotoma sp. juv.,4
+82,1,Parisotoma notabilis,4
+82,1,Isotomurus sp. juv.,18
+82,2,Mesaphorura macrochaeta,1
+82,2,Parisotoma notabilis,2
+82,2,Heteromurus major,1
+82,3,Mesaphorura macrochaeta,8
+82,4,Hypogastrura assimilis,4
+82,4,Brachystomella parvula,8
+82,4,Friesea truncata,8
+82,4,Pseudachorutes parvulus,4
+82,4,Hemisotoma thermophila,12
+82,4,Parisotoma notabilis,12
+82,4,Entomobrya sp. juv.,4
+82,5,Mesaphorura sp. juv.,1
+82,5,Parisotoma notabilis,4
+82,6,Mesaphorura macrochaeta,16
+82,7,Mesaphorura macrochaeta,12
+82,7,Proisotoma subminuta,4
+82,7,Hemisotoma thermophila,20
+82,7,Parisotoma notabilis,8
+82,7,Isotomurus sp. juv.,10
+82,8,Mesaphorura macrochaeta,8
+82,8,Entomobrya sp. juv.,4
+82,9,Mesaphorura macrochaeta,16
+82,9,Heteromurus major,4
+82,9,Bourletiella sp. juv.,4
+82,10,Brachystomella parvula,5
+82,10,Mesaphorura macrochaeta,10
+82,10,Parisotoma notabilis,4
+82,10,Isotomurus sp. juv.,1
+83,1,Micranurida pygmaea,8
+83,1,Lepidocyrtus pallidus,4
+83,2,Hemisotoma thermophila,26
+83,2,Lepidocyrtus pallidus,10
+83,3,Ceratophysella engadinensis,4
+83,3,Thalassaphorura encarpata,4
+83,3,Folsomia similis,144
+83,3,Proisotoma subminuta,4
+83,3,Hemisotoma thermophila,4
+83,3,Isotomurus sp. juv.,8
+83,4,Mesaphorura yosii,36
+83,4,Proisotoma subminuta,32
+83,4,Isotomurus sp. juv.,4
+83,5,Willemia sp. juv.,16
+83,5,Parisotoma notabilis,944
+83,6,Mesaphorura yosii,16
+83,6,Folsomia similis,224
+83,6,Parisotoma notabilis,520
+83,6,Lepidocyrtus pallidus,16
+83,7,Hypogastrura assimilis,72
+83,7,Mesaphorura macrochaeta,64
+83,7,Proisotoma subminuta,40
+83,7,Parisotoma notabilis,64
+83,8,Lepidocyrtus pallidus,16
+83,9,Folsomia manolachei,16
+83,9,Folsomia similis,152
+83,9,Proisotoma subminuta,1
+83,9,Hemisotoma thermophila,8
+83,9,Parisotoma notabilis,48
+83,9,Isotomurus sp. juv.,24
+83,9,Lepidocyrtus pallidus,16
+83,10,Hypogastrura assimilis,12
+83,10,Hemisotoma thermophila,16
+83,10,Lepidocyrtus pallidus,12
+84,1,Micranurida pygmaea,8
+84,1,Mesaphorura macrochaeta,8
+84,1,Mesaphorura hylophila,6
+84,1,Proisotoma subminuta,4
+84,1,Sminthurinus trinotatus,2
+84,2,Folsomia candida,6
+84,2,Folsomides centralis,6
+84,2,Proisotoma subminuta,4
+84,4,Hemisotoma thermophila,4
+84,4,Lepidocyrtus pallidus,8
+84,5,Pseudachorutes parvulus,16
+84,5,Hemisotoma thermophila,48
+84,5,Isotomurus pseudopalustris,40
+84,5,Tomocerus vulgaris,8
+84,6,Proisotoma minuta,4
+84,6,Heteromurus major,4
+84,7,Parisotoma notabilis,8
+84,8,Thalassaphorura encarpata,128
+84,8,Mesaphorura yosii,128
+84,8,Folsomides centralis,6080
+84,8,Hemisotoma thermophila,1536
+84,8,Isotomurus pseudopalustris,192
+84,9,Thalassaphorura encarpata,24
+84,9,Mesaphorura yosii,120
+84,9,Hemisotoma thermophila,344
+84,9,Isotomurus pseudopalustris,88
+84,9,Entomobrya sp. juv.,8
+84,9,Lepidocyrtus pallidus,16
+84,9,Sphaeridia pumilis,8
+84,10,Hypogastrura assimilis,8
+84,10,Ceratophysella engadinensis,692
+84,10,Friesea claviseta,90
+84,10,Mesaphorura yosii,46
+84,10,Folsomides centralis,30
+84,10,Proisotoma minuta,214
+84,10,Parisotoma notabilis,30
+84,10,Sminthurinus sp. juv.,1
+85,1,Mesaphorura macrochaeta,60
+85,1,Parisotoma notabilis,8
+85,2,Ceratophysella sp. juv.,12
+85,2,Friesea mirabilis,4
+85,2,Mesaphorura macrochaeta,40
+85,2,Isotomiella minor,4
+85,2,Parisotoma notabilis,24
+85,2,Entomobrya nigrocincta/multifasciata,4
+85,2,Entomobrya sp. juv.,4
+85,3,Hypogastrura assimilis,4
+85,3,Ceratophysella engadinensis,196
+85,3,Friesea mirabilis,4
+85,3,Mesaphorura macrochaeta,80
+85,3,Hemisotoma thermophila,44
+85,3,Isotoma viridis,8
+85,3,Isotomurus sp. juv.,16
+85,4,Ceratophysella engadinensis,2
+85,4,Mesaphorura macrochaeta,8
+85,4,Hemisotoma thermophila,4
+85,4,Parisotoma notabilis,2
+85,4,Isotomurus sp. juv.,4
+85,5,Mesaphorura macrochaeta,16
+85,5,Hemisotoma thermophila,16
+85,5,Parisotoma notabilis,8
+85,5,Isotomurus sp. juv.,4
+85,6,Ceratophysella engadinensis,4
+85,6,Mesaphorura macrochaeta,12
+85,6,Parisotoma notabilis,4
+85,7,Mesaphorura macrochaeta,8
+85,8,Friesea truncata,2
+85,8,Mesaphorura macrochaeta,6
+85,8,Parisotoma notabilis,10
+85,8,Isotomurus sp. juv.,12
+85,8,Tomocerus vulgaris,2
+85,9,Friesea truncata,4
+85,9,Mesaphorura macrochaeta,20
+85,9,Parisotoma notabilis,64
+85,9,Isotomurus sp. juv.,4
+85,9,Arrhopalites sp. juv.,4
+85,10,Parisotoma notabilis,8
+86,1,Mesaphorura macrochaeta,20
+86,1,Folsomia candida,10
+86,1,Proisotoma subminuta,28
+86,1,Parisotoma notabilis,450
+86,1,Isotomurus palustris,436
+86,2,Mesaphorura macrochaeta,80
+86,2,Folsomia candida,24
+86,2,Proisotoma minuta,16
+86,2,Parisotoma notabilis,24
+86,2,Isotomurus sp. juv.,8
+86,2,Lepidocyrtus pallidus,8
+86,3,Hypogastrura assimilis,4
+86,3,Ceratophysella engadinensis,8
+86,3,Mesaphorura yosii,36
+86,3,Folsomides parvulus,8
+86,3,Folsomides centralis,4
+86,3,Hemisotoma thermophila,120
+86,3,Isotomurus sp. juv.,12
+86,3,Entomobrya nigrocincta/multifasciata,32
+86,3,Entomobrya sp.,4
+86,4,Ceratophysella engadinensis,16
+86,4,Thalassaphorura encarpata,288
+86,4,Mesaphorura yosii,464
+86,4,Folsomides parvulus,80
+86,4,Folsomides centralis,384
+86,4,Hemisotoma thermophila,400
+86,4,Entomobrya sp. juv.,16
+86,5,Hypogastrura assimilis,12
+86,5,Mesaphorura macrochaeta,6
+86,5,Mesaphorura yosii,4
+86,5,Proisotoma minuta,40
+86,5,Hemisotoma thermophila,6
+86,6,Mesaphorura yosii,4
+86,6,Proisotoma minuta,2
+86,7,Hypogastrura assimilis,88
+86,7,Mesaphorura macrochaeta,24
+86,7,Proisotoma subminuta,48
+86,7,Parisotoma notabilis,56
+86,8,Hypogastrura assimilis,8
+86,8,Mesaphorura macrochaeta,32
+86,8,Folsomia similis,32
+86,8,Proisotoma minuta,8
+86,8,Proisotoma subminuta,24
+86,8,Parisotoma notabilis,136
+86,8,Isotomurus sp. juv.,816
+86,9,Ceratophysella engadinensis,16
+86,9,Friesea claviseta,32
+86,9,Mesaphorura yosii,16
+86,9,Folsomides centralis,176
+86,9,Proisotoma subminuta,80
+86,9,Hemisotoma thermophila,32
+86,9,Hemisotoma bipunctata,128
+86,9,Isotomurus sp. juv.,16
+86,10,Folsomides centralis,4
+86,10,Parisotoma notabilis,24
+87,1,Hypogastrura assimilis,1
+87,1,Mesaphorura yosii,1
+87,2,Hemisotoma thermophila,1
+87,2,Pseudosinella alba,1
+87,3,Mesaphorura macrochaeta,4
+87,3,Folsomia similis,32
+87,3,Proisotoma subminuta,36
+87,3,Sminthurinus trinotatus,4
+87,4,Thalassaphorura encarpata,8
+87,4,Pongeiella falca,4
+87,4,Mesaphorura yosii,4
+87,4,Folsomia similis,84
+87,4,Isotoma sp. juv.,4
+87,4,Parisotoma notabilis,52
+87,4,Entomobrya sp. juv.,16
+87,4,Sminthurinus trinotatus,8
+87,5,Mesaphorura macrochaeta,16
+87,5,Proisotoma minuta,140
+87,5,Proisotoma subminuta,144
+87,5,Parisotoma notabilis,244
+87,5,Isotomurus sp. juv.,20
+87,5,Lepidocyrtus pallidus,8
+87,5,Sminthurinus trinotatus,4
+87,6,Hypogastrura assimilis,448
+87,6,Ceratophysella engadinensis,40
+87,6,Willemia denisi,8
+87,6,Proisotoma minuta,320
+87,6,Parisotoma notabilis,8
+87,6,Sminthurinus trinotatus,40
+87,7,Hypogastrura assimilis,8
+87,7,Folsomia similis,160
+87,7,Proisotoma minuta,8
+87,7,Parisotoma notabilis,112
+87,7,Sphaeridia pumilis,24
+87,7,Sminthurinus trinotatus,8
+87,8,Willemia denisi,48
+87,8,Onychiurus normalis,16
+87,8,Mesaphorura jirii,16
+87,8,Paranurophorus simplex,16
+87,8,Folsomia quadrioculata,192
+87,8,Folsomia similis,592
+87,8,Parisotoma notabilis,64
+87,8,Isotomurus pseudopalustris,160
+87,8,Entomobrya sp. juv.,16
+87,9,Hypogastrura assimilis,48
+87,9,Ceratophysella engadinensis,48
+87,9,Mesaphorura yosii,16
+87,9,Proisotoma minuta,880
+87,9,Parisotoma notabilis,240
+87,9,Entomobrya nigrocincta/multifasciata,48
+87,9,Lepidocyrtus pallidus,16
+87,9,Sminthurinus trinotatus,16
+87,10,Hypogastrura assimilis,8
+87,10,Ceratophysella engadinensis,24
+87,10,Thalassaphorura encarpata,16
+87,10,Mesaphorura macrochaeta,80
+87,10,Mesaphorura yosii,64
+87,10,Folsomia similis,64
+87,10,Parisotoma notabilis,88
+87,10,Entomobrya sp. juv.,96
+87,10,Sminthurinus trinotatus,8

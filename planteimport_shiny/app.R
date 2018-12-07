@@ -1,8 +1,8 @@
 require(leaflet)
-require(maps)
+#require(maps)
 require(shiny)
 #require(magrittr)
-require(xtable)
+#require(xtable)
 require(DBI)
 require(RPostgres)
 require(dplyr)
@@ -10,7 +10,9 @@ require(ggplot2)
 require(tidyr)
 require(NinaR)
 require(forcats)
-palette(ninaPalette())
+require(tibble)
+require(extrafont)
+
 
 #tags$head(tags$link(rel='stylesheet', type='text/css', href='styles.css')),
 
@@ -32,7 +34,7 @@ ui1 <- function(){
 ui2 <- function(){tagList(tabPanel("Test"))}
 
 ui = (htmlOutput("page"))
-server = (function(input, output,session) {
+server = (function(input, output, session) {
   
   USER <- reactiveValues(Logged = Logged)
   
@@ -68,22 +70,22 @@ server = (function(input, output,session) {
              tabPanel('Akkumuleringskurver',
                       sidebarLayout(
                         sidebarPanel(width=2,
-                                     dateRangeInput("daterange", "Date range:",
+                                     dateRangeInput("daterange", "Tidsspann:",
                                                     start = Sys.Date() -365*5,
                                                     end   = Sys.Date()),
-                                     selectInput("taxa", "Species", c("Insekter", "Planter"), selected = "Insekter"),
+                                     selectInput("taxa", "Taxa", c("Insekter", "Karplanter"), selected = "Insekter"),
                                      uiOutput("container_species"),
                                      uiOutput("country"),
-                                     selectInput("plotLevel", "What to Plot", c("Taxon", "Individuals"), selected = "Taxon"),
-                                     checkboxInput("alien", "Show only alien species", FALSE),
+                                     selectInput("plotLevel", "Vad skal plottes?", c("Taxa", "Individer"), selected = "Taxa"),
+                                     checkboxInput("alien", "Vis kun fremmande arter", FALSE),
                                      downloadButton('downloadPlot', 'Last ned figur')), 
                         #mainPanel(fluidRow(column(12, leafletOutput("mymap", height=600)))
-                        mainPanel(plotOutput("cumPlot2"),
+                        mainPanel(imageOutput("cumPlot2"),
                                   fluidRow(column(1, offset=0,"Database dialog:"), column(11, verbatimTextOutput("nText"))))
                       )
              ),
              tabPanel("Vernalisering",
-             mainPanel(plotOutput("vernPlot")),
+             mainPanel(imageOutput("vernPlot")),
              tableOutput("vernSpecTable")),
              tabPanel("Oversikt Containere",
                       DT::dataTableOutput('containers')),
@@ -100,6 +102,8 @@ server = (function(input, output,session) {
 
   source("planteShinyFunctions.R")
   
+  tags$head( tags$style(type="text/css", "text {font-family: 'Comic Sans MS'}"))
+      
   con <- DBI::dbConnect(RPostgres::Postgres(), 
                         dbname = "planteimport", 
                         user = "shinyuser", 
@@ -120,12 +124,17 @@ server = (function(input, output,session) {
   output$downloadPlot <- downloadHandler(
     filename = function() { paste(input$taxa, '.png', sep='') },
     content = function(file) {
-      ggsave(file, plot = cumPlot(input = fields(), what = plotInput()$what), device = "png")
+      ggsave(file, plot = cumPlot2(input = prepCumPlot2(), what = plotInput()$what), 
+             device = "png",
+             width = 20,
+             height = 12,
+             units = "cm",
+             family = "Verdana",
+             dpi = 600)
     }
   )
   
-  select_categories<-function(){
-    
+  select_categories <- function(){
     dbSendQuery(con, "SET search_path = common, public;")
     
     cat.query<-"SELECT  netting_type as netting_cat, exporter as exporter_cat, country as country_cat
@@ -144,11 +153,11 @@ server = (function(input, output,session) {
   
   
   output$container_species <- renderUI({
-    selectInput("container_species", "Import species", c("All", sort(as.character(unique(select_categories()$species_cat)))), selected="All")
+    selectInput("container_species", "Importerte planter", c("All", sort(as.character(unique(select_categories()$species_cat)))), selected="All")
   })
   
   output$country <- renderUI({
-    selectInput("country", "Import country", c("All", sort(as.character(unique(select_categories()$country_cat)))), selected="All")
+    selectInput("country", "Importland", c("All", sort(as.character(unique(select_categories()$country_cat)))), selected="All")
   })
   
   
@@ -223,7 +232,7 @@ server = (function(input, output,session) {
                         "\n")
     }
     
-    if(input$taxa == "Planter"){
+    if(input$taxa == "Karplanter"){
       fetch.q <- paste0("SELECT r.*, c.country, s.alien, s.blacklist_cat
                         FROM plants.container_records r
                         LEFT JOIN common.containers c 
@@ -279,6 +288,19 @@ server = (function(input, output,session) {
     
     suppressWarnings(post.fields <- dbGetQuery(con, as.character(recordsQuery())))
     post.fields
+  })
+  
+  prepCumPlot2 <- reactive({
+   
+    tt <- fields()
+    tt$blacklist_cat[tt$alien == F] <- "Stedegne"
+    tt$blacklist_cat[is.na(tt$blacklist_cat)] <- "Ikke vurd."
+    
+    toPlot <-  tt %>% acumData()
+    if(is.null(toPlot)){return(NULL)}
+    
+    toPlot
+    
   })
   
   vernData <- reactive({
@@ -363,46 +385,99 @@ server = (function(input, output,session) {
     
   })
   
-  output$cumPlot2 <- renderPlot({
+  
+  
+  output$cumPlot2 <- renderImage({
+
+    # Read myImage's width and height. These are reactive values, so this
+    # expression will re-run whenever they change.
+    width  <- session$clientData$output_cumPlot2_width
+    height <- session$clientData$output_cumPlot2_height
     
-    tt <- fields() 
-    tt$blacklist_cat[tt$alien == F] <- "Stedegne"
-    tt$blacklist_cat[is.na(tt$blacklist_cat)] <- "Ikke vurd."
+    # For high-res displays, this will be greater than 1
+    pixelratio <- session$clientData$pixelratio
     
-     toPlot <-  tt %>% acumData()
-     if(is.null(toPlot)){return(NULL)}
-     
-      g <- cumPlot2(toPlot,
-               what = plotInput()$what) 
-      
-      if(plotInput()$what == "Taxon") {
-        g <- g + ggtitle("Kumulativt antall arter funne i kontainene, etter fremmedartskategori")
-      }
-      
-      if(plotInput()$what == "Individuals") {
-        g <- g + ggtitle("Kumulativt antall individer funne i kontainene, etter fremmedartskategori")
-      }
-      g
-      
-  })
+    # A temp file to save the output.
+    outfile <- tempfile(fileext='.png')
+    
+    # Generate the image file
+    png(outfile, width=width*pixelratio, height=height*pixelratio,
+        res=120*pixelratio)
+    
+  
+    g <- cumPlot2(prepCumPlot2(),
+                  what = plotInput()$what)
+
+    if(plotInput()$what == "Taxa") {
+      g <- g + ggtitle("Kumulativt antall arter funne i kontainene, etter fremmedartskategori")
+    }
+
+    if(plotInput()$what == "Individer") {
+      g <- g + ggtitle("Kumulativt antall individer funne i kontainene, etter fremmedartskategori")
+    }
+
+    g <- g + theme(text=element_text(family = "Verdana"))
+
+    plot(g)
+    dev.off()
+    
+    # Return a list containing the filename
+    list(src = outfile,
+         width = width,
+         height = height,
+         alt = "This is alternate text")
+  }, deleteFile = TRUE)
+   
+
+
+
+
+  output$vernPlot <- renderImage({
+    
+    # Read myImage's width and height. These are reactive values, so this
+    # expression will re-run whenever they change.
+    width  <- session$clientData$output_vernPlot_width
+    height <- session$clientData$output_vernPlot_height
+    
+    # For high-res displays, this will be greater than 1
+    pixelratio <- session$clientData$pixelratio
+    
+    # A temp file to save the output.
+    outfile <- tempfile(fileext='.png')
+    
+    # Generate the image file
+    png(outfile, width = width*pixelratio, height = height*pixelratio,
+        res = 120*pixelratio)
+    
+    
+    toPlot <- vernData()
+    
+    palette(NinaR::ninaPalette())
+   g <-  ggplot(toPlot) +
+      geom_bar(aes(x = container, y = no_species, group = vernalisation, fill = vernalisation), stat = "identity") +
+      ylab("Antall arter") +
+      xlab("Kontainere") +
+      scale_fill_manual(name = "Vernalisering", values = c(3, 2), labels=c("Etter","Før")) +
+      ggtitle("Antall plantearter som spirte føre og etter vernalisering") +
+      theme(text = element_text(family = "Verdana"))
+    
+    plot(g)
+  
+    dev.off()
+    
+    # Return a list containing the filename
+    list(src = outfile,
+         width = width,
+         height = height,
+         alt = "This is alternate text")
+  }, deleteFile = TRUE)
+
+  
   
 
-  output$vernPlot <- renderPlot({
-    
-   toPlot <- vernData()
-   
-   ggplot(toPlot) +
-     geom_bar(aes(x = container, y = no_species, group = vernalisation, fill = vernalisation), stat = "identity") +
-     ylab("Antall arter") +
-     xlab("Kontainere") +
-     scale_fill_manual(name = "Vernalisering", values = c(3, 2), labels=c("Etter","Før")) +
-     ggtitle("Antall plantearter som spirte føre og etter vernalisering")
-    
-  })
-  
-  
+
   output$vernSpecTable <- renderTable({
-    
+
     vernSpeciesQ <- "SELECT spec_after FROM
       (SELECT distinct species_latin spec_after
       FROM plants.container_records
@@ -415,7 +490,7 @@ server = (function(input, output,session) {
       ORDER BY spec_after"
     vernSpecies <- dbGetQuery(con, vernSpeciesQ)
     names(vernSpecies) <- "Arter kun funne\netter vernalisering"
-    
+
     vernSpecies
   }, rownames = T
   )

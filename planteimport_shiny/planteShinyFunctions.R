@@ -84,71 +84,185 @@ cumPlot2 <- function(input,
   g
 }
 
-
-acumData <- function(input){
-
-  if(nrow(input) == 0){return(NULL)}
-
-
+acumData <- function(input,
+                     removeJuveniles = T){
+  
+  
+  if(removeJuveniles){
+    input <- input %>% 
+      filter(!grepl("juv", species_latin))
+  }
+  
+  input$blacklist_cat[input$blacklist_cat == "Ikke vurd."] <- "NR" 
+  
   aggData <- input %>%
-    group_by(blacklist_cat) %>%
-    arrange(container, subsample) %>%
-    mutate(noContainer = cumsum(!duplicated(container)),
-           noInd = cumsum(amount),
-           noSpec = cumsum(!duplicated(species_latin))) %>%
-    group_by(container, blacklist_cat) %>%
+    arrange(container, subsample) %>% 
+    mutate(noContainer = cumsum(!duplicated(container))) %>%
+    group_by(blacklist_cat) %>% 
+    mutate(noInd = cumsum(amount),
+           noSpec = cumsum(!duplicated(species_latin))) %>% 
+    group_by(container, blacklist_cat) %>% 
     summarize(noContainer = last(noContainer),
               noInd = last(noInd),
-              noSpec = last(noSpec))
-
-  filler <- expand.grid(unique(aggData$noContainer), unique(aggData$blacklist_cat))
+              noSpec = last(noSpec)) 
+  
+  
+  filler <- expand.grid(unique(aggData$noContainer), unique(aggData$blacklist_cat), stringsAsFactors = F)
   names(filler) <- c("noContainer", "blacklist_cat")
-  filler$blacklist_cat <- as.character(filler$blacklist_cat)
   #filler$noInd <- 0
   #filler$noSpec <- 0
-
-  hm <- aggData %>%
+  
+  hm <- aggData %>% 
     right_join(filler, by = c("noContainer" = "noContainer", "blacklist_cat" = "blacklist_cat")) %>%
     arrange(noContainer, blacklist_cat)
-
-  hm$noSpec[hm$noContainer == min(hm$noContainer) & hm$blacklist_cat == "HI" & is.na(hm$noSpec)] <- 0
-  hm$noSpec[hm$noContainer == min(hm$noContainer) & hm$blacklist_cat == "NK" & is.na(hm$noSpec)] <- 0
-  hm$noSpec[hm$noContainer == min(hm$noContainer) & hm$blacklist_cat == "PH" & is.na(hm$noSpec)] <- 0
-  hm$noSpec[hm$noContainer == min(hm$noContainer) & hm$blacklist_cat == "SE" & is.na(hm$noSpec)] <- 0
-  hm$noSpec[hm$noContainer == min(hm$noContainer) & hm$blacklist_cat == "NR" & is.na(hm$noSpec)] <- 0
-  hm$noSpec[hm$noContainer == min(hm$noContainer) & hm$blacklist_cat == "LO" & is.na(hm$noSpec)] <- 0
-  hm$noSpec[hm$noContainer == min(hm$noContainer) & hm$blacklist_cat == "Stedegne" & is.na(hm$noSpec)] <- 0
-  hm$noSpec[hm$noContainer == min(hm$noContainer) & hm$blacklist_cat == "Ikke vurd." & is.na(hm$noSpec)] <- 0
-
-  hm$noInd[hm$noContainer == min(hm$noContainer) & hm$blacklist_cat == "HI" & is.na(hm$noInd)] <- 0
-  hm$noInd[hm$noContainer == min(hm$noContainer) & hm$blacklist_cat == "NK" & is.na(hm$noInd) & is.na(hm$noInd)] <- 0
-  hm$noInd[hm$noContainer == min(hm$noContainer) & hm$blacklist_cat == "PH"] <- 0
-  hm$noInd[hm$noContainer == min(hm$noContainer) & hm$blacklist_cat == "SE" & is.na(hm$noInd)] <- 0
-  hm$noInd[hm$noContainer == min(hm$noContainer) & hm$blacklist_cat == "NR" & is.na(hm$noInd)] <- 0
-  hm$noInd[hm$noContainer == min(hm$noContainer) & hm$blacklist_cat == "LO" & is.na(hm$noInd)] <- 0
-  hm$noInd[hm$noContainer == min(hm$noContainer) & hm$blacklist_cat == "Stedegne" & is.na(hm$noInd)] <- 0
-  hm$noInd[hm$noContainer == min(hm$noContainer) & hm$blacklist_cat == "Ikke vurd." & is.na(hm$noInd)] <- 0
-
-  hm$noContainer[hm$noContainer == min(hm$noContainer) & hm$blacklist_cat == "HI" & is.na(hm$noContainer)] <- 0
-  hm$noContainer[hm$noContainer == min(hm$noContainer) & hm$blacklist_cat == "NK" & is.na(hm$noContainer)] <- 0
-  hm$noContainer[hm$noContainer == min(hm$noContainer) & hm$blacklist_cat == "PH" & is.na(hm$noContainer)] <- 0
-  hm$noContainer[hm$noContainer == min(hm$noContainer) & hm$blacklist_cat == "SE" & is.na(hm$noContainer)] <- 0
-  hm$noContainer[hm$noContainer == min(hm$noContainer) & hm$blacklist_cat == "NR" & is.na(hm$noContainer)] <- 0
-  hm$noContainer[hm$noContainer == min(hm$noContainer) & hm$blacklist_cat == "LO" & is.na(hm$noContainer)] <- 0
-  hm$noContainer[hm$noContainer == min(hm$noContainer) & hm$blacklist_cat == "Stedegne" & is.na(hm$noContainer)] <- 0
-  hm$noContainer[hm$noContainer == min(hm$noContainer) & hm$blacklist_cat == "Ikke vurd." & is.na(hm$noContainer)] <- 0
-
-
-
-  hm <- hm %>%
-    arrange(noContainer, blacklist_cat) %>%
-    group_by(blacklist_cat) %>%
-    fill(noSpec, noContainer, noInd) %>%
-    arrange(noContainer, blacklist_cat)
-
-  hm <- hm %>%
+  
+  
+  hm <- hm %>% 
+    group_by(noContainer) %>% 
+    mutate(container = ifelse(noContainer == min(noContainer) & is.na(container), min(container, na.rm = T), container)) %>%
     ungroup() %>%
-    mutate(blacklist_cat = fct_reorder(blacklist_cat, noSpec))
-
+    mutate(noInd = ifelse(noContainer == min(noContainer) & is.na(noInd), 0, noInd),
+           noSpec = ifelse(noContainer == min(noContainer) & is.na(noSpec), 0, noSpec)) %>%
+    arrange(noContainer, blacklist_cat) %>%
+    group_by(blacklist_cat) %>% 
+    fill(noInd, noSpec) %>% 
+    arrange(container, blacklist_cat) %>% 
+    ungroup()
+  
+  
   hm
+}
+
+acumPlot <- function(input, 
+                     type = c("Area", "Line"),
+                     what = c("Taxon", "Individuals"),
+                     col =  c(ninaLogoPalette(), NinaR::ninaPalette()),
+                     lwd = 1.2,
+                     ...){
+  what = match.arg(what)
+  type = match.arg(type)
+  
+  if(what == "Taxon"){
+    input <- input %>% 
+      ungroup() %>%
+      mutate(blacklist_cat = fct_reorder(blacklist_cat, noSpec, .fun = max, .desc = T))
+  } else {
+    input <- input %>% 
+      ungroup() %>%
+      mutate(blacklist_cat = fct_reorder(blacklist_cat, noInd, .fun = max, .desc = T))
+  }
+  
+  g <- ggplot(input)
+  
+  myColors <- c(ninaLogoPalette(), NinaR::ninaPalette())
+  names(myColors) <- c("Stedegne", "LO","Ikke vurd.", "NR", "NK", "PH", "HI", "SE")
+  colScale <- scale_fill_manual(name = "Fremmed-\nartkategori", values = myColors)
+  colFill <- scale_color_manual(name = "Fremmed-\nartkategori", values = myColors)
+  
+  
+  if(type == "Line"){
+    
+    if(what == "Taxon"){
+      g <- g + 
+        geom_line(aes(x = noContainer, y = noSpec, color = blacklist_cat), lwd = lwd, ...) +
+        ylab("Artsantall")
+    } else
+    {   
+      g <- g + 
+        geom_line(aes(x = noContainer, y = noInd, color = blacklist_cat), lwd = lwd, ...) +
+        ylab("Individantall")
+    }
+  } else
+    
+    if(what == "Taxon"){
+      g <- g + 
+        geom_area(aes(x = noContainer, y = noSpec, fill = blacklist_cat), ...) +
+        ylab("Artsantall")
+    } else 
+    {
+      g <- g +  
+        geom_area(aes(x = noContainer, y = noInd, fill = blacklist_cat), ...) +
+        ylab("Individantall")
+    }
+  
+  if(type == "Line"){
+    g <- g +
+      colFill +
+      xlab("Antall prøvetatte kontainere")
+  } else {
+    g <- g +
+      colScale +
+      xlab("Antall prøvetatte kontainere")
+  }
+  
+  
+  g
+}
+
+
+acumPlotEng <- function(input, 
+                        type = c("Area", "Line"),
+                        what = c("Taxon", "Individuals"),
+                        col =  c(ninaLogoPalette(), NinaR::ninaPalette()),
+                        lwd = 1.2,
+                        ...){
+  what = match.arg(what)
+  type = match.arg(type)
+  
+  if(what == "Taxon"){input <- input %>% 
+      ungroup() %>%
+      mutate(blacklist_cat = fct_reorder(blacklist_cat, noSpec, .fun = max, .desc = T))
+  } else {
+    input <- input %>% 
+      ungroup() %>%
+      mutate(blacklist_cat = fct_reorder(blacklist_cat, noInd, .fun = max, .desc = T))
+  }
+  
+  levels(input$blacklist_cat)[levels(input$blacklist_cat) =="Stedegne"] <- "Native"
+  levels(input$blacklist_cat)[levels(input$blacklist_cat) =="Ikke vurd."] <- "N/A"
+  g <- ggplot(input)
+  
+  myColors <- c(ninaLogoPalette(), NinaR::ninaPalette())
+  names(myColors) <- c("Native", "LO","N/A", "NR", "NK", "PH", "HI", "SE")
+  colScale <- scale_fill_manual(name = "IAS-\ncategory", values = myColors)
+  colFill <- scale_color_manual(name = "IAS-\ncategory", values = myColors)
+  
+  if(type == "Line"){
+    
+    if(what == "Taxon"){
+      g <- g + 
+        geom_line(aes(x = noContainer, y = noSpec, color = blacklist_cat), lwd = lwd, ...) +
+        ylab("No. Species")
+    } else
+    {   
+      g <- g + 
+        geom_line(aes(x = noContainer, y = noInd, color = blacklist_cat), lwd = lwd, ...) +
+        ylab("No. Individuals")
+    }
+  } else
+    
+    if(what == "Taxon"){
+      g <- g + 
+        geom_area(aes(x = noContainer, y = noSpec, fill = blacklist_cat), ...) +
+        ylab("No. Species")
+    } else 
+    {
+      g <- g +  
+        geom_area(aes(x = noContainer, y = noInd, fill = blacklist_cat), ...) +
+        ylab("No. Individuals")
+    }
+  
+  if(type == "Line"){
+    g <- g +
+      colFill +
+      xlab("No. sampled containers")
+  } else {
+    
+    g <- g +
+      colScale +
+      xlab("No. sampled containers")
+  }
+  
+  
+  g
 }

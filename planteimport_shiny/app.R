@@ -19,87 +19,93 @@ require(extrafont)
 ######
 require(tools)
 
-Logged = FALSE;
-load("shinyPass.Rdata")
+# Logged = FALSE;
+# load("shinyPass.Rdata")
+# 
+# ui1 <- function(){
+#   tagList(
+#     div(id = "login",
+#         wellPanel(textInput("userName", "Username"),
+#                   passwordInput("passwd", "Password"),
+#                   br(),actionButton("Login", "Log in"))),
+#     tags$style(type="text/css", "#login {font-size:10px;   text-align: left;position:absolute;top: 40%;left: 50%;margin-top: -100px;margin-left: -150px;}")
+#   )}
+# 
+# ui2 <- function(){tagList(tabPanel("Test"))}
+# 
+# ui = (htmlOutput("page"))
+# server = (function(input, output, session) {
+#   
+#   USER <- reactiveValues(Logged = Logged)
+#   
+#   observe({
+#     if (USER$Logged == FALSE) {
+#       if (!is.null(input$Login)) {
+#         if (input$Login > 0) {
+#           Username <- isolate(input$userName)
+#           Password <- isolate(input$passwd)
+#           Id.username <- which(my_username == Username)
+#           Id.password <- which(my_password == Password)
+#           if (length(Id.username) > 0 & length(Id.password) > 0) {
+#             if (Id.username == Id.password) {
+#               USER$Logged <- TRUE
+#             }
+#           }
+#         }
+#       }
+#     }
+#   })
+#   observe({
+#     if (USER$Logged == FALSE) {
+#       
+#       output$page <- renderUI({
+#         div(class="outer",do.call(bootstrapPage,c("",ui1())))
+#       })
+#     }
+#     if (USER$Logged == TRUE)
+#     {
+#       ##############END LOGIN STUFF, begin ui part#####################
+#       
 
-ui1 <- function(){
-  tagList(
-    div(id = "login",
-        wellPanel(textInput("userName", "Username"),
-                  passwordInput("passwd", "Password"),
-                  br(),actionButton("Login", "Log in"))),
-    tags$style(type="text/css", "#login {font-size:10px;   text-align: left;position:absolute;top: 40%;left: 50%;margin-top: -100px;margin-left: -150px;}")
-  )}
-
-ui2 <- function(){tagList(tabPanel("Test"))}
-
-ui = (htmlOutput("page"))
-server = (function(input, output, session) {
-  
-  USER <- reactiveValues(Logged = Logged)
-  
-  observe({
-    if (USER$Logged == FALSE) {
-      if (!is.null(input$Login)) {
-        if (input$Login > 0) {
-          Username <- isolate(input$userName)
-          Password <- isolate(input$passwd)
-          Id.username <- which(my_username == Username)
-          Id.password <- which(my_password == Password)
-          if (length(Id.username) > 0 & length(Id.password) > 0) {
-            if (Id.username == Id.password) {
-              USER$Logged <- TRUE
-            }
-          }
-        }
-      }
-    }
-  })
-  observe({
-    if (USER$Logged == FALSE) {
-      
-      output$page <- renderUI({
-        div(class="outer",do.call(bootstrapPage,c("",ui1())))
-      })
-    }
-    if (USER$Logged == TRUE)
-    {
-      ##############END LOGIN STUFF, begin ui part#####################
-      
-      output$page <- renderUI({navbarPage("Planteimport - overvåking av fripassagerer",
+ui <- fluidPage(navbarPage("Planteimport - overvåking av fripassagerer",
              tabPanel('Akkumuleringskurver',
                       sidebarLayout(
                         sidebarPanel(width=2,
                                      dateRangeInput("daterange", "Tidsspann:",
-                                                    start = Sys.Date() -365*5,
+                                                    start = "2014-01-01",
                                                     end   = Sys.Date()),
                                      selectInput("taxa", "Taxa", c("Insekter", "Karplanter"), selected = "Insekter"),
                                      uiOutput("container_species"),
                                      uiOutput("country"),
-                                     selectInput("plotLevel", "Vad skal plottes?", c("Taxa", "Individer"), selected = "Taxa"),
+                                     selectInput("plotLevel", "Vad skal plottes?", c("Taxon", "Individuals"), selected = "Taxa"),
+                                     selectInput("plotType", "Typ av plot", c("Area", "Line"), selected = "Area"),
+                                     checkboxInput("removeJuveniles", "Ekskludere juveniler", TRUE),
                                      checkboxInput("alien", "Vis kun fremmande arter", FALSE),
                                      downloadButton('downloadPlot', 'Last ned figur')), 
                         #mainPanel(fluidRow(column(12, leafletOutput("mymap", height=600)))
-                        mainPanel(imageOutput("cumPlot2"),
-                                  fluidRow(column(1, offset=0,"Database dialog:"), column(11, verbatimTextOutput("nText"))))
+                        mainPanel(imageOutput("acumPlotEng")
+                                  #,fluidRow(column(1, offset=0,"Database dialog:"), column(11, verbatimTextOutput("nText")))
+                                  )
                       )
              ),
              tabPanel("Vernalisering",
              mainPanel(imageOutput("vernPlot")),
              tableOutput("vernSpecTable")),
-             tabPanel("Oversikt Containere",
+             tabPanel("Tabell Containere",
                       DT::dataTableOutput('containers')),
-             tabPanel("Oversikt Insektsfunn",
+             tabPanel("Tabell Insektsfunn",
                       DT::dataTableOutput('insekt_records')),
              tabPanel("Insektarter funne",
                       DT::dataTableOutput('insekt_species'))
              
-  )}
-)
+  ))
+
+
 
 
 ########SERVER PART HERE INSTEAD OF IN A SERVER FUNCTION CALL
 
+server <- function(input, output, session){
   source("planteShinyFunctions.R")
   
   tags$head( tags$style(type="text/css", "text {font-family: 'Comic Sans MS'}"))
@@ -124,7 +130,7 @@ server = (function(input, output, session) {
   output$downloadPlot <- downloadHandler(
     filename = function() { paste(input$taxa, '.png', sep='') },
     content = function(file) {
-      ggsave(file, plot = cumPlot2(input = prepCumPlot2(), what = plotInput()$what), 
+      ggsave(file, plot = acumPlotEng(input = prepAcumPlot(), what = plotInput()$what), 
              device = "png",
              width = 20,
              height = 12,
@@ -290,13 +296,13 @@ server = (function(input, output, session) {
     post.fields
   })
   
-  prepCumPlot2 <- reactive({
+  prepAcumPlot <- reactive({
    
     tt <- fields()
     tt$blacklist_cat[tt$alien == F] <- "Stedegne"
     tt$blacklist_cat[is.na(tt$blacklist_cat)] <- "Ikke vurd."
     
-    toPlot <-  tt %>% acumData()
+    toPlot <-  tt %>% acumData(removeJuveniles = input$removeJuveniles)
     if(is.null(toPlot)){return(NULL)}
     
     toPlot
@@ -370,29 +376,30 @@ server = (function(input, output, session) {
   })
   
   plotInput <- reactive({
-    out <- list("what" =  input$plotLevel)
+    out <- list("what" =  input$plotLevel,
+                "type" = input$plotType)
     
     out
   })
   
-  output$cumPlot <- renderPlot({
-    
-    #input <- read.table("planteimport2.csv", sep = ",", header = T)
-    cumPlot(input = fields(), 
-            what = plotInput()$what, 
-            country = input$country, 
-            species = input$container_species)
-    
-  })
+  # output$cumPlot <- renderPlot({
+  #   
+  #   #input <- read.table("planteimport2.csv", sep = ",", header = T)
+  #   cumPlot(input = fields(), 
+  #           what = plotInput()$what, 
+  #           country = input$country, 
+  #           species = input$container_species)
+  #   
+  # })
+  # 
   
   
-  
-  output$cumPlot2 <- renderImage({
+  output$acumPlotEng <- renderImage({
 
     # Read myImage's width and height. These are reactive values, so this
     # expression will re-run whenever they change.
-    width  <- session$clientData$output_cumPlot2_width
-    height <- session$clientData$output_cumPlot2_height
+    width  <- session$clientData$output_acumPlotEng_width
+    height <- session$clientData$output_acumPlotEng_height
     
     # For high-res displays, this will be greater than 1
     pixelratio <- session$clientData$pixelratio
@@ -405,8 +412,9 @@ server = (function(input, output, session) {
         res=120*pixelratio)
     
   
-    g <- cumPlot2(prepCumPlot2(),
-                  what = plotInput()$what)
+    g <- acumPlotEng(prepAcumPlot(),
+                  what = plotInput()$what,
+                  type = plotInput()$type)
 
     if(plotInput()$what == "Taxa") {
       g <- g + ggtitle("Kumulativt antall arter funne i kontainene, etter fremmedartskategori")
@@ -489,7 +497,7 @@ server = (function(input, output, session) {
       WHERE spec_before IS NULL
       ORDER BY spec_after"
     vernSpecies <- dbGetQuery(con, vernSpeciesQ)
-    names(vernSpecies) <- "Arter kun funne\netter vernalisering"
+    names(vernSpecies) <- "Taxa kun funne\netter vernalisering"
 
     vernSpecies
   }, rownames = T
@@ -497,9 +505,7 @@ server = (function(input, output, session) {
   
   
     }
-  
-})
 
-})
+#})
 
 shinyApp(ui= ui, server= server)

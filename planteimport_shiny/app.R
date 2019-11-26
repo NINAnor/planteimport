@@ -14,8 +14,12 @@ require(tibble)
 require(extrafont)
 
 
-#tags$head(tags$link(rel='stylesheet', type='text/css', href='styles.css')),
+##Todo
+# Figure out how to have consistent legend order while automatically reorder the area graph. Needs to be responsive to what to plot
+#
+#
 
+#tags$head(tags$link(rel='stylesheet', type='text/css', href='styles.css')),
 ######
 require(tools)
 
@@ -67,36 +71,55 @@ require(tools)
 #       ##############END LOGIN STUFF, begin ui part#####################
 #       
 
-ui <- fluidPage(navbarPage("Planteimport - overvåking av fripassagerer",
-             tabPanel('Akkumuleringskurver',
+ui <- fluidPage(navbarPage("Survey results of stowaways in imported ornamental plants to Norway",
+             tabPanel('Cumulative graphs',
                       sidebarLayout(
                         sidebarPanel(width=2,
-                                     dateRangeInput("daterange", "Tidsspann:",
+                                     dateRangeInput("daterange", "Sampling period:",
                                                     start = "2014-01-01",
                                                     end   = Sys.Date()),
-                                     selectInput("taxa", "Taxa", c("Insekter", "Karplanter"), selected = "Insekter"),
+                                     selectInput("taxa", "Taxa", c("Arthropods", "Vascular plants"), selected = "Arthropods"),
                                      uiOutput("container_species"),
                                      uiOutput("country"),
-                                     selectInput("plotLevel", "Vad skal plottes?", c("Taxon", "Individuals"), selected = "Taxa"),
-                                     selectInput("plotType", "Typ av plot", c("Area", "Line"), selected = "Area"),
-                                     checkboxInput("removeJuveniles", "Ekskludere juveniler", TRUE),
-                                     checkboxInput("alien", "Vis kun fremmande arter", FALSE),
-                                     downloadButton('downloadPlot', 'Last ned figur')), 
+                                     selectInput("plotLevel", "Data to plot", c("Taxon", "Individuals"), selected = "Taxon"),
+                                     selectInput("plotType", "Type of plot", c("Area", "Line"), selected = "Area"),
+                                     checkboxInput("removeJuveniles", "Exclude juveniles", TRUE),
+                                     checkboxInput("alien", "Show only alien species", FALSE),
+                                     downloadButton('downloadPlot', 'Download figure')), 
                         #mainPanel(fluidRow(column(12, leafletOutput("mymap", height=600)))
-                        mainPanel(imageOutput("acumPlotEng")
-                                  #,fluidRow(column(1, offset=0,"Database dialog:"), column(11, verbatimTextOutput("nText")))
-                                  )
+                        mainPanel(fluidRow(mainPanel(strong("Starting in the year 2014, NINA performs yearly spot surveys on semitrailers arriving at major garden centers in Norway.
+                                                     Soil samples are taken from imported potted plants and searched for stowaway arthropods and vascular plants. Living arthropods are extracted using a Berlese/Tullgren-funnel and identified under stereo-microscope.
+                                                     The remaining soil is then planted in greenhouses for germination of viable stowaway seeds. This process includes a cold treatment (vernalisation) with a second germination period to induce germination of cold-adapted plants.
+                                                     Identification of seedlings is done to species level when possible. Further information of the project is available at:", a("Link", href="https://www.nina.no/V%C3%A5re-fagomr%C3%A5der/Fremmede-arter/Planteimport-og-fremmede-arter")
+                                                            ),
+                                                     style = "background: lightgrey;
+                                                              border-style: solid;
+                                                              border-color: grey;
+                                                              border-radius: 5px"
+                                                     )
+                                           )
+                                 #fluidRow(column(1, offset=0,"Database dialog:"), column(11, verbatimTextOutput("nText")))
+                                  , plotOutput("acumPlotEng"),
+                                 fluidRow(mainPanel(strong("The figure above shows the cumulative number of distinct taxa (or individuals) of stowaways found in imported plant containers withing the survey program.
+                                          The species are colorized according to their alien species risk assessment status (if available). More information on the alien species risk assessment can be found at:", a("Link", href="https://www.biodiversity.no/alien-species?Key=872"))
+                                                    )
+                                 )
+                                 )
                       )
              ),
-             tabPanel("Vernalisering",
+             tabPanel("Vernalisation",
              mainPanel(imageOutput("vernPlot")),
              tableOutput("vernSpecTable")),
-             tabPanel("Tabell Containere",
+             tabPanel("Sampled containers",
                       DT::dataTableOutput('containers')),
-             tabPanel("Tabell Insektsfunn",
-                      DT::dataTableOutput('insekt_records')),
-             tabPanel("Insektarter funne",
-                      DT::dataTableOutput('insekt_species'))
+             tabPanel("Arthropod data",
+                      DT::dataTableOutput('insect_records')),
+             tabPanel("Arthropod species",
+                      DT::dataTableOutput('insect_species')),
+             tabPanel("Plant data",
+                      DT::dataTableOutput('plant_records')),
+             tabPanel("Plant species",
+                      DT::dataTableOutput('plant_species'))
              
   ))
 
@@ -130,7 +153,10 @@ server <- function(input, output, session){
   output$downloadPlot <- downloadHandler(
     filename = function() { paste(input$taxa, '.png', sep='') },
     content = function(file) {
-      ggsave(file, plot = acumPlotEng(input = prepAcumPlot(), what = plotInput()$what), 
+      ggsave(file, plot = acumPlotEng(toPlot = prepAcumPlot(),
+                                      what = plotInput()$what,
+                                      type = plotInput()$type,
+                                      subheader = input$taxa), 
              device = "png",
              width = 20,
              height = 12,
@@ -159,11 +185,11 @@ server <- function(input, output, session){
   
   
   output$container_species <- renderUI({
-    selectInput("container_species", "Importerte planter", c("All", sort(as.character(unique(select_categories()$species_cat)))), selected="All")
+    selectInput("container_species", "Imported item", c("All", sort(as.character(unique(select_categories()$species_cat)))), selected="All")
   })
   
   output$country <- renderUI({
-    selectInput("country", "Importland", c("All", sort(as.character(unique(select_categories()$country_cat)))), selected="All")
+    selectInput("country", "Export country", c("All", sort(as.character(unique(select_categories()$country_cat)))), selected="All")
   })
   
   
@@ -173,41 +199,40 @@ server <- function(input, output, session){
   
   
   output$containers <- DT::renderDataTable({
-    containers <- dbGetQuery(con, "SELECT * FROM common.containers")
-    out <- containers[names(containers) != "id"]
+    containers <- dbReadTable(con, Id(schema = "views", table = "containers"))
+    #out <- containers[names(containers) != "id"]
+    out <- containers
     out
   })
   
-  output$insekt_species <- DT::renderDataTable({
-    species <- dbGetQuery(con, "SELECT phylum,
-                          class,
-                          subclass,
-                          \"order\",
-                          underorder,
-                          family 
-                          old_description,
-                          species_latin,
-                          stadium,
-                          indetermined,
-                          alien,
-                          blacklist_cat,
-                          native
-                          FROM insects.species")
-    
+  output$insect_species <- DT::renderDataTable({
+    species <- dbReadTable(con, Id(schema = "views", table = "insect_species"))
     species
   })
   
-  output$insekt_records <- DT::renderDataTable({
-    insect_records <- dbGetQuery(con, "SELECT container, subsample, species_latin, amount FROM insects.container_records")
+  output$insect_records <- DT::renderDataTable({
+    insect_records <- dbReadTable(con, Id(schema = "views", table = "insect_container_records"))
     insect_records
   })
+  
+  output$plant_species <- DT::renderDataTable({
+    species <- dbReadTable(con, Id(schema = "views", table = "plant_species"))
+    species
+  })
+  
+  
+  output$plant_records <- DT::renderDataTable({
+    plant_records <- dbReadTable(con, Id(schema = "views", table = "plant_container_records"))
+    plant_records
+  })
+  
   
   locationsQuery <- reactive({
     fetch.q <- "SELECT *, ST_X(ST_transform(geom, 4326)) lon, ST_Y(ST_transform(geom, 4326)) lat
     FROM common.locality"
     fetch.q 
   })
-  
+ 
   recordsQuery<-reactive({
     if (is.null(input$taxa)){
       return(NULL)
@@ -216,65 +241,59 @@ server <- function(input, output, session){
       start_time <- as.character(input$daterange[1])
     end_time <- as.character(input$daterange[2])
     
-    date_range <- paste("\n 
+    date_range <- paste0("\n 
                         WHERE c.date_sampled >= '", 
                         start_time,
                         "' ", 
                         "AND c.date_sampled <= '", 
                         end_time, 
-                        "'", 
-                        sep="")
+                        "'")
     
     
-    if(input$taxa == "Insekter"){
+    if(input$taxa == "Arthropods"){
       fetch.q <- paste0("SELECT r.*, c.country, s.alien, s.blacklist_cat
                         FROM insects.container_records r
                         LEFT JOIN common.containers c 
                           ON r.container = c.container
                         AND r.subsample = c.subsample
                         LEFT JOIN insects.species s 
-                          ON r.species_latin = s.species_latin"
-                        , date_range,
-                        "\n")
+                          ON r.species_latin = s.species_latin",
+                         date_range)
     }
     
-    if(input$taxa == "Karplanter"){
+    if(input$taxa == "Vascular plants"){
       fetch.q <- paste0("SELECT r.*, c.country, s.alien, s.blacklist_cat
                         FROM plants.container_records r
                         LEFT JOIN common.containers c 
                           ON r.container = c.container
                         AND r.subsample = c.subsample
                         LEFT JOIN plants.species s 
-                          ON r.species_latin = s.species_latin"
-                        , date_range,
-                        "\n"
-      )
+                          ON r.species_latin = s.species_latin", 
+                        date_range)
     }
     
     if(input$container_species != "All"){
       
       fetch.q <- paste0(fetch.q, 
-                        "AND c.species_latin = '", 
+                        "\nAND c.species_latin = '", 
                         input$container_species, 
-                        "'",
-                        "\n")
+                        "'")
     }
     
     
     if(input$country != "All"){
       
       fetch.q <- paste0(fetch.q, 
-                        "AND c.country = '",
+                        "\nAND c.country = '",
                         input$country, 
-                        "'",
-                        "\n")
+                        "'")
     }
     
     if(input$alien){
       
       fetch.q <- paste0(fetch.q, 
-                        "AND s.alien IS True",
-                        "\n")
+                        "\n AND s.alien IS True"
+                        )
     }
     
     
@@ -302,7 +321,7 @@ server <- function(input, output, session){
     tt$blacklist_cat[tt$alien == F] <- "Stedegne"
     tt$blacklist_cat[is.na(tt$blacklist_cat)] <- "Ikke vurd."
     
-    toPlot <-  tt %>% acumData(removeJuveniles = input$removeJuveniles)
+    toPlot <- tt %>% acumData(removeJuveniles = input$removeJuveniles)
     if(is.null(toPlot)){return(NULL)}
     
     toPlot
@@ -412,16 +431,17 @@ server <- function(input, output, session){
         res=120*pixelratio)
     
   
-    g <- acumPlotEng(prepAcumPlot(),
+    g <- acumPlotEng(toPlot = prepAcumPlot(),
                   what = plotInput()$what,
-                  type = plotInput()$type)
+                  type = plotInput()$type,
+                  subheader = input$taxa)
 
     if(plotInput()$what == "Taxa") {
-      g <- g + ggtitle("Kumulativt antall arter funne i kontainene, etter fremmedartskategori")
+      g <- g + ggtitle("Cumulative number of species found in containers, by risk assessment category.")
     }
 
     if(plotInput()$what == "Individer") {
-      g <- g + ggtitle("Kumulativt antall individer funne i kontainene, etter fremmedartskategori")
+      g <- g + ggtitle("Cumulative number of individuals found in containers, by risk assessment category.")
     }
 
     g <- g + theme(text=element_text(family = "Verdana"))
@@ -463,10 +483,10 @@ server <- function(input, output, session){
     palette(NinaR::ninaPalette())
    g <-  ggplot(toPlot) +
       geom_bar(aes(x = container, y = no_species, group = vernalisation, fill = vernalisation), stat = "identity") +
-      ylab("Antall arter") +
-      xlab("Kontainere") +
-      scale_fill_manual(name = "Vernalisering", values = c(3, 2), labels=c("Etter","Før")) +
-      ggtitle("Antall plantearter som spirte føre og etter vernalisering") +
+      ylab("No. species") +
+      xlab("Containers") +
+      scale_fill_manual(name = "Vernalisation", values = c(3, 2), labels=c("After","Before")) +
+      ggtitle("Number of germinating vascular plant species before and after cold-treatment") +
       theme(text = element_text(family = "Verdana"))
     
     plot(g)
@@ -497,7 +517,7 @@ server <- function(input, output, session){
       WHERE spec_before IS NULL
       ORDER BY spec_after"
     vernSpecies <- dbGetQuery(con, vernSpeciesQ)
-    names(vernSpecies) <- "Taxa kun funne\netter vernalisering"
+    names(vernSpecies) <- "Taxa found only after vernalisation"
 
     vernSpecies
   }, rownames = T

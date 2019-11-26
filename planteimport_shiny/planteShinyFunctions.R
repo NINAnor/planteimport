@@ -93,7 +93,7 @@ acumData <- function(input,
       filter(!grepl("juv", species_latin))
   }
   
-  input$blacklist_cat[input$blacklist_cat == "Ikke vurd."] <- "NR" 
+ # input$blacklist_cat[input$blacklist_cat == "Ikke vurd."] <- "NR" 
   
   aggData <- input %>%
     arrange(container, subsample) %>% 
@@ -200,30 +200,46 @@ acumPlot <- function(input,
 }
 
 
-acumPlotEng <- function(input, 
+acumPlotEng <- function(toPlot, 
                         type = c("Area", "Line"),
                         what = c("Taxon", "Individuals"),
+                        subheader = NULL,
                         col =  c(ninaLogoPalette(), NinaR::ninaPalette()),
                         lwd = 1.2,
                         ...){
   what = match.arg(what)
   type = match.arg(type)
   
-  if(what == "Taxon"){input <- input %>% 
+
+  if(what == "Taxon"){toPlot <- toPlot %>% 
       ungroup() %>%
       mutate(blacklist_cat = fct_reorder(blacklist_cat, noSpec, .fun = max, .desc = T))
-  } else {
-    input <- input %>% 
+    } else {
+      toPlot <- toPlot %>% 
       ungroup() %>%
       mutate(blacklist_cat = fct_reorder(blacklist_cat, noInd, .fun = max, .desc = T))
   }
+  levels(toPlot$blacklist_cat)[levels(toPlot$blacklist_cat) =="Stedegne"] <- "Native"
+  levels(toPlot$blacklist_cat)[levels(toPlot$blacklist_cat) =="Ikke vurd."] <- "Not yet assessed"
+  levels(toPlot$blacklist_cat)[levels(toPlot$blacklist_cat) =="LO"] <- "LO - Low impact"
+  levels(toPlot$blacklist_cat)[levels(toPlot$blacklist_cat) =="NR"] <- "NR - Not assessed by definition"
+  levels(toPlot$blacklist_cat)[levels(toPlot$blacklist_cat) =="NK"] <- "NK - No known impact"
+  levels(toPlot$blacklist_cat)[levels(toPlot$blacklist_cat) =="PH"] <- "PH - Potentially high impact"
+  levels(toPlot$blacklist_cat)[levels(toPlot$blacklist_cat) =="HI"] <- "HI - High impact"
+  levels(toPlot$blacklist_cat)[levels(toPlot$blacklist_cat) =="SE"] <- "SE - Severe impact"
   
-  levels(input$blacklist_cat)[levels(input$blacklist_cat) =="Stedegne"] <- "Native"
-  levels(input$blacklist_cat)[levels(input$blacklist_cat) =="Ikke vurd."] <- "N/A"
-  g <- ggplot(input)
+
+  g <- ggplot(toPlot)
   
   myColors <- c(ninaLogoPalette(), NinaR::ninaPalette())
-  names(myColors) <- c("Native", "LO","N/A", "NR", "NK", "PH", "HI", "SE")
+  names(myColors) <- c("Native", 
+                       "Not yet assessed", 
+                       "LO - Low impact", 
+                       "NR - Not assessed by definition", 
+                       "PH - Potentially high impact", 
+                       "HI - High impact", 
+                       "NK - No known impact", 
+                       "SE - Severe impact")
   colScale <- scale_fill_manual(name = "IAS-\ncategory", values = myColors)
   colFill <- scale_color_manual(name = "IAS-\ncategory", values = myColors)
   
@@ -263,6 +279,11 @@ acumPlotEng <- function(input,
       xlab("No. sampled containers")
   }
   
+  g <- g + 
+    labs(
+      title = "Stowaways in imported containers of ornamental plants to Norway",
+      subtitle = subheader
+    )
   
   g
 }

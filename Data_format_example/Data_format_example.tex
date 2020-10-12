@@ -1,0 +1,493 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={Data format for punching alien stowaway data},
+            pdfauthor={Jens Åström},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+  \title{Data format for punching alien stowaway data}
+  \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+  \author{Jens Åström}
+  \preauthor{\centering\large\emph}
+  \postauthor{\par}
+  \predate{\centering\large\emph}
+  \postdate{\par}
+  \date{18 September, 2020}
+
+
+%\linespread{1.3}
+
+
+% You know, for landscape
+\usepackage{lscape}
+\usepackage{pdfpages}
+
+
+% pandoc does not parse latex env - https://groups.google.com/forum/?fromgroups=#!topic/pandoc-discuss/oZETB5Ii1Cw
+\newcommand{\blandscape}{\begin{landscape}}
+\newcommand{\elandscape}{\end{landscape}}
+
+% Make new page before each section
+%\let\stdsection\section
+%\renewcommand\section{\newpage\stdsection}
+
+% Highlight inline `code`
+\usepackage{soul}
+\usepackage{xcolor}
+
+\definecolor{Light}{gray}{.97}
+\sethlcolor{Light}
+
+\let\OldTexttt\texttt
+\renewcommand{\texttt}[1]{\OldTexttt{\hl{#1}}}
+
+
+\clubpenalty=10000      %kara za sierotki
+\widowpenalty=10000  % nie pozostawiaj wdów
+\brokenpenalty=10000    % nie dziel wyrazów miêdzy stronami
+\exhyphenpenalty=999999   % nie dziel s³ów z myœlnikiem
+\righthyphenmin=3     % dziel minimum 3 litery
+
+\renewcommand{\topfraction}{0.95}
+\renewcommand{\bottomfraction}{0.95}
+\renewcommand{\textfraction}{0.05}
+\renewcommand{\floatpagefraction}{0.35}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+\hypertarget{intro}{%
+\section{Intro}\label{intro}}
+
+This script creates examples of the tables in the planteimport-database,
+which can be used for punching new data. The idea is that importing the
+data could could be faster if the data was punched in this format from
+the start. Currently I have to do a lot of rearranging and changing of
+names manually.
+
+\hypertarget{container-table}{%
+\section{Container table}\label{container-table}}
+
+This table holds the information of the sampled containers. This is
+already punched in a very similar format to the table in the database,
+so we could just continue using this format. Whenever there's a new
+locality or new exporter, we also need to import these into their
+respective lookup tables. This happens so infrequently that we probably
+can to this manually. NB! Don't use the same locality name if the
+locality has changed. For example ``Blomsteringen'' is one unique
+location now. If blomsteringen uses different sample locations, we
+should split them up with separate names.
+
+This is one row in the container table.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{containers <-}\StringTok{ }\KeywordTok{tbl}\NormalTok{(con, }\KeywordTok{in_schema}\NormalTok{(}\StringTok{"common"}\NormalTok{, }\StringTok{"containers"}\NormalTok{))}
+
+\NormalTok{containers }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{print}\NormalTok{(}\DataTypeTok{n =} \DecValTok{1}\NormalTok{,}
+        \DataTypeTok{width =} \OtherTok{Inf}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # Source:   table<common.containers> [?? x 27]
+## # Database: postgres [jens.astrom@ninradardata01.nina.no:5432/planteimport]
+##   id                                   container subsample locality          
+##   <chr>                                    <int>     <int> <chr>             
+## 1 a88aa624-2200-11e8-8b3b-001cc4ddf696        29         5 Plantasjen Skedsmo
+##   date_sampled date_in    date_out   netting_type species_latin      
+##   <date>       <date>     <date>     <chr>        <chr>              
+## 1 2015-04-26   2015-04-27 2015-04-30 F            Cardamine pratensis
+##   plant_comment wet_volume wet_weight dry_volume dry_weight exporter        
+##   <chr>              <dbl>      <dbl>      <dbl>      <dbl> <chr>           
+## 1 viftelønn              2        554        1.5        198 Plantagen source
+##   country transport_type pdf_present mattilsynet comment_certificate oh_recieved
+##   <chr>   <chr>          <lgl>       <lgl>       <chr>               <chr>      
+## 1 Germany <NA>           TRUE        FALSE       <NA>                <NA>       
+##   container_weight number_of_articles number_of_species number_total
+##              <dbl>              <int>             <int>        <int>
+## 1               NA                  7                82         3517
+##   volume_per_crate comment_contents                
+##   <chr>            <chr>                           
+## 1 <NA>             Litt usikker på sertifikatet her
+## # ... with more rows
+\end{verbatim}
+
+When punching, you don't need to fill the ``id'' column. That is
+internal to the database. I'll write out a small sample that could be
+used for punching (but the one we already use is fine!).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{containers }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{select}\NormalTok{(}\OperatorTok{-}\NormalTok{id) }\OperatorTok{%>%}\StringTok{  }\CommentTok{#internal primary key in database}
+\StringTok{  }\KeywordTok{collect}\NormalTok{() }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{slice}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{5}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{write_csv}\NormalTok{(}\DataTypeTok{path =} \StringTok{"out/example_containers.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{insect-container-records}{%
+\section{Insect container records}\label{insect-container-records}}
+
+This table holds all invertebrate data from the containers. So far, we
+have only imported the container records in the database, and we will
+make similar tables for the other collected invertebrates.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{insect_container_records <-}\StringTok{ }\KeywordTok{tbl}\NormalTok{(con, }\KeywordTok{in_schema}\NormalTok{(}\StringTok{"insects"}\NormalTok{, }\StringTok{"container_records"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+There are some colums that are filled automatically in the database; id,
+latinsknavnid, last\_updated\_by, last\_updated. Project\_id is left
+blank for now, but could be specified if we want to separate the
+findings from different projects (contracts?). So these columns are the
+only ones that we need to punch (project id can be left blank):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{insect_container_records }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{select}\NormalTok{(}\OperatorTok{-}\KeywordTok{c}\NormalTok{(id, latinsknavnid, last_updated_by, last_updated)) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{arrange}\NormalTok{(container, subsample, species_latin) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # Source:     lazy query [?? x 5]
+## # Database:   postgres [jens.astrom@ninradardata01.nina.no:5432/planteimport]
+## # Ordered by: container, subsample, species_latin
+##    container subsample projectid species_latin         amount
+##        <int>     <int> <chr>     <chr>                  <int>
+##  1         1         1 <NA>      Amischa analis             1
+##  2         1         1 <NA>      Bourletiella sp. juv.      1
+##  3         1         1 <NA>      Desoria grisea             1
+##  4         1         1 <NA>      Isotomurus palustris      10
+##  5         1         1 <NA>      Proisotoma minuta          1
+##  6         1         1 <NA>      Tomocerus vulgaris         1
+##  7         1         4 <NA>      Bourletiella sp. juv.      3
+##  8         1         4 <NA>      Cartodere bifasciata       1
+##  9         1         4 <NA>      Isotomurus palustris      18
+## 10         1         4 <NA>      Isotomurus sp. juv.        6
+## # ... with more rows
+\end{verbatim}
+
+I'll write out a short sample that could be used for future punching.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{insect_container_records }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{select}\NormalTok{(}\OperatorTok{-}\KeywordTok{c}\NormalTok{(id, latinsknavnid, last_updated_by, last_updated)) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{arrange}\NormalTok{(container, subsample, species_latin) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{collect}\NormalTok{() }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{slice}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{5}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{write_csv}\NormalTok{(}\DataTypeTok{path =} \StringTok{"out/example_insect_container_records.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{insect-species-names}{%
+\section{Insect species names}\label{insect-species-names}}
+
+All invertebrate records need to conform to a list of species names,
+stored in another table. As new species are discovered, we will add
+these to the list of names. This list of names is compared to
+artsnavneliste from artsdatabanken. In the future we will add the black
+list to the database to be able to update the black list categories
+automatically (as automatic as possible). Other alien species lists are
+also possible to import. We have both a column called ``native'' and one
+called ``alien''. They are not 100\% exclusive, as it appears that some
+species may not be found earlier in Norway, but still isn't known to be
+alien.
+
+Note that we use a single column called \textbf{species\_latin} for the
+unique names of the species or ``taxa'' we find. This is the columns
+that are used to match species between tables. In case of juveniles, we
+specify the juvenile status at the end of the species names, as can be
+seen in the example. Yes, there still is some cleaning up to do here.
+
+There are quite a few colums in this table that is either filled
+automatically, or could be filled once and for all by me, using matches
+from the artsnavnebase. For new species, we will add new rows to this
+table. Currently, it would be good to fill out all these lines:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{insect_species <-}\StringTok{ }\KeywordTok{tbl}\NormalTok{(con, }\KeywordTok{in_schema}\NormalTok{(}\StringTok{"insects"}\NormalTok{, }\StringTok{"species"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{insect_species }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{collect}\NormalTok{() }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(stadium) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{slice}\NormalTok{(}\DecValTok{1}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{select}\NormalTok{(species_latin,}
+\NormalTok{         stadium,}
+\NormalTok{         indetermined,}
+\NormalTok{         autorstring,}
+\NormalTok{         native,}
+\NormalTok{         alien,}
+\NormalTok{         blacklist_cat)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 7
+## # Groups:   stadium [6]
+##   species_latin     stadium  indetermined autorstring native alien blacklist_cat
+##   <chr>             <chr>    <lgl>        <chr>       <lgl>  <lgl> <chr>        
+## 1 Supraphorura fur~ adult    FALSE        <NA>        FALSE  FALSE <NA>         
+## 2 Thysanoptera spp~ juvenile TRUE         <NA>        FALSE  FALSE <NA>         
+## 3 Elateridae spp. ~ larvae   TRUE         <NA>        FALSE  FALSE <NA>         
+## 4 Diptera spp. juv. larvae ~ TRUE         <NA>        FALSE  FALSE <NA>         
+## 5 Sternorrhyncha s~ nymph    TRUE         <NA>        FALSE  FALSE <NA>         
+## 6 Aphiodoidea spp.~ nymph a~ TRUE         <NA>        FALSE  FALSE <NA>
+\end{verbatim}
+
+I here include the complete list of the ``species names'' known in the
+database as of today. \textbf{All new records should use these names} if
+there isn't a true new ``species''.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{insect_species }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{arrange}\NormalTok{(species_latin) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{select}\NormalTok{(species_latin,}
+\NormalTok{         stadium,}
+\NormalTok{         indetermined,}
+\NormalTok{         autorstring,}
+\NormalTok{         native,}
+\NormalTok{         alien,}
+\NormalTok{         blacklist_cat) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{collect}\NormalTok{() }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{write_csv}\NormalTok{(}\DataTypeTok{path =} \StringTok{"out/example_insect_species_names.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{plant-records}{%
+\section{Plant records}\label{plant-records}}
+
+The plant records are a little bit simpler, but here we need to make a
+note of if they where found before or after vernalisation.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{plant_container_records <-}\StringTok{ }\KeywordTok{tbl}\NormalTok{(con, }\KeywordTok{in_schema}\NormalTok{(}\StringTok{"plants"}\NormalTok{, }\StringTok{"container_records"}\NormalTok{))}
+
+\NormalTok{plant_container_records }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{select}\NormalTok{(}\OperatorTok{-}\KeywordTok{c}\NormalTok{(id, }
+\NormalTok{            last_updated_by,}
+\NormalTok{            last_updated))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # Source:   lazy query [?? x 7]
+## # Database: postgres [jens.astrom@ninradardata01.nina.no:5432/planteimport]
+##    container subsample latinsknavnid projectid species_latin amount
+##        <int>     <int> <int64>       <chr>     <chr>          <int>
+##  1         1         1 NA            <NA>      Cardamine hi~      4
+##  2         1         1 NA            <NA>      Cardamine hi~     79
+##  3         1         1 NA            <NA>      Cerastium gl~      3
+##  4         1         1 NA            <NA>      Cerastium gl~      4
+##  5         1         1 NA            <NA>      Senecio vulg~     22
+##  6         1         1 NA            <NA>      Stellaria me~      1
+##  7         1         1 NA            <NA>      Stellaria me~     17
+##  8         1         2 NA            <NA>      Cardamine hi~      1
+##  9         1         2 NA            <NA>      Juncus bulbo~      1
+## 10         1         3 NA            <NA>      Cardamine hi~      1
+## # ... with more rows, and 1 more variable: vernalisation <lgl>
+\end{verbatim}
+
+I'll write out a short sample that could be used for future punching.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{plant_container_records }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{select}\NormalTok{(}\OperatorTok{-}\KeywordTok{c}\NormalTok{(id, }
+\NormalTok{            latinsknavnid,}
+\NormalTok{            projectid,}
+\NormalTok{            last_updated_by,}
+\NormalTok{            last_updated)) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{collect}\NormalTok{() }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{slice}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{5}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{write_csv}\NormalTok{(}\DataTypeTok{path =} \StringTok{"out/example_plant_container_records.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{plant-species-names}{%
+\section{Plant species names}\label{plant-species-names}}
+
+The plant species names are stored in a simpler table than the insects.
+That's because the original insect table was more complex to start with.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{plant_species <-}\StringTok{ }\KeywordTok{tbl}\NormalTok{(con, }\KeywordTok{in_schema}\NormalTok{(}\StringTok{"plants"}\NormalTok{, }\StringTok{"species"}\NormalTok{)) }
+\end{Highlighting}
+\end{Shaded}
+
+For new plant species, it would be good to record at least the columns
+listed below. NB, autorstring is not important for me, but could be
+added if you like. Like for insects, the separate columns for native and
+alien is useful when the status is ``complicated'' or we haven't
+identified the specimen to species. I will add a column ``indetermined''
+here as well (need to get datahjelp to change the ownership of the
+table).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{plant_species }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{select}\NormalTok{(species_latin,}
+\NormalTok{         species_norsk,}
+\NormalTok{         autorstreng,}
+\NormalTok{         native,}
+\NormalTok{         alien)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # Source:   lazy query [?? x 5]
+## # Database: postgres [jens.astrom@ninradardata01.nina.no:5432/planteimport]
+##    species_latin           species_norsk            autorstreng native alien
+##    <chr>                   <chr>                    <chr>       <lgl>  <lgl>
+##  1 Panicum capillare       Buskkinapalme/dvergpalme <NA>        FALSE  TRUE 
+##  2 Erica cf. ciliaris      duskamarant              <NA>        FALSE  TRUE 
+##  3 Humulus cf. yunnanensis sommerfuglbusk           <NA>        FALSE  TRUE 
+##  4 Panicum capillaceum     Dvergsypress             <NA>        FALSE  TRUE 
+##  5 Panicum repens          Dvergpalme               <NA>        FALSE  TRUE 
+##  6 Howea sp.               <NA>                     <NA>        FALSE  TRUE 
+##  7 Chaenorhinum minus      småtorskemunn            <NA>        FALSE  TRUE 
+##  8 Chenopodiastrum murale  gatemelde                <NA>        FALSE  TRUE 
+##  9 Chenopodium ficifolium  fikenmelde               <NA>        FALSE  TRUE 
+## 10 Chenopodium hircinum    bukkemelde               <NA>        FALSE  TRUE 
+## # ... with more rows
+\end{verbatim}
+
+I'll write out a complete list of all plant species known in the
+database so far. Also here, there are some cleaning up to do.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{plant_species }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{arrange}\NormalTok{(species_latin) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{    }\KeywordTok{select}\NormalTok{(species_latin,}
+\NormalTok{           species_norsk,}
+\NormalTok{           autorstreng,}
+\NormalTok{           native,}
+\NormalTok{           alien) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{collect}\NormalTok{() }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{write_csv}\NormalTok{(}\DataTypeTok{path =} \StringTok{"out/example_plant_species_names.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Happy punching!
+
+
+\end{document}

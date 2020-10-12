@@ -130,15 +130,16 @@ ui <- fluidPage(navbarPage("Survey results of stowaways in imported ornamental p
 
 server <- function(input, output, session){
   source("planteShinyFunctions.R")
+  load("shinyPass.Rdata")
   
   tags$head( tags$style(type="text/css", "text {font-family: 'Comic Sans MS'}"))
       
   con <- DBI::dbConnect(RPostgres::Postgres(), 
                         dbname = "planteimport", 
-                        user = "shinyuser", 
-                        password = "container", 
-                        host = "ninpgsql02.nina.no")
-  
+                        user = my_username, 
+                        password = my_password, 
+                        host = "ninradardata01.nina.no")
+ 
   
   datasetInput <- reactive({
     fields()
@@ -480,14 +481,15 @@ server <- function(input, output, session){
     
     toPlot <- vernData()
     
-    palette(NinaR::ninaPalette())
+   
    g <-  ggplot(toPlot) +
       geom_bar(aes(x = container, y = no_species, group = vernalisation, fill = vernalisation), stat = "identity") +
       ylab("No. species") +
       xlab("Containers") +
-      scale_fill_manual(name = "Vernalisation", values = c(3, 2), labels=c("After","Before")) +
       ggtitle("Number of germinating vascular plant species before and after cold-treatment") +
-      theme(text = element_text(family = "Verdana"))
+      theme(text = element_text(family = "Verdana")) +
+     scale_fill_nina(palette = "blue-orange", name = "Vernalisation", labels = c("After", "Before"),
+                     reverse = T)
     
     plot(g)
   

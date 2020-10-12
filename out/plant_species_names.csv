@@ -1,0 +1,312 @@
+species_latin,species_norsk,autorstreng,native,alien
+Acer platanoides,Spisslønn,NA,TRUE,FALSE
+Aethusa cynapium cf. ssp. cynapium,ugraspersille,NA,TRUE,FALSE
+Agrostis canina,hundekvein,NA,TRUE,FALSE
+Agrostis capillaris,engkvein,NA,TRUE,FALSE
+Agrostis gigantea,storkvein,NA,TRUE,FALSE
+Agrostis nebulosa,NA,NA,FALSE,TRUE
+Agrostis stolonifera,krypkvein,NA,TRUE,FALSE
+Alnus incana,gråor,NA,TRUE,FALSE
+Amaranthus,Amarantslekta,NA,TRUE,FALSE
+Amaranthus blitum,blyamarant,NA,FALSE,TRUE
+Amaranthus cf. hybridus,NA,NA,FALSE,TRUE
+Amaranthus cf. palmeri,NA,NA,FALSE,TRUE
+Amaranthus cf. retroflexus,NA,NA,FALSE,TRUE
+Amaranthus palmeri,NA,NA,TRUE,FALSE
+Amaranthus retroflexus,NA,NA,TRUE,FALSE
+Amaranthus viridis,smalamarant,NA,FALSE,TRUE
+Anisodontea,NA,NA,TRUE,FALSE
+Anisodontea elegans,NA,NA,TRUE,FALSE
+Arabis hirsuta ssp. hirsuta,Lønn,NA,TRUE,FALSE
+Arabis thaliana,NA,NA,TRUE,FALSE
+Argyranthemum frutescens,Margeritt,NA,TRUE,FALSE
+Betula pendula,hengebjørk,NA,TRUE,FALSE
+Bidens pilosa,tiggerbrønsle,NA,FALSE,TRUE
+Boronia heterophylla,NA,NA,TRUE,FALSE
+Buddleia davidii,NA,NA,FALSE,TRUE
+Buxus sempervirens,Buksbom,NA,TRUE,FALSE
+Calamagrostis epigejos,NA,NA,TRUE,FALSE
+Calamagrostis phragmitoides,skogrørkvein,NA,TRUE,FALSE
+Calluna vulgaris,Røsslyng,NA,TRUE,FALSE
+Capsella bursa-pastoris,gjetertaske,NA,TRUE,FALSE
+Caragana arborescens,Sibirertebusk,NA,TRUE,FALSE
+Cardamine hirsuta,rosettkarse,NA,TRUE,FALSE
+Cardamine pratensis,Viftelønn,NA,TRUE,FALSE
+Carex canescens,gråstarr,NA,TRUE,FALSE
+Carex cf. canescens,NA,NA,TRUE,FALSE
+Carex cf. rostrata,Kattebusk/Hortensia,NA,TRUE,FALSE
+Carex rostrata,NA,NA,TRUE,FALSE
+Carpinus betulus,Agnbøk,NA,TRUE,FALSE
+Cerastium cf. fontanum,NA,NA,TRUE,FALSE
+Cerastium fontanum,arve,NA,TRUE,FALSE
+Cerastium glomeratum,veiarve,NA,TRUE,FALSE
+Cercidiphyllum japonicum,Hjertetre,NA,TRUE,FALSE
+Chaenorhinum minus,småtorskemunn,NA,FALSE,TRUE
+Chamaecyparis lawsonia,NA,NA,TRUE,FALSE
+Chamaecyparis lawsoniana,Lawsonsypress,NA,TRUE,FALSE
+Chenopodiastrum murale,gatemelde,NA,FALSE,TRUE
+Chenopodium album,meldestokk,NA,TRUE,FALSE
+Chenopodium botrys,NA,NA,TRUE,FALSE
+Chenopodium ficifolium,fikenmelde,NA,FALSE,TRUE
+Chenopodium glaucum,NA,NA,TRUE,FALSE
+Chenopodium hircinum,bukkemelde,NA,FALSE,TRUE
+Chenopodium polyspermum,frømelde,NA,FALSE,TRUE
+Cirsium arvense,NA,NA,TRUE,FALSE
+Cirsium vulgare,veitistel,NA,TRUE,FALSE
+Claytonia perfoliata,vinterportulakk,NA,FALSE,TRUE
+Claytonia sibirica,sibirportulakk,NA,FALSE,TRUE
+Clematis tangutica,gullklematis,NA,FALSE,TRUE
+Conyza canadensis,hestehamp,NA,FALSE,TRUE
+Conyza sumatrensis,NA,NA,TRUE,FALSE
+Cordyline,NA,NA,TRUE,FALSE
+Coronopus didymus,ramkarse,NA,FALSE,TRUE
+Corylus avellana,Vrihassel,NA,TRUE,FALSE
+Crepis tectorum,takhaukeskjegg,NA,TRUE,FALSE
+Cruciata cf. laevipes,NA,NA,FALSE,TRUE
+Cuphea hyssopifolia,NA,NA,TRUE,FALSE
+Cystopteris fragilis,skjørlok,NA,TRUE,FALSE
+Cytisus scoparius,gyvel,NA,TRUE,FALSE
+Daucus carota ssp. carota,villgulrot,NA,FALSE,TRUE
+Delphinium,NA,NA,TRUE,FALSE
+Deschampsia cespitosa ssp. cespitosa,sølvbunke,NA,TRUE,FALSE
+Digitaria ischaemum,fingerhirse,NA,FALSE,TRUE
+Digitaria sanguinalis,blodhirse,NA,FALSE,TRUE
+Dittrichia viscosa,NA,NA,FALSE,TRUE
+Draba muralis,murrublom,NA,TRUE,FALSE
+Draba verna,vårrublom,NA,TRUE,FALSE
+Drymocallis rupestris,hvitmure,NA,TRUE,FALSE
+Dysphania ambrosioides,NA,NA,FALSE,TRUE
+Echinochloa,NA,NA,TRUE,FALSE
+Echinochloa crus-galli,hønsehirse,NA,FALSE,TRUE
+Eclipta prostrata,NA,NA,FALSE,TRUE
+Eleusine indica ssp. africana,afrikahirse,NA,FALSE,TRUE
+Epilobium ciliatum,amerikamjølke,NA,FALSE,TRUE
+Epilobium ciliatum ssp. ciliatum,NA,NA,TRUE,FALSE
+Epilobium hirsutum,stormjølke,NA,FALSE,TRUE
+Epilobium lanceolatum,toppamarant,NA,TRUE,FALSE
+Epilobium montanum,NA,NA,TRUE,FALSE
+Epilobium obscurum,mørkmjølke,NA,FALSE,TRUE
+Epilobium parviflorum,soyaamarant,NA,TRUE,FALSE
+Epilobium roseum,greinmjølke,NA,FALSE,TRUE
+Eragrostis cf. pilosa,NA,NA,TRUE,FALSE
+Erica cf. ciliaris,duskamarant,NA,FALSE,TRUE
+Erica gracilis,Høstlyng,NA,TRUE,FALSE
+Eriophorum vaginatum,NA,NA,TRUE,FALSE
+Erysimum cheiranthoides,åkergull,NA,TRUE,FALSE
+Eucalyptus,Eukalyptus,NA,TRUE,FALSE
+Eucalyptus gunnii,NA,NA,TRUE,FALSE
+Euonymus fortunei,Klatrebeinved,NA,TRUE,FALSE
+Euphorbia,NA,NA,TRUE,FALSE
+Euphorbia cf. chamaesyce,NA,NA,TRUE,FALSE
+Euphorbia chamaesyce,dvergvortemelk,NA,FALSE,TRUE
+Euphorbia langbladet med tenner,NA,NA,TRUE,FALSE
+Euphorbia maculata,NA,NA,FALSE,TRUE
+Euphorbia peplus,byvortemelk,NA,FALSE,TRUE
+Euphorbia prostrata,NA,NA,FALSE,TRUE
+Euphorbia serpens,NA,NA,FALSE,TRUE
+Fagus sylvaticus,Bøk,NA,TRUE,FALSE
+Fallopia convolvolus,vindelslirekne,NA,TRUE,FALSE
+Fargesia,Paraplybambus,NA,TRUE,FALSE
+Felicia amelloides,NA,NA,TRUE,FALSE
+Festuca glauca,Sausesvingel,NA,TRUE,FALSE
+Festuca rubra,rødsvingel,NA,TRUE,FALSE
+Ficus carina,NA,NA,TRUE,FALSE
+Filaginella uliginosa,Apeskrekk,NA,TRUE,FALSE
+Fuchsia,NA,NA,TRUE,FALSE
+Galinsoga ciliata,NA,NA,TRUE,FALSE
+Galinsoga parviflora,peruskjellfrø,NA,FALSE,TRUE
+Galinsoga quadriradiata,nesleskjellfrø,NA,FALSE,TRUE
+Galium,Spirblom,NA,TRUE,FALSE
+Gamochaeta pensylvanica,NA,NA,FALSE,TRUE
+Geranium pusillum,småstorkenebb,NA,TRUE,FALSE
+Glyceria fluitans,NA,NA,TRUE,FALSE
+Gnaphalium uliginosum,åkergråurt,NA,TRUE,FALSE
+Gras - hårete,NA,NA,TRUE,FALSE
+Hårete lite gras 2 priklet,NA,NA,TRUE,FALSE
+Hebe,NA,NA,TRUE,FALSE
+Hebe andersonii,NA,NA,TRUE,FALSE
+Hedemix,NA,NA,TRUE,FALSE
+Hedera,NA,NA,TRUE,FALSE
+Hedera helix,Bergflette,NA,TRUE,FALSE
+Helichrysum,NA,NA,TRUE,FALSE
+Helicrisium,Stråblomslekta,NA,TRUE,FALSE
+Helleborus,Julerose,NA,TRUE,FALSE
+Holcus lanatus,englodnegras,NA,TRUE,FALSE
+Howea sp.,NA,NA,FALSE,TRUE
+Humulus cf. yunnanensis,sommerfuglbusk,NA,FALSE,TRUE
+Hydrangea,Hortensia,NA,TRUE,FALSE
+Hydrangea anomala,Klatrehortensia,NA,TRUE,FALSE
+Hydrangea macrophylla,NA,NA,TRUE,FALSE
+Hydrangea paniculata,Syrinhortensia,NA,TRUE,FALSE
+Ilex,Kristtornslekta,NA,TRUE,FALSE
+Juncus articulatus,NA,NA,TRUE,FALSE
+Juncus bufonius,paddesiv,NA,TRUE,FALSE
+Juncus bulbosus,sumpsiv,NA,TRUE,FALSE
+Juncus cf. conglomeratus,NA,NA,TRUE,FALSE
+Juncus cf. effusus,NA,NA,TRUE,FALSE
+Juncus cf. filiformis,bergrørkvein,NA,TRUE,FALSE
+Juncus compressus,flatsiv,NA,TRUE,FALSE
+Juncus conglomeratus,knappsiv,NA,TRUE,FALSE
+Juncus filiformis,trådsiv,NA,TRUE,FALSE
+Juniperus,Einer,NA,TRUE,FALSE
+Juniperus chinensis,Kinaeiner,NA,TRUE,FALSE
+Juniperus/Picea,Einer/Gran,NA,TRUE,FALSE
+Juniperus procumbens,NA,NA,TRUE,FALSE
+Juniperus squamata,NA,NA,TRUE,FALSE
+Lactuca muralis,NA,NA,TRUE,FALSE
+Lamium amplexicaule ssp. amplexicaule,åkertvetann,NA,TRUE,FALSE
+Lamium confertum,vrangtvetann,NA,TRUE,FALSE
+Larix kaempferi,Japanlerk,NA,TRUE,FALSE
+Laurus nobilis,Ekte laurbær,NA,TRUE,FALSE
+Lavandula,Lavendel,NA,TRUE,FALSE
+Lavandula angustifolia,NA,NA,TRUE,FALSE
+Lepidotheca suaveolens,tunbalderbrå,NA,TRUE,FALSE
+Leucophyta brownii,NA,NA,TRUE,FALSE
+Ligustrum,Ligusterslekta,NA,TRUE,FALSE
+Lycopersicon esculentum,NA,NA,TRUE,FALSE
+Lythrum salicaria,kattehale,NA,TRUE,FALSE
+Magnolia sieboldii,Junimagnolia,NA,TRUE,FALSE
+Mandevilla,NA,NA,TRUE,FALSE
+Mandevilla sanderi,NA,NA,TRUE,FALSE
+Matricaria chamomilla,kamilleblom,NA,TRUE,FALSE
+Matricaria discoidea,NA,NA,TRUE,FALSE
+Matricaria perforata,balderbrå,NA,TRUE,FALSE
+Medicago,NA,NA,TRUE,FALSE
+Medicago polymorpha,NA,NA,TRUE,FALSE
+Mercurialis annua,ugrasbingel,NA,FALSE,TRUE
+Mesembryanthemum criniflorum,NA,NA,TRUE,FALSE
+Microbiota decussata,Småbiota,NA,TRUE,FALSE
+Miscanthus,NA,NA,TRUE,FALSE
+Miscanthus sinensis,NA,NA,TRUE,FALSE
+Montia fontana,NA,NA,FALSE,TRUE
+Nerium oleander,Oleander,NA,TRUE,FALSE
+Ocimum basilicum,Basilikum,NA,TRUE,FALSE
+Olea cf. europaea,NA,NA,FALSE,TRUE
+Olea europaea,Oliven,NA,TRUE,FALSE
+Omalotheca sylvatica,Flaskebørste,NA,TRUE,FALSE
+Origanum vulgare,Oregano,NA,TRUE,FALSE
+Osteospermum,NA,NA,TRUE,FALSE
+Oxalis corniculata,krypgjøkesyre,NA,FALSE,TRUE
+Oxalis corniculata var. atropurpurea,Trompettre,NA,TRUE,FALSE
+Oxalis dillenii,skjermgjøkesyre,NA,FALSE,TRUE
+Oxybasis glaucum,blåmelde,NA,TRUE,FALSE
+Oxybasis urbica,bymelde,NA,FALSE,TRUE
+Oxycoccus,Tranebærslekta,NA,FALSE,TRUE
+Paeonia,Pion,NA,TRUE,FALSE
+Panicum,NA,NA,TRUE,FALSE
+Panicum capillaceum,Dvergsypress,NA,FALSE,TRUE
+Panicum capillare,Buskkinapalme/dvergpalme,NA,FALSE,TRUE
+Panicum repens,Dvergpalme,NA,FALSE,TRUE
+Panicum virgatum,NA,NA,TRUE,FALSE
+Parietaria cf. officinalis,NA,NA,TRUE,FALSE
+Parietaria officinalis,legeblidnesle,NA,FALSE,TRUE
+Parthenocissus tricuspidata,NA,NA,TRUE,FALSE
+Passiflora caeruela,Pasjonsblomst,NA,TRUE,FALSE
+Persicaria lapathifolia,NA,NA,TRUE,FALSE
+Persicaria lapathifolia ssp. lapathifolia,NA,NA,TRUE,FALSE
+Persicaria lapathifolia ssp. mørkegrønn V,Sitrus,NA,TRUE,FALSE
+Persicaria lapathifolia ssp. pallida,grønt hønsegras,NA,TRUE,FALSE
+Persicaria maculosa,hønsegras,NA,TRUE,FALSE
+Philadelphus coronarius,Duftskjærsmin,NA,TRUE,FALSE
+Phlo subulata,NA,NA,TRUE,FALSE
+Phoenix canariensis,NA,NA,TRUE,FALSE
+Phyllostachys aureosulcata,Grønnfuret bambus,NA,TRUE,FALSE
+Picea,Gran,NA,TRUE,FALSE
+Picea abies,NA,NA,TRUE,FALSE
+Picea glauca,Hvitgran,NA,TRUE,FALSE
+Pinus sylvestris,NA,NA,TRUE,FALSE
+Plantago major ssp. major,ugrasgroblad,NA,TRUE,FALSE
+Plante latin,Plante Norsk,NA,TRUE,FALSE
+Platanus x acerifolia,NA,NA,FALSE,TRUE
+Poa annua,tunrapp,NA,TRUE,FALSE
+Poa nemoralis,lundrapp,NA,TRUE,FALSE
+Polycarpon tetraphyllum,tusenfrø,NA,FALSE,TRUE
+Polygala myrtifolia,NA,NA,TRUE,FALSE
+Polygonum arenastrum,tungras,NA,TRUE,FALSE
+Polygonum aviculare ssp. Microspermum,tomtegras,NA,TRUE,FALSE
+Portulaca oleracea,portulakk,NA,TRUE,FALSE
+Portulaca oleraceae ssp. xx,NA,NA,TRUE,FALSE
+Portulaca oleracea ssp. oleracea,ugrasportulakk,NA,FALSE,TRUE
+Portulaca oleracea ssp. sativa,matportulakk,NA,TRUE,FALSE
+Prunus,Kirsebærslekten,NA,TRUE,FALSE
+Prunus avium,Morell,NA,TRUE,FALSE
+Prunus domestica,Plomme,NA,TRUE,FALSE
+Prunus laurocerasus,Laurbærhegg,NA,TRUE,FALSE
+"Prunus, Ribes, Rubus",Div,NA,TRUE,FALSE
+Prunus triloba 'Rosimendel',Rosemandel,NA,TRUE,FALSE
+Quercus,Eik,NA,TRUE,FALSE
+Radiola linoides,dverglin,NA,TRUE,FALSE
+Ranunculus acris,bakkesoleie,NA,TRUE,FALSE
+Ranunculus sceleratus,tiggersoleie,NA,TRUE,FALSE
+Raphanus raphanistrum,villreddik,NA,TRUE,FALSE
+Rar frøplante,NA,NA,TRUE,FALSE
+Rhododendron,Rhododendronslekta,NA,TRUE,FALSE
+Ribes,NA,NA,TRUE,FALSE
+Ribes alpinum,Alperips,NA,TRUE,FALSE
+Ribes rubrum,hagerips,NA,FALSE,TRUE
+Ricinus communis,NA,NA,TRUE,FALSE
+Rorippa cf. austriaca,NA,NA,FALSE,TRUE
+Rorippa palustris,brønnkarse,NA,TRUE,FALSE
+Rorippa sylvestris,veikarse,NA,TRUE,FALSE
+Rosmarinus officinalis,Rosmarin,NA,FALSE,TRUE
+Rubus idaeus,Bringebær,NA,TRUE,FALSE
+Rumex acetosella ssp. acetosella,bakkesyre,NA,TRUE,FALSE
+Rumex obtusifolius,byhøymol,NA,TRUE,FALSE
+Sagina procumbens,tunsmåarve,NA,TRUE,FALSE
+Salix,Vierslekta,NA,TRUE,FALSE
+Salix alba,Hvitpil,NA,TRUE,FALSE
+Salix alba x fragilis,NA,NA,TRUE,FALSE
+Salix caprea,NA,NA,TRUE,FALSE
+Salix caprea 'kilmarnock',Selje,NA,TRUE,FALSE
+Salix caprea ssp. caprea,skogselje,NA,TRUE,FALSE
+Salix helvetica,Sveitservier,NA,TRUE,FALSE
+Salix myrsinifolia,NA,NA,TRUE,FALSE
+Salix myrsinifolia ssp. myrsinifolia,Spøkelsestre,NA,TRUE,FALSE
+Salix nigricans,NA,NA,TRUE,FALSE
+Salvia nemorosa,NA,NA,TRUE,FALSE
+Salvia officinalis,Salvie,NA,TRUE,FALSE
+Sanvitalia procumbens,krypsolknapp,NA,FALSE,TRUE
+Sedum annuum,NA,NA,TRUE,FALSE
+Senecio viscosus,klistersvineblom,NA,FALSE,TRUE
+Senecio vulgaris,åkersvineblom,NA,TRUE,FALSE
+Setaria,NA,NA,TRUE,FALSE
+Setaria sp. (hårete),NA,NA,TRUE,FALSE
+Setaria verticillata,vrang busthirse,NA,FALSE,TRUE
+Setaria viridis,korsmaure,NA,TRUE,FALSE
+Solanum nigrum ssp. nigrum,svartsøtvier,NA,TRUE,FALSE
+Solanum nigrum ssp. schultzii,vortemelkslekta,NA,TRUE,FALSE
+Solanum sarrachoides,NA,NA,TRUE,FALSE
+Solanum tuberosum 'Amandine',FinnesINorge,NA,FALSE,TRUE
+Sonchus asper,stivdylle,NA,TRUE,FALSE
+Sonchus oleraceus,haredylle,NA,TRUE,FALSE
+Spartina cf. anglica,Gyvel,NA,TRUE,FALSE
+Spergula arvensis,linbendel,NA,TRUE,FALSE
+Spergularia rubra,tunbendel,NA,FALSE,TRUE
+Spiraea bumalda,Rosespirea,NA,TRUE,FALSE
+Stellaria media,vassarve,NA,TRUE,FALSE
+Syringa vulgaris,Syrin,NA,TRUE,FALSE
+Taraxacum gr. Ruderalia,NA,NA,TRUE,FALSE
+Taraxacum officinalis,NA,NA,TRUE,FALSE
+Taxus baccata,Barlind,NA,TRUE,FALSE
+Taxus media,NA,NA,TRUE,FALSE
+Thuja,Tujaslekten,NA,TRUE,FALSE
+Thuja occidentalis,NA,NA,FALSE,TRUE
+Thuja plicata,Kjempetuja,NA,TRUE,FALSE
+Thunbergia alata,NA,NA,TRUE,FALSE
+Thymus,Timianslekten,NA,TRUE,FALSE
+Trachycarpus fortunei,Vindmøllepalme,NA,TRUE,FALSE
+Trifolium dubium,NA,NA,TRUE,FALSE
+Trifolium pratensis,rødkløver,NA,TRUE,FALSE
+Urtica cf. dioica,NA,NA,TRUE,FALSE
+Urtica dioica,stornesle,NA,TRUE,FALSE
+Urtica urens,Smånesle,NA,TRUE,FALSE
+Urtica urens / dioica,NA,NA,TRUE,FALSE
+Vaccinium corymbosum,Hageblåbær,NA,TRUE,FALSE
+Vaccinium oxycoccus,Diverse,NA,TRUE,FALSE
+Veronica arvensis,NA,NA,TRUE,FALSE
+Veronica peregrina,vandreveronika,NA,TRUE,FALSE
+Veronica peregrina ssp. peregrina,Snelle,NA,FALSE,TRUE
+Veronica serpyllifolia ssp. serpyllifolia,bleikveronika,NA,TRUE,FALSE
+Viburnum opulus,korsved,NA,TRUE,FALSE
+Viola arvensis,åkerstemorsblom,NA,TRUE,FALSE
+Vitis vinifera,Vinranke,NA,TRUE,FALSE

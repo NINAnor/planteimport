@@ -1,0 +1,228 @@
+---
+title: "Data format for punching alien stowaway data"
+author: "Jens Åström"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: 
+  NinaR::jensAnalysis:
+    highlight: tango
+    fig_caption: yes
+    toc: yes
+---
+
+
+```{r, include = F}
+#Some common packages, loading rmarkdown doesn't like the messages from tidyverse, so we don't include this in the document'
+require(tidyverse)
+require(DBI)
+require(RPostgres)
+require(ggplot2)
+require(xtable)
+require(NinaR)
+require(dbplyr)
+#require(xlsx)
+```
+
+
+```{r setup, include=FALSE}
+#This is optional
+#I choose the 'styler' package for tidying the code to preserve indentations
+#I set the cutoff for code tidying to 60, but this doesn't currently work with styler.
+#Set tidy = True to get the knitr default
+#I want all figures as png and pdf in high quality in a subfolder called figure 
+
+knitr::opts_chunk$set(echo = TRUE, 
+                      tidy = "styler",
+                      dev = c("png", "pdf"),
+                      dpi = 600,
+                      fig.path = "figure/",
+                      tidy.opts = list(width.cutoff = 60)
+                      )
+
+options(xtable.comment = F, 
+        xtable.include.rownames = F, 
+        nina.logo.y.pos = 0.15)
+palette(ninaPalette())
+```
+
+
+
+```{r, include = F, eval = T}
+#This connects to the gisdatabase with a DBI connection named `con`.
+#Use for example dbGetQuery(con, "SELECT * FROM ....") to query the database
+
+source("~/.rpgpass")
+postgreSQLConnect(host = "ninradardata01.nina.no", 
+                 dbname = "planteimport", 
+                 username = username, 
+                 password = password)
+```
+
+Intro
+=======
+This script creates examples of the tables in the planteimport-database, which can be used for punching new data. The idea is that importing the data could could be faster if the data was punched in this format from the start. Currently I have to do a lot of rearranging and changing of names manually.
+
+
+Container table
+==========
+This table holds the information of the sampled containers. This is already punched in a very similar format to the table in the database, so we could just continue using this format. Whenever there's a new locality or new exporter, we also need to import these into their respective lookup tables. This happens so infrequently that we probably can to this manually. NB! Don't use the same locality name if the locality has changed. For example "Blomsteringen" is one unique location now. If blomsteringen uses different sample locations, we should split them up with separate names.
+
+This is one row in the container table.
+
+```{r}
+containers <- tbl(con, in_schema("common", "containers"))
+
+containers %>% 
+  print(n = 1,
+        width = Inf)
+```
+When punching, you don't need to fill the "id" column. That is internal to the database. I'll write out a small sample that could be used for punching (but the one we already use is fine!).
+
+
+```{r}
+containers %>% 
+  select(-id) %>%  #internal primary key in database
+  collect() %>% 
+  slice(1:5) %>% 
+  write_csv(path = "out/example_containers.csv")
+
+```
+
+Insect container records 
+===========
+This table holds all invertebrate data from the containers. So far, we have only imported the container records in the database, and we will make similar tables for the other collected invertebrates.
+
+```{r}
+insect_container_records <- tbl(con, in_schema("insects", "container_records"))
+
+```
+
+There are some colums that are filled automatically in the database; id, latinsknavnid, last_updated_by, last_updated. Project_id is left blank for now, but could be specified if we want to separate the findings from different projects (contracts?). So these columns are the only ones that we need to punch (project id can be left blank):
+
+```{r}
+insect_container_records %>% 
+  select(-c(id, latinsknavnid, last_updated_by, last_updated)) %>% 
+  arrange(container, subsample, species_latin) 
+```
+
+I'll write out a short sample that could be used for future punching.
+
+```{r}
+insect_container_records %>% 
+  select(-c(id, latinsknavnid, last_updated_by, last_updated)) %>% 
+  arrange(container, subsample, species_latin) %>% 
+  collect() %>% 
+  slice(1:5) %>% 
+  write_csv(path = "out/example_insect_container_records.csv")
+```
+
+Insect species names
+==========
+All invertebrate records need to conform to a list of species names, stored in another table. As new species are discovered, we will add these to the list of names. This list of names is compared to artsnavneliste from artsdatabanken. In the future we will add the black list to the database to be able to update the black list categories automatically (as automatic as possible). Other alien species lists are also possible to import. We have both a column called "native" and one called "alien". They are not 100% exclusive, as it appears that some species may not be found earlier in Norway, but still isn't known to be alien.
+
+Note that we use a single column called **species_latin** for the unique names of the species or "taxa" we find. This is the columns that are used to match species between tables. In case of juveniles, we specify the juvenile status at the end of the species names, as can be seen in the example. Yes, there still is some cleaning up to do here.
+
+There are quite a few colums in this table that is either filled automatically, or could be filled once and for all by me, using matches from the artsnavnebase. For new species, we will add new rows to this table. Currently, it would be good to fill out all these lines:
+
+```{r}
+insect_species <- tbl(con, in_schema("insects", "species"))
+```
+
+
+```{r}
+insect_species %>% 
+  collect() %>% 
+  group_by(stadium) %>% 
+  slice(1) %>% 
+  select(species_latin,
+         stadium,
+         indetermined,
+         autorstring,
+         native,
+         alien,
+         blacklist_cat)
+```
+
+I here include the complete list of the "species names" known in the database as of today. **All new records should use these names** if there isn't a true new "species". 
+
+```{r}
+insect_species %>% 
+  arrange(species_latin) %>% 
+  select(species_latin,
+         stadium,
+         indetermined,
+         autorstring,
+         native,
+         alien,
+         blacklist_cat) %>% 
+  collect() %>% 
+  write_csv(path = "out/example_insect_species_names.csv")
+```
+
+
+Plant records
+=======
+The plant records are a little bit simpler, but here we need to make a note of if they where found before or after vernalisation.
+
+```{r}
+plant_container_records <- tbl(con, in_schema("plants", "container_records"))
+
+plant_container_records %>% 
+  select(-c(id, 
+            last_updated_by,
+            last_updated))
+  
+```
+I'll write out a short sample that could be used for future punching. 
+
+
+```{r}
+plant_container_records %>% 
+  select(-c(id, 
+            latinsknavnid,
+            projectid,
+            last_updated_by,
+            last_updated)) %>% 
+  collect() %>% 
+  slice(1:5) %>% 
+  write_csv(path = "out/example_plant_container_records.csv")
+```
+
+
+Plant species names
+==========
+The plant species names are stored in a simpler table than the insects. That's because the original insect table was more complex to start with. 
+
+```{r}
+plant_species <- tbl(con, in_schema("plants", "species")) 
+
+```
+
+For new plant species, it would be good to record at least the columns listed below. NB, autorstring is not important for me, but could be added if you like. Like for insects, the separate columns for native and alien is useful when the status is "complicated" or we haven't identified the specimen to species. I will add a column "indetermined" here as well (need to get datahjelp to change the ownership of the table).
+
+```{r}
+plant_species %>% 
+  select(species_latin,
+         species_norsk,
+         autorstreng,
+         native,
+         alien)
+```
+
+I'll write out a complete list of all plant species known in the database so far. Also here, there are some cleaning up to do.
+
+```{r}
+
+plant_species %>% 
+  arrange(species_latin) %>% 
+    select(species_latin,
+           species_norsk,
+           autorstreng,
+           native,
+           alien) %>% 
+  collect() %>% 
+  write_csv(path = "out/example_plant_species_names.csv")
+
+```
+
+
+Happy punching!

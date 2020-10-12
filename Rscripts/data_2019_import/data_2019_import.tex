@@ -1,0 +1,530 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={Dataimport of 2019 data - Planteimport},
+            pdfauthor={Jens Åström},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+  \title{Dataimport of 2019 data - Planteimport}
+  \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+  \author{Jens Åström}
+  \preauthor{\centering\large\emph}
+  \postauthor{\par}
+  \predate{\centering\large\emph}
+  \postdate{\par}
+  \date{25 September, 2020}
+
+
+%\linespread{1.3}
+
+
+% You know, for landscape
+\usepackage{lscape}
+\usepackage{pdfpages}
+
+
+% pandoc does not parse latex env - https://groups.google.com/forum/?fromgroups=#!topic/pandoc-discuss/oZETB5Ii1Cw
+\newcommand{\blandscape}{\begin{landscape}}
+\newcommand{\elandscape}{\end{landscape}}
+
+% Make new page before each section
+%\let\stdsection\section
+%\renewcommand\section{\newpage\stdsection}
+
+% Highlight inline `code`
+\usepackage{soul}
+\usepackage{xcolor}
+
+\definecolor{Light}{gray}{.97}
+\sethlcolor{Light}
+
+\let\OldTexttt\texttt
+\renewcommand{\texttt}[1]{\OldTexttt{\hl{#1}}}
+
+
+\clubpenalty=10000      %kara za sierotki
+\widowpenalty=10000  % nie pozostawiaj wdów
+\brokenpenalty=10000    % nie dziel wyrazów miêdzy stronami
+\exhyphenpenalty=999999   % nie dziel s³ów z myœlnikiem
+\righthyphenmin=3     % dziel minimum 3 litery
+
+\renewcommand{\topfraction}{0.95}
+\renewcommand{\bottomfraction}{0.95}
+\renewcommand{\textfraction}{0.05}
+\renewcommand{\floatpagefraction}{0.35}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+\textbf{To-do}
+
+\begin{itemize}
+\item
+  Check/ask if pdf\_present is Correct for 2018 and 2019 data. Only
+  ``x'' for 2019 data, but True for most in database. Tidy up the
+  exporter names, there's a mix aof names with and without company type
+  abbrevations, sometimes the same company both with and without
+  abbrevation. Remove all abbreviations seems to be the best.
+\item
+  Check the transport type for the rest of the containers. Says boat for
+  a few, and NA for the rest.
+\end{itemize}
+
+\hypertarget{intro}{%
+\section{Intro}\label{intro}}
+
+This script imports the 2019 alien stowaway data to the database.
+
+So far, we only deal with the container samples, where we have both
+plant and invertebrate data from soil samples of imported pots.
+
+\hypertarget{container-data}{%
+\section{Container data}\label{container-data}}
+
+This will add new rows to the table \texttt{common.containers} (schema
+common, table containers).
+
+We first see what the latest sample in the database currently is.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{conTab <-}\StringTok{ }\KeywordTok{tbl}\NormalTok{(con, }\KeywordTok{in_schema}\NormalTok{(}\StringTok{"common"}\NormalTok{, }\StringTok{"containers"}\NormalTok{))}
+
+\NormalTok{conTab }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{arrange}\NormalTok{(}\KeywordTok{desc}\NormalTok{(container),}
+\NormalTok{          subsample}
+\NormalTok{          ) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{select}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+So we have 87 containers and the last one is sampled in April 2018. Time
+to load the new data.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{newConDataRaw <-}\StringTok{ }\KeywordTok{read.xlsx}\NormalTok{(}\StringTok{"../../rawData/data_2019/Database2018 med 2019-data konteinere.xlsx"}\NormalTok{,}
+                        \DataTypeTok{detectDates =}\NormalTok{ T) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{as_tibble}\NormalTok{()}
+
+\NormalTok{newConDataRaw }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{select}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{8}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+So we subset the new data to contain only 2019 data.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{conData2019 <-}\StringTok{ }\NormalTok{newConDataRaw }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{filter}\NormalTok{(container }\OperatorTok{>}\StringTok{ }\DecValTok{87}\NormalTok{) }\CommentTok{#found above}
+
+\NormalTok{conData2019 }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{select}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{8}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+And test an import, find out what's wrong and fix it.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{dbBegin}\NormalTok{(con)}
+\KeywordTok{dbWriteTable}\NormalTok{(con,}
+             \KeywordTok{Id}\NormalTok{(}\DataTypeTok{schema =} \StringTok{"common"}\NormalTok{, }\DataTypeTok{table =} \StringTok{"containers"}\NormalTok{),}
+\NormalTok{             conData2019,}
+             \DataTypeTok{append =}\NormalTok{ T)}
+
+\KeywordTok{dbRollback}\NormalTok{(con)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{fixes-to-the-container-data}{%
+\section{Fixes to the container
+data}\label{fixes-to-the-container-data}}
+
+This came up through the quality check.
+
+\hypertarget{change-nax-to-logical-yesno.}{%
+\subsection{Change na/x to logical
+(yes/no).}\label{change-nax-to-logical-yesno.}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{conData2019 <-}\StringTok{ }\NormalTok{conData2019 }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{pdf_present =} \KeywordTok{as.logical}\NormalTok{(}\KeywordTok{ifelse}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(pdf_present), }\OtherTok{FALSE}\NormalTok{, }\OtherTok{TRUE}\NormalTok{)),}
+         \DataTypeTok{mattilsynet =} \KeywordTok{as.logical}\NormalTok{(}\KeywordTok{ifelse}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(mattilsynet), }\OtherTok{FALSE}\NormalTok{, }\OtherTok{TRUE}\NormalTok{)))}
+
+
+\CommentTok{# tt %>% }
+\CommentTok{#   select(pdf_present,}
+\CommentTok{#          mattilsynet) %>% }
+\CommentTok{#   print(n = Inf)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{change-the-missing-country-to-unknown-and-translate-country-to-english.-also-change-the-almost-duplicate-names-to-one-single-tysklandnederland-vs-nederlandtyskland-etc.}{%
+\subsection{Change the missing country to unknown and translate country
+to English. Also change the almost duplicate names to one single
+(Tyskland/Nederland vs Nederland/Tyskland
+etc.)}\label{change-the-missing-country-to-unknown-and-translate-country-to-english.-also-change-the-almost-duplicate-names-to-one-single-tysklandnederland-vs-nederlandtyskland-etc.}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{conData2019 <-}\StringTok{ }\NormalTok{conData2019 }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{country =} \KeywordTok{ifelse}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(country), }\StringTok{"Unknown"}\NormalTok{, country)) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{country =} \KeywordTok{ifelse}\NormalTok{(country }\OperatorTok{==}\StringTok{ "Nederland"}\NormalTok{, }\StringTok{"Netherlands"}\NormalTok{, country),}
+         \DataTypeTok{country =} \KeywordTok{ifelse}\NormalTok{(country }\OperatorTok{==}\StringTok{ "Tyskland"}\NormalTok{, }\StringTok{"Germany"}\NormalTok{, country),}
+         \DataTypeTok{country =} \KeywordTok{ifelse}\NormalTok{(country }\OperatorTok{==}\StringTok{ "Tyskland/Nederland"}\NormalTok{, }\StringTok{"Germany, Netherlands"}\NormalTok{, country),}
+         \DataTypeTok{country =} \KeywordTok{ifelse}\NormalTok{(country }\OperatorTok{==}\StringTok{ "Litauen/Tyskland"}\NormalTok{, }\StringTok{"Germany, Lithuania"}\NormalTok{, country),}
+         \DataTypeTok{country =} \KeywordTok{ifelse}\NormalTok{(country }\OperatorTok{==}\StringTok{ "Italia"}\NormalTok{, }\StringTok{"Italy"}\NormalTok{, country),}
+         \DataTypeTok{country =} \KeywordTok{ifelse}\NormalTok{(country }\OperatorTok{==}\StringTok{ "Nederland/Tyskland"}\NormalTok{, }\StringTok{"Germany, Netherlands"}\NormalTok{, country),}
+         \DataTypeTok{country =} \KeywordTok{ifelse}\NormalTok{(country }\OperatorTok{==}\StringTok{ "Italia/Nederland"}\NormalTok{, }\StringTok{"Netherlands, Italy"}\NormalTok{, country),}
+         \DataTypeTok{country =} \KeywordTok{ifelse}\NormalTok{(country }\OperatorTok{==}\StringTok{ "Spania"}\NormalTok{, }\StringTok{"Spain"}\NormalTok{, country),}
+         \DataTypeTok{country =} \KeywordTok{ifelse}\NormalTok{(country }\OperatorTok{==}\StringTok{ "Danmark"}\NormalTok{, }\StringTok{"Denmark"}\NormalTok{, country),}
+         \DataTypeTok{country =} \KeywordTok{ifelse}\NormalTok{(country }\OperatorTok{==}\StringTok{ "Tyskland/Litauen"}\NormalTok{, }\StringTok{"Germany, Lithuania"}\NormalTok{, country))}
+
+
+\NormalTok{conData2019 }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{select}\NormalTok{(country) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{distinct}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+Add the new ``countries'' to the lookup table of countries.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{dbWriteTable}\NormalTok{(con,}
+             \KeywordTok{Id}\NormalTok{(}\DataTypeTok{schema =} \StringTok{"common"}\NormalTok{, }\DataTypeTok{table =} \StringTok{"country"}\NormalTok{),}
+             \KeywordTok{tibble}\NormalTok{(}\DataTypeTok{country =} \KeywordTok{c}\NormalTok{(}\StringTok{"Unknown"}\NormalTok{,}
+                                \StringTok{"Germany, Netherlands"}\NormalTok{,}
+                                \StringTok{"Germany, Lithuania"}\NormalTok{,}
+                                \StringTok{"Netherlands, Italy"}\NormalTok{,}
+                                \StringTok{"Spain"}\NormalTok{)),}
+             \DataTypeTok{append =}\NormalTok{ T)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{tidy-up-exporter-names-and-add-new-exporters-to-the-lookup-table.}{%
+\subsection{Tidy up exporter names and add new exporters to the lookup
+table.}\label{tidy-up-exporter-names-and-add-new-exporters-to-the-lookup-table.}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{conData2019 }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{select}\NormalTok{(exporter) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{arrange}\NormalTok{(exporter) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{distinct}\NormalTok{()}
+
+
+\NormalTok{exporter <-}\StringTok{ }\KeywordTok{tbl}\NormalTok{(con, }
+                 \KeywordTok{in_schema}\NormalTok{(}\StringTok{"common"}\NormalTok{, }\StringTok{"exporter"}\NormalTok{))}
+\NormalTok{exporter }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{select}\NormalTok{(exporter) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{print}\NormalTok{(}\DataTypeTok{n =} \OtherTok{Inf}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+These are the fixes I made.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{conData2019 <-}\StringTok{ }\NormalTok{conData2019 }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{exporter =} \KeywordTok{ifelse}\NormalTok{(exporter }\OperatorTok{==}\StringTok{ "Aris B.V."}\NormalTok{, }\StringTok{"Aris"}\NormalTok{, exporter),}
+         \DataTypeTok{exporter =} \KeywordTok{ifelse}\NormalTok{(exporter }\OperatorTok{==}\StringTok{ "Aris B V"}\NormalTok{, }\StringTok{"Aris"}\NormalTok{, exporter),}
+         \DataTypeTok{exporter =} \KeywordTok{ifelse}\NormalTok{(exporter }\OperatorTok{==}\StringTok{ "Aris B V / Plantagen Source GmbH"}\NormalTok{, }\StringTok{"Plantagen source, Aris"}\NormalTok{, exporter),}
+         \DataTypeTok{exporter =} \KeywordTok{ifelse}\NormalTok{(exporter }\OperatorTok{==}\StringTok{ "Floranordic bv ."}\NormalTok{, }\StringTok{"Floranordic"}\NormalTok{, exporter),}
+         \DataTypeTok{exporter =} \KeywordTok{ifelse}\NormalTok{(exporter }\OperatorTok{==}\StringTok{ "Floranordic bv,"}\NormalTok{, }\StringTok{"Floranordic"}\NormalTok{, exporter),}
+         \DataTypeTok{exporter =} \KeywordTok{ifelse}\NormalTok{(exporter }\OperatorTok{==}\StringTok{ "Noviflora Holland B.V."}\NormalTok{, }\StringTok{"Noviflora Holland"}\NormalTok{, exporter),}
+         \DataTypeTok{exporter =} \KeywordTok{ifelse}\NormalTok{(exporter }\OperatorTok{==}\StringTok{ "Az agr Anania Patrizia - ME/19/0953"}\NormalTok{, }\StringTok{"Anania Patrizia"}\NormalTok{, exporter),}
+         \DataTypeTok{exporter =} \KeywordTok{ifelse}\NormalTok{(exporter }\OperatorTok{==}\StringTok{ "CATTANEO BRUNO S.r.l,"}\NormalTok{, }\StringTok{"Cattaneo Bruno"}\NormalTok{, exporter),}
+         \DataTypeTok{exporter =} \KeywordTok{ifelse}\NormalTok{(exporter }\OperatorTok{==}\StringTok{ "Elbers Export GmbH"}\NormalTok{, }\StringTok{"Elbers Export"}\NormalTok{, exporter),}
+         \DataTypeTok{exporter =} \KeywordTok{ifelse}\NormalTok{(exporter }\OperatorTok{==}\StringTok{ "3IAMBO' PIANTE Dl VITO GIAMBO' (cod. reg. ME/19/1627) / Aris B.V."}\NormalTok{, }\StringTok{"GIAMBO PIANTE DI VITO GIAMBO, Aris"}\NormalTok{, exporter),}
+         \DataTypeTok{exporter =} \KeywordTok{ifelse}\NormalTok{(exporter }\OperatorTok{==}\StringTok{ "Noviflora Holland B.V."}\NormalTok{, }\StringTok{"Noviflora Holland"}\NormalTok{, exporter),}
+         \DataTypeTok{exporter =} \KeywordTok{ifelse}\NormalTok{(exporter }\OperatorTok{==}\StringTok{ "PIantagen Source GmbH"}\NormalTok{, }\StringTok{"Plantagen source"}\NormalTok{, exporter),}
+         \DataTypeTok{exporter =} \KeywordTok{ifelse}\NormalTok{(exporter }\OperatorTok{==}\StringTok{ "PIantagen Source GmbH/JSC }\CharTok{\textbackslash{}"}\StringTok{Eglesakis}\CharTok{\textbackslash{}"}\StringTok{"}\NormalTok{, }\StringTok{"Plantagen source, Eglesakis"}\NormalTok{, exporter),}
+         \DataTypeTok{exporter =} \KeywordTok{ifelse}\NormalTok{(exporter }\OperatorTok{==}\StringTok{ "Plantagen Source GmbH"}\NormalTok{, }\StringTok{"Plantagen source"}\NormalTok{, exporter),}
+         \DataTypeTok{exporter =} \KeywordTok{ifelse}\NormalTok{(exporter }\OperatorTok{==}\StringTok{ "Plantagen Source GmbH"}\NormalTok{, }\StringTok{"Plantagen source"}\NormalTok{, exporter),}
+         \DataTypeTok{exporter =} \KeywordTok{ifelse}\NormalTok{(exporter }\OperatorTok{==}\StringTok{ "PROVAL, S.A.T. N° 362 C.V"}\NormalTok{, }\StringTok{"SAT N 362 CV PROVAL"}\NormalTok{, exporter),}
+         \DataTypeTok{exporter =} \KeywordTok{ifelse}\NormalTok{(exporter }\OperatorTok{==}\StringTok{ "Plantagen Source GmbH/Aris B V"}\NormalTok{, }\StringTok{"Plantagen source, Aris"}\NormalTok{, exporter),}
+         \DataTypeTok{exporter =} \KeywordTok{ifelse}\NormalTok{(exporter }\OperatorTok{==}\StringTok{ "GIAMBO' PIANTE Dl VITO GIAMBO' (cod. reg. ME/19/1627)"}\NormalTok{, }\StringTok{"GIAMBO PIANTE DI VITO GIAMBO"}\NormalTok{, exporter),}
+         \DataTypeTok{exporter =} \KeywordTok{ifelse}\NormalTok{(exporter }\OperatorTok{==}\StringTok{ "JSC }\CharTok{\textbackslash{}"}\StringTok{Eglesakis}\CharTok{\textbackslash{}"}\StringTok{/Plantagen Source GmbH"}\NormalTok{, }\StringTok{"Plantagen source, Eglesakis"}\NormalTok{, exporter),}
+         \DataTypeTok{exporter =} \KeywordTok{ifelse}\NormalTok{(exporter }\OperatorTok{==}\StringTok{ "Feldborg A/S"}\NormalTok{, }\StringTok{"Feldborg"}\NormalTok{, exporter),}
+         \DataTypeTok{exporter =} \KeywordTok{ifelse}\NormalTok{(exporter }\OperatorTok{==}\StringTok{ "Ikke i sertifikatet?"}\NormalTok{, }\StringTok{"Unknown"}\NormalTok{, exporter),}
+         \DataTypeTok{exporter =} \KeywordTok{ifelse}\NormalTok{(exporter }\OperatorTok{==}\StringTok{ "Sjekk - ikke i sertifikat"}\NormalTok{, }\StringTok{"Unknown"}\NormalTok{, exporter)}
+         
+\NormalTok{         ) }
+
+
+\NormalTok{conData2019 }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{select}\NormalTok{(exporter) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{arrange}\NormalTok{(exporter) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{distinct}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+We compare this more compact list of exporters to what is already stored
+in the database.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{expInData <-}\StringTok{ }
+\StringTok{  }\NormalTok{exporter }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{select}\NormalTok{(id,}
+         \DataTypeTok{expInData =}\NormalTok{ exporter) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{collect}\NormalTok{()}
+
+\NormalTok{conData2019 }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{select}\NormalTok{(exporter) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{distinct}\NormalTok{() }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{left_join}\NormalTok{(expInData, }
+            \DataTypeTok{by =} \KeywordTok{c}\NormalTok{(}\StringTok{"exporter"}\NormalTok{ =}\StringTok{ "expInData"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+And update the table with the missing exporters.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{expToImport <-}\StringTok{ }\NormalTok{conData2019 }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{select}\NormalTok{(exporter) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{distinct}\NormalTok{() }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{left_join}\NormalTok{(expInData, }
+            \DataTypeTok{by =} \KeywordTok{c}\NormalTok{(}\StringTok{"exporter"}\NormalTok{ =}\StringTok{ "expInData"}\NormalTok{)) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{filter}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(id)) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{select}\NormalTok{(}\OperatorTok{-}\NormalTok{id)}
+
+\NormalTok{expToImport}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{dbWriteTable}\NormalTok{(con, }
+             \KeywordTok{Id}\NormalTok{(}\DataTypeTok{schema =} \StringTok{"common"}\NormalTok{, }\DataTypeTok{table =} \StringTok{"exporter"}\NormalTok{),}
+\NormalTok{             expToImport,}
+             \DataTypeTok{append =}\NormalTok{ T)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{update-the-missing-transport_types.-ive-added-the-boat-type-to-the-lookup-table}{%
+\subsection{Update the missing transport\_types. (I've added the
+``Boat'' type to the lookup
+table)}\label{update-the-missing-transport_types.-ive-added-the-boat-type-to-the-lookup-table}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{conData2019 }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{select}\NormalTok{(transport_type) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{distinct}\NormalTok{()}
+
+\NormalTok{conData2019 <-}\StringTok{ }\NormalTok{conData2019 }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{transport_type =} \KeywordTok{ifelse}\NormalTok{(transport_type }\OperatorTok{==}\StringTok{ "Båt"}\NormalTok{, }\StringTok{"Boat"}\NormalTok{, transport_type))}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{update-the-species-list-with-the-new-import-species}{%
+\subsection{Update the species list with the new import
+species}\label{update-the-species-list-with-the-new-import-species}}
+
+Fix obvious errors, like trim white spaces and uppercase genus.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{conData2019 <-}\StringTok{ }\NormalTok{conData2019 }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{species_latin =} \KeywordTok{str_trim}\NormalTok{(species_latin)) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{species_latin =} \KeywordTok{str_to_sentence}\NormalTok{(species_latin))}
+\end{Highlighting}
+\end{Shaded}
+
+Change some naming errors.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{conData2019 <-}\StringTok{ }\NormalTok{conData2019 }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{species_latin =} \KeywordTok{ifelse}\NormalTok{(species_latin }\OperatorTok{==}\StringTok{ "Juniperus chi"}\NormalTok{, }\StringTok{"Juniperus chinensis"}\NormalTok{, species_latin),}
+         \DataTypeTok{species_latin =} \KeywordTok{ifelse}\NormalTok{(species_latin }\OperatorTok{==}\StringTok{ "Salix capra"}\NormalTok{, }\StringTok{"Salix caprea"}\NormalTok{, species_latin),}
+         \DataTypeTok{species_latin =} \KeywordTok{ifelse}\NormalTok{(species_latin }\OperatorTok{==}\StringTok{ "Festicua glauca"}\NormalTok{, }\StringTok{"Festuca glauca"}\NormalTok{, species_latin),}
+         \DataTypeTok{species_latin =} \KeywordTok{ifelse}\NormalTok{(species_latin }\OperatorTok{==}\StringTok{ "Fragesia"}\NormalTok{, }\StringTok{"Fargesia"}\NormalTok{, species_latin),}
+         \DataTypeTok{species_latin =} \KeywordTok{ifelse}\NormalTok{(species_latin }\OperatorTok{==}\StringTok{ "Deschamsia caespitosa"}\NormalTok{, }\StringTok{"Deschamsia cespitosa"}\NormalTok{, species_latin))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{impSpecies2019 <-}\StringTok{ }\NormalTok{conData2019 }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{select}\NormalTok{(species_latin) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{distinct}\NormalTok{() }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{arrange}\NormalTok{() }
+
+\NormalTok{plantSpeciesInDatabase <-}\StringTok{ }\KeywordTok{tbl}\NormalTok{(con, }\KeywordTok{in_schema}\NormalTok{(}\StringTok{"plants"}\NormalTok{, }\StringTok{"species"}\NormalTok{))}
+
+\NormalTok{plantSpeciesInDatabase <-}\StringTok{ }\NormalTok{plantSpeciesInDatabase }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{select}\NormalTok{(id, species_latin) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{distinct}\NormalTok{() }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{arrange}\NormalTok{() }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{collect}\NormalTok{()}
+
+
+\NormalTok{plantsNotInDatabase <-}\StringTok{ }\NormalTok{impSpecies2019 }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{left_join}\NormalTok{(plantSpeciesInDatabase,}
+            \DataTypeTok{by =} \KeywordTok{c}\NormalTok{(}\StringTok{"species_latin"}\NormalTok{ =}\StringTok{ "species_latin"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+These are the new ``species'' in the container data for 2019. Some
+trailing white spaces and some genus names not capitalized.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{plantsNotInDatabase }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{filter}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(id)) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{arrange}\NormalTok{() }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{print}\NormalTok{(}\DataTypeTok{n =} \OtherTok{Inf}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{import-new-species-names-to-the-lookup-table}{%
+\subsection{Import new species names to the lookup
+table}\label{import-new-species-names-to-the-lookup-table}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{plantsToImport <-}\StringTok{ }\NormalTok{plantsNotInDatabase }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{filter}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(id)) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{arrange}\NormalTok{(species_latin)  }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{select}\NormalTok{(}\OperatorTok{-}\NormalTok{id)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{dbWriteTable}\NormalTok{(con, }\KeywordTok{Id}\NormalTok{(}\DataTypeTok{schema =} \StringTok{"plants"}\NormalTok{, }\DataTypeTok{table =} \StringTok{"species"}\NormalTok{),}
+\NormalTok{             plantsToImport,}
+             \DataTypeTok{append =}\NormalTok{ T)}
+\end{Highlighting}
+\end{Shaded}
+
+Some of the new names had matches in artsdatabankens artsnavnebase, and
+those that didn't seemed to have the correct spelling.
+
+\hypertarget{import-the-container-data}{%
+\subsection{Import the container data}\label{import-the-container-data}}
+
+After this there is no further complaints from the database and we can
+import the data.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{dbWriteTable}\NormalTok{(con,}
+             \KeywordTok{Id}\NormalTok{(}\DataTypeTok{schema =} \StringTok{"common"}\NormalTok{, }\DataTypeTok{table =} \StringTok{"containers"}\NormalTok{),}
+\NormalTok{             conData2019,}
+             \DataTypeTok{append =}\NormalTok{ T)}
+\end{Highlighting}
+\end{Shaded}
+
+
+\end{document}

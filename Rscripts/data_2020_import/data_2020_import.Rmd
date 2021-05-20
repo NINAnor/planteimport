@@ -1,0 +1,727 @@
+---
+title: "Dataimport of 2020 data - Planteimport"
+author: "Jens Åström"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: 
+  NinaR::jensAnalysis:
+    highlight: tango
+    fig_caption: yes
+    toc: yes
+---
+
+
+
+```{r, include = F}
+#Some common packages, loading rmarkdown doesn't like the messages from tidyverse, so we don't include this in the document'
+require(tidyverse)
+require(DBI)
+require(RPostgres)
+require(ggplot2)
+require(xtable)
+require(NinaR)
+require(dbplyr)
+require(openxlsx)
+```
+
+
+```{r setup, include=FALSE}
+#This is optional
+#I choose the 'styler' package for tidying the code to preserve indentations
+#I set the cutoff for code tidying to 60, but this doesn't currently work with styler.
+#Set tidy = True to get the knitr default
+#I want all figures as png and pdf in high quality in a subfolder called figure 
+
+knitr::opts_chunk$set(echo = TRUE, 
+                      tidy = "styler",
+                      dev = c("png", "pdf"),
+                      dpi = 600,
+                      fig.path = "figure/",
+                      tidy.opts = list(width.cutoff = 60),
+                      eval = F
+                      )
+
+options(xtable.comment = F, 
+        xtable.include.rownames = F, 
+        nina.logo.y.pos = 0.15)
+palette(ninaPalette())
+```
+
+
+
+```{r, include = F, eval = T}
+#This connects to the gisdatabase with a DBI connection named `con`.
+#Use for example dbGetQuery(con, "SELECT * FROM ....") to query the database
+##Use your own "Windows" username and password
+source("~/.rpgpass")
+postgreSQLConnect(host = "ninradardata01.nina.no", 
+                 dbname = "planteimport", 
+                 username = username, 
+                 password = password)
+rm(list = c("username", "password"))
+```
+
+
+Intro
+===========
+This script imports the 2020 alien stowaway data to the database. 
+
+So far, we only deal with the container samples, where we have both plant and invertebrate data from soil samples of imported pots.
+
+
+Container data
+===========
+This will add new rows to the table `common.containers` (schema common, table containers).
+
+We first see what the latest sample in the database currently is.
+
+```{r}
+conTab <- tbl(con, in_schema("common", "containers"))
+
+conTab %>% 
+  arrange(desc(container),
+          subsample
+          ) %>% 
+  select(1:5)
+```
+So we have 98 containers and the last one is sampled in June 2019. 
+Time to load the new data.
+
+```{r}
+newConDataRaw <- read.xlsx("../../rawData/data_2020/Database2018 med 2019-20-data konteinere.xlsx",
+                        detectDates = T) %>% 
+  as_tibble()
+
+newConDataRaw %>% 
+  select(1:8)
+```
+
+So we subset the new data to contain only 2020 data.
+
+```{r}
+conData2020 <- newConDataRaw %>% 
+  filter(container > 98) #found above
+
+conData2020 %>% 
+  select(1:8)
+```
+
+And test an import, find out what's wrong and fix it.
+
+```{r}
+dbBegin(con)
+dbWriteTable(con,
+             Id(schema = "common", table = "containers"),
+             conData2020,
+             append = T)
+
+dbRollback(con)
+```
+
+Fixes to the container data
+==========
+This came up through the quality check.
+
+
+```{r}
+conData2020 %>% 
+  select(exporter) %>% 
+  print(n = Inf)
+```
+So, no exporter information. We have to set this to "Unknown". The database don't accept null values on this column.
+
+```{r}
+conData2020 <- conData2020 %>% 
+  mutate(exporter = "Unknown")
+```
+
+And pdf_present and mattilsynet is set as a boolean (true/false) in the database. Replacing null values with False.
+```{r}
+conData2020 %>% 
+  select(pdf_present,
+         mattilsynet,
+         exporter)
+```
+
+
+
+Change na/x to logical (yes/no).
+----------
+```{r}
+conData2020 <- conData2020 %>% 
+  mutate(pdf_present = as.logical(ifelse(is.na(pdf_present), FALSE, TRUE)),
+         mattilsynet = as.logical(ifelse(is.na(mattilsynet), FALSE, TRUE)))
+
+
+# tt %>% 
+#   select(pdf_present,
+#          mattilsynet) %>% 
+#   print(n = Inf)
+```
+
+Change the missing country to unknown and translate country to English. 
+------------
+We also have some legacy code to fix wrongly formatted country names.
+```{r}
+conData2020 %>% 
+  select(country) %>% 
+  distinct()
+```
+
+
+
+```{r}
+conData2020 <- conData2020 %>% 
+  mutate(country = ifelse(is.na(country), "Unknown", country)) %>% 
+  mutate(country = ifelse(country == "Nederland", "Netherlands", country),
+         country = ifelse(country == "Tyskland", "Germany", country),
+         country = ifelse(country == "Tyskland/Nederland", "Germany, Netherlands", country),
+         country = ifelse(country == "Litauen/Tyskland", "Germany, Lithuania", country),
+         country = ifelse(country == "Italia", "Italy", country),
+         country = ifelse(country == "Nederland/Tyskland", "Germany, Netherlands", country),
+         country = ifelse(country == "Italia/Nederland", "Netherlands, Italy", country),
+         country = ifelse(country == "Spania", "Spain", country),
+         country = ifelse(country == "Danmark", "Denmark", country),
+         country = ifelse(country == "Tyskland/Litauen", "Germany, Lithuania", country))
+
+
+conData2020 %>% 
+  select(country) %>% 
+  distinct()
+```
+
+
+
+
+
+There was also one sample that weren't from the container. It was marked with "X" as subsample and with plant_comment "Store, ikke konteinerprøve". We remove that.
+
+```{r}
+conData2020 <- conData2020 %>% 
+  filter(subsample != "X")
+```
+
+
+
+Update the species list with the new import species
+-------------------
+Fix obvious errors, like trim white spaces and uppercase genus.
+
+```{r}
+conData2020 <- conData2020 %>% 
+  mutate(species_latin = str_trim(species_latin)) %>% 
+  mutate(species_latin = str_to_sentence(species_latin))
+```
+
+Change some naming errors.
+```{r}
+conData2020 <- conData2020 %>% 
+  mutate(species_latin = ifelse(species_latin == "Salix capra", "Salix caprea", species_latin),
+         species_latin = ifelse(species_latin == "Sundaville", "Dipladenia sundaville", species_latin),
+         species_latin = ifelse(species_latin == "Hortensia", "Hydrangea", species_latin),
+         species_latin = ifelse(species_latin == "Fragesia", "Fargesia", species_latin)
+         )
+
+
+```
+
+Adding missing species
+--------
+This time, I added missing species manually into the database. 
+
+
+
+Import the container data
+---------
+After this there is no further complaints from the database and we can import the data.
+
+```{r}
+dbWriteTable(con,
+             Id(schema = "common", table = "containers"),
+             conData2020,
+             append = T)
+```
+
+Import Collembola and acari
+==========
+These files are aggregated by Oddvar, from Arne Fjellbergs raw data.
+
+```{r}
+coll_raw <- read_csv("../../rawData/data_2020/Konteinere2020_Collembola_til-database.csv")
+
+#coll_raw[1,]
+#coll_raw %>% 
+#  tail
+
+collData2020 <- coll_raw
+```
+
+```{r}
+dbBegin(con)
+dbWriteTable(con,
+             Id(schema = "insects", table = "container_records"),
+             collData2020,
+             append = T)
+
+dbRollback(con)
+
+```
+
+```{r}
+collData2020 <- collData2020 %>% 
+  mutate(species_latin = ifelse(species_latin == "Onychiurus sp. volinensis", "Onychiurus cf. volinensis", species_latin))
+```
+
+After this, the collembola is accepted.
+
+```{r}
+dbWriteTable(con,
+             Id(schema = "insects", table = "container_records"),
+             collData2020,
+             append = T)
+```
+
+
+```{r}
+acari_raw <- read_csv("../../rawData/data_2020/Konteinere2020_Acari_til-database.csv")
+
+#acari_raw[1,]
+#acari_raw %>% 
+#  tail
+
+acariData2020 <- acari_raw
+```
+
+```{r}
+acariData2020 <- acariData2020 %>% 
+  mutate(species_latin = ifelse(species_latin == "Acari indet.", "Acari spp.", species_latin))
+```
+
+
+
+```{r}
+dbBegin(con)
+dbWriteTable(con,
+             Id(schema = "insects", table = "container_records"),
+             acariData2020,
+             append = T)
+
+dbRollback(con)
+
+```
+
+```{r}
+dbWriteTable(con,
+             Id(schema = "insects", table = "container_records"),
+             acariData2020,
+             append = T)
+```
+
+
+
+
+Import the plant data
+=============
+I'm basing this on the excel file called "Copy of 2020-2023....", sheet nr 2. I've made another sheet where I get rid of the "contaminated" species (Betula pendula etc).
+
+
+
+```{r}
+plants2020Raw <- read.xlsx("../../rawData/data_2020/Copy of 2020-2023 - nytt prosjekt spiretall for karplanter-200.xlsx",
+                           sheet = "Til_database") %>% 
+  as_tibble()
+
+plants2020 <- plants2020Raw %>% 
+ filter(container != 'x') %>% 
+  mutate(container = as.integer(container)) %>% 
+  arrange(container,
+          subsample,
+          species_latin)
+
+plants2020
+```
+
+
+
+Next, we look at the species names that are new. (Have to do the later steps first to know which ones)
+
+```{r}
+plants2020 <- plants2020 %>% 
+  mutate(species_latin = ifelse(species_latin == "Amaranthus  med hakk i blad", "Amaranthus blitum", species_latin), #Eller bare "Amaranthus"
+         species_latin = ifelse(species_latin == "Amaranthus cf. blitum", "Amaranthus blitum", species_latin),
+         species_latin = ifelse(species_latin == "Amaranthus palmerii", "Amaranthus palmeri", species_latin),
+         species_latin = ifelse(species_latin == "Arabis hirsuta", "Arabis hirsuta ssp. hirsuta", species_latin),
+         species_latin = ifelse(species_latin == "Arabis thaliana", "Arabidopsis thaliana", species_latin),
+         species_latin = ifelse(species_latin == "Chenopidium album", "Chenopodium album", species_latin),
+         species_latin = ifelse(species_latin == "Chenopodium polyspermum", "Lipandra polysperma", species_latin),
+         species_latin = ifelse(species_latin == "Cirsium arvensis", "Cirsium arvense", species_latin),
+         species_latin = ifelse(species_latin == "Conyza candensis", "Conyza canadensis", species_latin),
+         species_latin = ifelse(species_latin == "Coronopus didymus", "Lepidium didymum", species_latin),
+         species_latin = ifelse(species_latin == "Epilobium cf. ciliatum coll.", "Epilobium ciliatum ssp. ciliatum", species_latin),
+         species_latin = ifelse(species_latin == "Epilobium ciliatum", "Epilobium ciliatum ssp. ciliatum", species_latin),
+         species_latin = ifelse(species_latin == "Erophila verna", "Draba verna", species_latin),
+         species_latin = ifelse(species_latin == "Euphorbia med hakk og opalgrønn", "Euphorbia serpens", species_latin), #Etter info fra Anders O.
+         species_latin = ifelse(species_latin == "Juncus cf. conglomeratus", "Juncus conglomeratus", species_latin),
+         species_latin = ifelse(species_latin == "Oxalis cornuiculata", "Oxalis corniculata", species_latin),
+         species_latin = ifelse(species_latin == "Persicaria lapthatifolium coll.", "Persicaria lapthatifolium", species_latin),
+         species_latin = ifelse(species_latin == "Plantago major", "Plantago major ssp. major", species_latin),
+         species_latin = ifelse(species_latin == "Poa annua ", "Poa annua", species_latin),
+         species_latin = ifelse(species_latin == "Rorippa palustis", "Rorippa palustris", species_latin),
+         species_latin = ifelse(species_latin == "Rorippa sylvestris ", "Rorippa sylvestris", species_latin),
+         species_latin = ifelse(species_latin == "Rumex acetosella", "Rumex acetosella ssp. acetosella", species_latin),
+         species_latin = ifelse(species_latin == "Solanum nigrum ssp. sarracoides", "Solanum sarrachoides", species_latin),
+         species_latin = ifelse(species_latin == "Solanum sarracoides", "Solanum sarrachoides", species_latin),  
+         species_latin = ifelse(species_latin == "Urtica diolica", "Urtica dioica", species_latin),
+         species_latin = ifelse(species_latin == "Persicaria lapthatifolium", "Persicaria lapathifolia", species_latin),
+         
+         species_latin = ifelse(species_latin == "Festuca pratensis", "Schedonorus pratensis", species_latin),
+         species_latin = ifelse(species_latin == "Salix trichocarpa", "Populus trichocarpa", species_latin)
+         
+         
+         
+)
+
+
+```
+
+
+Next, we sum the total amounts of every species in each subsample and vernalisation criterion.
+
+```{r}
+plants2020 <- plants2020 %>% 
+  group_by(container,
+           subsample,
+           species_latin,
+           vernalisation) %>% 
+  summarise(amount = sum(amount)) %>% 
+  ungroup()
+
+plants2020 %>% print(n = Inf)
+
+```
+
+
+
+```{r}
+plantSpeciesInDatabase <- tbl(con,
+                              Id(schema = "plants",
+                                 table = "species"))
+```
+
+
+Note: I changed the name "Arabis thaliana" to "Arabidopsis thaliana".
+
+```{r}
+plantNames2020 <- plants2020 %>% 
+  select(species_latin) %>% 
+  distinct() %>% 
+  arrange(species_latin)
+
+
+plantNames2020 %>% 
+   left_join(plantSpeciesInDatabase,
+             copy = T) %>% 
+   filter(is.na(id)) %>% 
+  select(species_latin) %>% 
+  print(n = Inf)
+
+# 
+# 1 Festuca pratensis 
+# 2 Sagina micropetala
+# 3 Salix trichocarpa 
+# 4 Salvia rosmarinus 
+# 5 Senecio sylvaticus
+# 6 Sonchus arvensis  
+# 7 Tilia cordata     
+# 8 Trifolium repens
+
+```
+
+
+Import new plant names to the species table
+----------
+Alien and native categories were added manually in the database for these few species. The species names and blacklist lookup seems to work.
+
+```{r}
+plantNamesToImport <- plantNames2020 %>% 
+   left_join(plantSpeciesInDatabase,
+             copy = T) %>% 
+   filter(is.na(id)) %>% 
+  select(species_latin)
+
+dbWriteTable(con, Id(schema = "plants", table = "species"),
+             plantNamesToImport,
+             append = T)
+
+```
+
+
+!!Problem!! Turns out I had already imported some of these data last year. The records noted up to 2020-01-30. But the counting continued after that...
+
+
+Check which data already exists in the DB. Decide if delete these before import will solve the issue. Seems like it might (from looking at the excel files.)
+
+```{r}
+old_data <- tbl(con,
+                Id(schema = "plants",
+                   table = "container_records"))
+
+
+already_there <- old_data %>% 
+  right_join(plants2020,
+             by = c("container" = "container",
+                    "subsample" = "subsample",
+                    "species_latin" = "species_latin",
+                    "vernalisation" = "vernalisation"),
+             copy = T) %>% 
+  filter(!is.na(id)) %>% 
+  arrange(container, subsample, vernalisation, species_latin) %>% 
+  collect()
+
+already_there %>% 
+  print(n = Inf)
+
+```
+
+```{r}
+diff <- already_there  %>% 
+  mutate(diff_amount = amount.x - amount.y) %>% 
+  filter(diff_amount != 0) 
+
+diff
+```
+
+So 15 samples disagree, but the new data all have more records. Probably some late records of germination after vernalisation that didn't make it into the excel sheet before I inserted the data last year. Seems safe to replace the existing data with the new ones.
+
+
+```{r}
+dbBegin(con)
+
+dbWriteTable(con,
+             Id(schema = "public",
+                table = "temp_ta_bort"),
+             already_there)
+
+delete_Q <- "
+SELECT cr.*
+FROM plants.container_records cr,
+public.temp_ta_bort
+WHERE cr.container = temp_ta_bort.container
+AND cr.subsample = temp_ta_bort.subsample
+AND cr.species_latin = temp_ta_bort.species_latin
+AND cr.vernalisation = temp_ta_bort.vernalisation
+"
+
+temp <- dbGetQuery(con,
+           delete_Q
+           ) %>% 
+  as_tibble()
+
+temp # same amount of rows
+
+
+delete_Q <- "
+DELETE
+FROM plants.container_records cr
+USING
+public.temp_ta_bort
+WHERE cr.container = temp_ta_bort.container
+AND cr.subsample = temp_ta_bort.subsample
+AND cr.species_latin = temp_ta_bort.species_latin
+AND cr.vernalisation = temp_ta_bort.vernalisation
+"
+
+dbSendQuery(con,
+           delete_Q
+           ) 
+
+
+dbRollback(con)
+```
+
+```{r}
+delete_Q <- "
+DELETE
+FROM plants.container_records cr
+USING
+public.temp_ta_bort
+WHERE cr.container = temp_ta_bort.container
+AND cr.subsample = temp_ta_bort.subsample
+AND cr.species_latin = temp_ta_bort.species_latin
+AND cr.vernalisation = temp_ta_bort.vernalisation
+"
+
+dbSendQuery(con,
+           delete_Q
+           ) 
+```
+
+
+Now time to insert the updated data
+
+```{r}
+dbBegin(con)
+
+dbWriteTable(con, Id(schema = "plants", table = "container_records"),
+             plants2020,
+             append = T)
+
+dbRollback(con)
+
+```
+
+And finally, import the new data.
+
+```{r}
+dbWriteTable(con, Id(schema = "plants", table = "container_records"),
+             plants2020,
+             append = T)
+```
+
+
+
+
+
+Old stuff here, delete.
+
+Invertebrates
+===========
+**To-do**
+
+
+* Check what "x" means for several species. Here I have deleted these x'es
+* Add a column in container table with preservation liquid. Some are propylenglycol in the 2019 data.
+* Add the comments of bad insect_liquid in some samples in container sample.
+* Change the names that only have matches to not "Gyldig" artsnavn.
+
+
+
+```{r}
+inv2019Raw <- read.xlsx( "../../rawData/data_2019/Konteinerprøver_invertebrater-2019.xlsx", sheet = "To_database") %>% as_tibble()
+
+inv2019Raw
+```
+
+```{r}
+inv2019Raw %>% 
+  select(`98-03`) %>% 
+  print(n = Inf)
+
+inv2019Raw %>% 
+  mutate(`98-03` = as.double(`98-03`)) %>% 
+  select(`98-03`) %>% 
+  print(n = Inf)
+```
+
+
+```{r}
+inv2019 <- inv2019Raw %>% 
+  mutate_at(3:ncol(.), as.double)
+
+inv2019 <- inv2019 %>% 
+  pivot_longer(cols = -c(species_latin, stadium),
+               names_to = "container")
+
+inv2019 <- inv2019 %>% 
+  separate(col = container,
+           into = c("container", "subsample"),
+           sep = "-") %>% 
+  select(everything(),
+         amount = value) %>% 
+  mutate(amount = replace_na(amount, 0)) %>% 
+  select(-stadium)
+  
+```
+We don't include Null records before, i.e. species that weren't found in a sample. We continue with this practice here.
+
+```{r}
+inv2019 <- inv2019 %>% 
+  filter(amount > 0)
+```
+
+
+
+
+Test import to temporary table
+
+```{r}
+dbSendStatement(con, "DROP TABLE IF EXISTS insects.cr_temp;")
+
+dbSendStatement(con, "CREATE TABLE insects.cr_temp (LIKE insects.container_records INCLUDING ALL);")
+
+dbSendStatement(con, "
+  ALTER TABLE insects.cr_temp ADD CONSTRAINT cr_records_fk FOREIGN KEY (container, subsample)
+        REFERENCES common.containers (container, subsample) MATCH FULL
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT;")
+
+dbSendStatement(con, "		
+   ALTER TABLE insects.cr_temp ADD   CONSTRAINT crrecords_species_fk FOREIGN KEY (species_latin)
+        REFERENCES insects.species (species_latin) MATCH FULL
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT;
+                ")
+
+dbSendStatement(con,
+                "INSERT INTO insects.cr_temp SELECT * FROM insects.container_records")
+
+```
+
+Check missing invertebrate names
+-------------
+I compare this missing list to what's in the database manually.
+
+```{r}
+invNamesInDatabase <- dbGetQuery(con,
+                                 "SELECT id, species_latin FROM insects.species")
+
+invNames2019 <- inv2019 %>% 
+  select(species_latin) %>% 
+  distinct() %>% 
+  left_join(invNamesInDatabase,
+            by = c("species_latin" = "species_latin")) %>% 
+  filter(is.na(id)) %>% 
+  arrange(species_latin)
+
+invNames2019 %>% 
+  print(n = Inf)
+```
+
+
+Add these species to the species table
+
+```{r}
+invNames2019 <- invNames2019 %>% 
+  select(-id)
+
+dbWriteTable(con, Id(schema = "insects", table = "species"),
+             invNames2019,
+             append = T)
+```
+
+
+
+```{r}
+dbWriteTable(con, Id(schema = "insects", table = "cr_temp"),
+             inv2019,
+             append = T)
+```
+<!-- We can import this temporary, if we remove the foreign key to the species table -->
+
+<!-- ```{r} -->
+<!-- dbSendStatement(con, "ALTER TABLE insects.cr_temp DROP CONSTRAINT crrecords_species_fk;") -->
+<!-- ``` -->
+
+```{r}
+dbWriteTable(con, Id(schema = "insects", table = "cr_temp"),
+             inv2019,
+             append = T)
+```
+Seems to work now. Importing in real table
+
+
+```{r}
+dbWriteTable(con, Id(schema = "insects", table = "container_records"),
+             inv2019,
+             append = T)
+```
+

@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99998 (TeX Live 2017/Debian) (preloaded format=xelatex 2020.2.13)  18 SEP 2020 13:46
+This is XeTeX, Version 3.14159265-2.6-0.99998 (TeX Live 2017/Debian) (preloaded format=xelatex 2020.12.10)  24 JUN 2021 15:11
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1010,360 +1010,345 @@ Package xcolor Warning: Incompatible color definition on input line 232.
 Package xcolor Warning: Incompatible color definition on input line 232.
 
 
-Package xcolor Warning: Incompatible color definition on input line 241.
+Overfull \hbox (80.25pt too wide) in paragraph at lines 239--239
+[]\TU/lmtt/m/n/10 ## Warning: The []path[] argument of []write_csv()[] is depre
+cated as of readr 1.4.0.[] 
+ []
+
+
+Overfull \hbox (59.25pt too wide) in paragraph at lines 239--239
+[]\TU/lmtt/m/n/10 ## Call []lifecycle::last_warnings()[] to see where this warn
+ing was generated.[] 
+ []
+
+
+Package xcolor Warning: Incompatible color definition on input line 248.
 
 [2]
 
-Package xcolor Warning: Incompatible color definition on input line 245.
+Package xcolor Warning: Incompatible color definition on input line 252.
 
 
-Package xcolor Warning: Incompatible color definition on input line 245.
+Package xcolor Warning: Incompatible color definition on input line 252.
 
 
-Package xcolor Warning: Incompatible color definition on input line 253.
+Package xcolor Warning: Incompatible color definition on input line 260.
 
 
-Package xcolor Warning: Incompatible color definition on input line 259.
+Package xcolor Warning: Incompatible color definition on input line 266.
 
 
-Package xcolor Warning: Incompatible color definition on input line 259.
+Package xcolor Warning: Incompatible color definition on input line 266.
 
 
-Overfull \hbox (75.0pt too wide) in paragraph at lines 278--278
+Overfull \hbox (75.0pt too wide) in paragraph at lines 285--285
 []\TU/lmtt/m/n/10 ## # Database:   postgres [jens.astrom@ninradardata01.nina.no
 :5432/planteimport][] 
  []
 
 
-Package xcolor Warning: Incompatible color definition on input line 282.
+Package xcolor Warning: Incompatible color definition on input line 289.
 
 
-Package xcolor Warning: Incompatible color definition on input line 291.
+Package xcolor Warning: Incompatible color definition on input line 298.
 
 
-Package xcolor Warning: Incompatible color definition on input line 291.
+Package xcolor Warning: Incompatible color definition on input line 298.
 
 [3]
 
-Package xcolor Warning: Incompatible color definition on input line 318.
+Package xcolor Warning: Incompatible color definition on input line 325.
 
 
-Package xcolor Warning: Incompatible color definition on input line 322.
+Package xcolor Warning: Incompatible color definition on input line 329.
 
 
-Package xcolor Warning: Incompatible color definition on input line 322.
+Package xcolor Warning: Incompatible color definition on input line 329.
 
 
-Package xcolor Warning: Incompatible color definition on input line 324.
+Package xcolor Warning: Incompatible color definition on input line 331.
 
 
-Package xcolor Warning: Incompatible color definition on input line 338.
+Package xcolor Warning: Incompatible color definition on input line 345.
 
 
-Package xcolor Warning: Incompatible color definition on input line 338.
+Package xcolor Warning: Incompatible color definition on input line 345.
 
 
-Overfull \hbox (90.75pt too wide) in paragraph at lines 351--351
+Overfull \hbox (90.75pt too wide) in paragraph at lines 358--358
 []\TU/lmtt/m/n/10 ##   species_latin     stadium  indetermined autorstring nati
 ve alien blacklist_cat[] 
  []
 
 
-Overfull \hbox (48.75pt too wide) in paragraph at lines 351--351
+Overfull \hbox (48.75pt too wide) in paragraph at lines 358--358
 []\TU/lmtt/m/n/10 ##   <chr>             <chr>    <lgl>        <chr>       <lgl
 >  <lgl> <chr>[] 
  []
 
 
-Overfull \hbox (43.5pt too wide) in paragraph at lines 351--351
-[]\TU/lmtt/m/n/10 ## 1 Supraphorura fur~ adult    FALSE        <NA>        FALS
+Overfull \hbox (43.5pt too wide) in paragraph at lines 358--358
+[]\TU/lmtt/m/n/10 ## 1 Ceratophysella c~ adult    FALSE        Folsom, 18~ FALS
+E  TRUE  <NA>[] 
+ []
+
+
+Overfull \hbox (43.5pt too wide) in paragraph at lines 358--358
+[]\TU/lmtt/m/n/10 ## 2 Arrhopalites sp.~ juvenile TRUE         <NA>        FALS
 E  FALSE <NA>[] 
  []
 
 
-Overfull \hbox (43.5pt too wide) in paragraph at lines 351--351
-[]\TU/lmtt/m/n/10 ## 2 Thysanoptera spp~ juvenile TRUE         <NA>        FALS
+Overfull \hbox (43.5pt too wide) in paragraph at lines 358--358
+[]\TU/lmtt/m/n/10 ## 3 Coleoptera spp. ~ larvae   TRUE         <NA>        FALS
 E  FALSE <NA>[] 
  []
 
 
-Overfull \hbox (43.5pt too wide) in paragraph at lines 351--351
-[]\TU/lmtt/m/n/10 ## 3 Elateridae spp. ~ larvae   TRUE         <NA>        FALS
-E  FALSE <NA>[] 
- []
-
-
-Overfull \hbox (43.5pt too wide) in paragraph at lines 351--351
+Overfull \hbox (43.5pt too wide) in paragraph at lines 358--358
 []\TU/lmtt/m/n/10 ## 4 Diptera spp. juv. larvae ~ TRUE         <NA>        FALS
 E  FALSE <NA>[] 
  []
 
 
-Overfull \hbox (43.5pt too wide) in paragraph at lines 351--351
+Overfull \hbox (43.5pt too wide) in paragraph at lines 358--358
 []\TU/lmtt/m/n/10 ## 5 Sternorrhyncha s~ nymph    TRUE         <NA>        FALS
 E  FALSE <NA>[] 
  []
 
 
-Overfull \hbox (43.5pt too wide) in paragraph at lines 351--351
+Overfull \hbox (43.5pt too wide) in paragraph at lines 358--358
 []\TU/lmtt/m/n/10 ## 6 Aphiodoidea spp.~ nymph a~ TRUE         <NA>        FALS
 E  FALSE <NA>[] 
  []
 
 
-Package xcolor Warning: Incompatible color definition on input line 357.
-
-
-Package xcolor Warning: Incompatible color definition on input line 371.
-
-
-Package xcolor Warning: Incompatible color definition on input line 371.
-
-
-Package xcolor Warning: Incompatible color definition on input line 371.
+Package xcolor Warning: Incompatible color definition on input line 364.
 
 [4]
 
-Package xcolor Warning: Incompatible color definition on input line 371.
+Package xcolor Warning: Incompatible color definition on input line 378.
 
 
-Package xcolor Warning: Incompatible color definition on input line 371.
+Package xcolor Warning: Incompatible color definition on input line 378.
 
 
-Package xcolor Warning: Incompatible color definition on input line 379.
+Package xcolor Warning: Incompatible color definition on input line 386.
 
 
-Package xcolor Warning: Incompatible color definition on input line 388.
+Package xcolor Warning: Incompatible color definition on input line 395.
 
 
-Package xcolor Warning: Incompatible color definition on input line 388.
+Package xcolor Warning: Incompatible color definition on input line 395.
 
 
-Overfull \hbox (64.5pt too wide) in paragraph at lines 406--406
+Overfull \hbox (64.5pt too wide) in paragraph at lines 413--413
 []\TU/lmtt/m/n/10 ## # Database: postgres [jens.astrom@ninradardata01.nina.no:5
 432/planteimport][] 
  []
 
 
-Overfull \hbox (22.5pt too wide) in paragraph at lines 406--406
+Overfull \hbox (22.5pt too wide) in paragraph at lines 413--413
 []\TU/lmtt/m/n/10 ##    container subsample latinsknavnid projectid species_lat
 in amount[] 
  []
 
 
-Overfull \hbox (22.5pt too wide) in paragraph at lines 406--406
-[]\TU/lmtt/m/n/10 ##        <int>     <int> <int64>       <chr>     <chr>      
+Overfull \hbox (22.5pt too wide) in paragraph at lines 413--413
+[]\TU/lmtt/m/n/10 ##        <int>     <int>       <int64> <chr>     <chr>      
     <int>[] 
  []
 
 
-Overfull \hbox (22.5pt too wide) in paragraph at lines 406--406
-[]\TU/lmtt/m/n/10 ##  1         1         1 NA            <NA>      Cardamine h
+Overfull \hbox (22.5pt too wide) in paragraph at lines 413--413
+[]\TU/lmtt/m/n/10 ##  1         1         1            NA <NA>      Cardamine h
 i~      4[] 
  []
 
 
-Overfull \hbox (22.5pt too wide) in paragraph at lines 406--406
-[]\TU/lmtt/m/n/10 ##  2         1         1 NA            <NA>      Cardamine h
+Overfull \hbox (22.5pt too wide) in paragraph at lines 413--413
+[]\TU/lmtt/m/n/10 ##  2         1         1            NA <NA>      Cardamine h
 i~     79[] 
  []
 
 
-Overfull \hbox (22.5pt too wide) in paragraph at lines 406--406
-[]\TU/lmtt/m/n/10 ##  3         1         1 NA            <NA>      Cerastium g
+Overfull \hbox (22.5pt too wide) in paragraph at lines 413--413
+[]\TU/lmtt/m/n/10 ##  3         1         1            NA <NA>      Cerastium g
 l~      3[] 
  []
 
 
-Overfull \hbox (22.5pt too wide) in paragraph at lines 406--406
-[]\TU/lmtt/m/n/10 ##  4         1         1 NA            <NA>      Cerastium g
+Overfull \hbox (22.5pt too wide) in paragraph at lines 413--413
+[]\TU/lmtt/m/n/10 ##  4         1         1            NA <NA>      Cerastium g
 l~      4[] 
  []
 
 
-Overfull \hbox (22.5pt too wide) in paragraph at lines 406--406
-[]\TU/lmtt/m/n/10 ##  5         1         1 NA            <NA>      Senecio vul
+Overfull \hbox (22.5pt too wide) in paragraph at lines 413--413
+[]\TU/lmtt/m/n/10 ##  5         1         1            NA <NA>      Senecio vul
 g~     22[] 
  []
 
 
-Overfull \hbox (22.5pt too wide) in paragraph at lines 406--406
-[]\TU/lmtt/m/n/10 ##  6         1         1 NA            <NA>      Stellaria m
+Overfull \hbox (22.5pt too wide) in paragraph at lines 413--413
+[]\TU/lmtt/m/n/10 ##  6         1         1            NA <NA>      Stellaria m
 e~      1[] 
  []
 
 
-Overfull \hbox (22.5pt too wide) in paragraph at lines 406--406
-[]\TU/lmtt/m/n/10 ##  7         1         1 NA            <NA>      Stellaria m
+Overfull \hbox (22.5pt too wide) in paragraph at lines 413--413
+[]\TU/lmtt/m/n/10 ##  7         1         1            NA <NA>      Stellaria m
 e~     17[] 
  []
 
 
-Overfull \hbox (22.5pt too wide) in paragraph at lines 406--406
-[]\TU/lmtt/m/n/10 ##  8         1         2 NA            <NA>      Cardamine h
+Overfull \hbox (22.5pt too wide) in paragraph at lines 413--413
+[]\TU/lmtt/m/n/10 ##  8         1         2            NA <NA>      Cardamine h
 i~      1[] 
  []
 
 
-Overfull \hbox (22.5pt too wide) in paragraph at lines 406--406
-[]\TU/lmtt/m/n/10 ##  9         1         2 NA            <NA>      Juncus bulb
+Overfull \hbox (22.5pt too wide) in paragraph at lines 413--413
+[]\TU/lmtt/m/n/10 ##  9         1         2            NA <NA>      Juncus bulb
 o~      1[] 
  []
 
 
-Overfull \hbox (22.5pt too wide) in paragraph at lines 406--406
-[]\TU/lmtt/m/n/10 ## 10         1         3 NA            <NA>      Cardamine h
+Overfull \hbox (22.5pt too wide) in paragraph at lines 413--413
+[]\TU/lmtt/m/n/10 ## 10         1         3            NA <NA>      Cardamine h
 i~      1[] 
  []
 
 
-Package xcolor Warning: Incompatible color definition on input line 410.
-
-
-Package xcolor Warning: Incompatible color definition on input line 422.
-
-
-Package xcolor Warning: Incompatible color definition on input line 422.
-
-
-Package xcolor Warning: Incompatible color definition on input line 422.
+Package xcolor Warning: Incompatible color definition on input line 417.
 
 [5]
 
-Package xcolor Warning: Incompatible color definition on input line 422.
+Package xcolor Warning: Incompatible color definition on input line 429.
 
 
-Package xcolor Warning: Incompatible color definition on input line 422.
+Package xcolor Warning: Incompatible color definition on input line 429.
 
 
-Package xcolor Warning: Incompatible color definition on input line 430.
+Package xcolor Warning: Incompatible color definition on input line 437.
 
 
-Package xcolor Warning: Incompatible color definition on input line 434.
+Package xcolor Warning: Incompatible color definition on input line 441.
 
 
-Package xcolor Warning: Incompatible color definition on input line 434.
+Package xcolor Warning: Incompatible color definition on input line 441.
 
 
-Package xcolor Warning: Incompatible color definition on input line 444.
+Package xcolor Warning: Incompatible color definition on input line 451.
 
 
-Package xcolor Warning: Incompatible color definition on input line 453.
+Package xcolor Warning: Incompatible color definition on input line 460.
 
 
-Package xcolor Warning: Incompatible color definition on input line 453.
+Package xcolor Warning: Incompatible color definition on input line 460.
 
 
-Overfull \hbox (64.5pt too wide) in paragraph at lines 471--471
+Overfull \hbox (64.5pt too wide) in paragraph at lines 478--478
 []\TU/lmtt/m/n/10 ## # Database: postgres [jens.astrom@ninradardata01.nina.no:5
 432/planteimport][] 
  []
 
 
-Overfull \hbox (69.75pt too wide) in paragraph at lines 471--471
-[]\TU/lmtt/m/n/10 ##    species_latin           species_norsk            autors
-treng native alien[] 
+Overfull \hbox (22.5pt too wide) in paragraph at lines 478--478
+[]\TU/lmtt/m/n/10 ##    species_latin            species_norsk  autorstreng nat
+ive alien[] 
  []
 
 
-Overfull \hbox (69.75pt too wide) in paragraph at lines 471--471
-[]\TU/lmtt/m/n/10 ##    <chr>                   <chr>                    <chr> 
-      <lgl>  <lgl>[] 
+Overfull \hbox (22.5pt too wide) in paragraph at lines 478--478
+[]\TU/lmtt/m/n/10 ##    <chr>                    <chr>          <chr>       <lg
+l>  <lgl>[] 
  []
 
 
-Overfull \hbox (64.5pt too wide) in paragraph at lines 471--471
-[]\TU/lmtt/m/n/10 ##  1 Panicum capillare       Buskkinapalme/dvergpalme <NA>  
-      FALSE  TRUE[] 
+Overfull \hbox (6.75pt too wide) in paragraph at lines 478--478
+[]\TU/lmtt/m/n/10 ##  1 Bergenia                 <NA>           <NA>        NA 
+    NA[] 
  []
 
 
-Overfull \hbox (64.5pt too wide) in paragraph at lines 471--471
-[]\TU/lmtt/m/n/10 ##  2 Erica cf. ciliaris      duskamarant              <NA>  
-      FALSE  TRUE[] 
+Overfull \hbox (6.75pt too wide) in paragraph at lines 478--478
+[]\TU/lmtt/m/n/10 ##  2 Festuca rubra ssp. rubra <NA>           <NA>        NA 
+    NA[] 
  []
 
 
-Overfull \hbox (64.5pt too wide) in paragraph at lines 471--471
-[]\TU/lmtt/m/n/10 ##  3 Humulus cf. yunnanensis sommerfuglbusk           <NA>  
-      FALSE  TRUE[] 
+Overfull \hbox (22.5pt too wide) in paragraph at lines 478--478
+[]\TU/lmtt/m/n/10 ##  3 Sonchus oleraceus        haredylle      <NA>        TRU
+E   FALSE[] 
  []
 
 
-Overfull \hbox (64.5pt too wide) in paragraph at lines 471--471
-[]\TU/lmtt/m/n/10 ##  4 Panicum capillaceum     Dvergsypress             <NA>  
-      FALSE  TRUE[] 
+Overfull \hbox (22.5pt too wide) in paragraph at lines 478--478
+[]\TU/lmtt/m/n/10 ##  4 Cirsium arvense          <NA>           <NA>        TRU
+E   FALSE[] 
  []
 
 
-Overfull \hbox (64.5pt too wide) in paragraph at lines 471--471
-[]\TU/lmtt/m/n/10 ##  5 Panicum repens          Dvergpalme               <NA>  
-      FALSE  TRUE[] 
+Overfull \hbox (22.5pt too wide) in paragraph at lines 478--478
+[]\TU/lmtt/m/n/10 ##  5 Ligustrum                Ligusterslekta <NA>        TRU
+E   FALSE[] 
  []
 
 
-Overfull \hbox (64.5pt too wide) in paragraph at lines 471--471
-[]\TU/lmtt/m/n/10 ##  6 Howea sp.               <NA>                     <NA>  
-      FALSE  TRUE[] 
+Overfull \hbox (22.5pt too wide) in paragraph at lines 478--478
+[]\TU/lmtt/m/n/10 ##  6 Matricaria perforata     balderbrå      <NA>        TRU
+E   FALSE[] 
  []
 
 
-Overfull \hbox (64.5pt too wide) in paragraph at lines 471--471
-[]\TU/lmtt/m/n/10 ##  7 Chaenorhinum minus      småtorskemunn            <NA>  
-      FALSE  TRUE[] 
+Overfull \hbox (22.5pt too wide) in paragraph at lines 478--478
+[]\TU/lmtt/m/n/10 ##  7 Picea abies              <NA>           <NA>        TRU
+E   FALSE[] 
  []
 
 
-Overfull \hbox (64.5pt too wide) in paragraph at lines 471--471
-[]\TU/lmtt/m/n/10 ##  8 Chenopodiastrum murale  gatemelde                <NA>  
-      FALSE  TRUE[] 
+Overfull \hbox (22.5pt too wide) in paragraph at lines 478--478
+[]\TU/lmtt/m/n/10 ##  8 Microbiota decussata     Småbiota       <NA>        TRU
+E   FALSE[] 
  []
 
 
-Overfull \hbox (64.5pt too wide) in paragraph at lines 471--471
-[]\TU/lmtt/m/n/10 ##  9 Chenopodium ficifolium  fikenmelde               <NA>  
-      FALSE  TRUE[] 
+Overfull \hbox (22.5pt too wide) in paragraph at lines 478--478
+[]\TU/lmtt/m/n/10 ##  9 Olea europaea            Oliven         <NA>        TRU
+E   FALSE[] 
  []
 
 
-Overfull \hbox (64.5pt too wide) in paragraph at lines 471--471
-[]\TU/lmtt/m/n/10 ## 10 Chenopodium hircinum    bukkemelde               <NA>  
-      FALSE  TRUE[] 
+Overfull \hbox (22.5pt too wide) in paragraph at lines 478--478
+[]\TU/lmtt/m/n/10 ## 10 Miscanthus sinensis      <NA>           <NA>        TRU
+E   FALSE[] 
  []
-
-
-Package xcolor Warning: Incompatible color definition on input line 476.
-
-
-Package xcolor Warning: Incompatible color definition on input line 488.
-
-
-Package xcolor Warning: Incompatible color definition on input line 488.
-
-
-Package xcolor Warning: Incompatible color definition on input line 488.
 
 [6]
 
-Package xcolor Warning: Incompatible color definition on input line 488.
+Package xcolor Warning: Incompatible color definition on input line 483.
 
 
-Package xcolor Warning: Incompatible color definition on input line 488.
+Package xcolor Warning: Incompatible color definition on input line 496.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 493.
+
+Package xcolor Warning: Incompatible color definition on input line 496.
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 501.
 [7]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 493.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 501.
 (./Data_format_example.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 493.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 493.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 501.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 501.
  ) 
 Here is how much of TeX's memory you used:
  23001 strings out of 494412
- 425148 string characters out of 6163919
- 560755 words of memory out of 5000000
+ 425148 string characters out of 6163918
+ 561748 words of memory out of 5000000
  26692 multiletter control sequences out of 15000+600000
  531033 words of font info for 35 fonts, out of 8000000 for 9000
  350 hyphenation exceptions out of 8191
- 45i,6n,54p,10460b,371s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 45i,6n,54p,10460b,452s stack positions out of 5000i,500n,10000p,200000b,80000s
 
 Output written on Data_format_example.pdf (7 pages).

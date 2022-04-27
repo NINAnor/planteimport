@@ -214,7 +214,8 @@ I'll write out a complete list of all plant species known in the database so far
 
 plant_species %>% 
   arrange(species_latin) %>% 
-    select(species_latin,
+    select(id, 
+           species_latin,
            species_norsk,
            autorstreng,
            native,

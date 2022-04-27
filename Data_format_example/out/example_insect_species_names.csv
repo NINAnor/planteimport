@@ -1,16 +1,22 @@
 species_latin,stadium,indetermined,autorstring,native,alien,blacklist_cat
 Acari spp.,adult,TRUE,NA,FALSE,FALSE,NA
+Acrotona aterrima,adult,FALSE,NA,FALSE,FALSE,NA
+Acrotona benicki,adult,FALSE,NA,FALSE,FALSE,NA
 Acrotona cf. fungi,adult,FALSE,NA,TRUE,FALSE,NA
 Acrotona cf. negligens,adult,FALSE,NA,TRUE,FALSE,NA
 Acrotona cf. parens,adult,FALSE,NA,TRUE,FALSE,NA
 Acrotona exigua,adult,FALSE,NA,TRUE,FALSE,NA
+Acrotona fungi,adult,FALSE,NA,FALSE,FALSE,NA
+Acrotona nigerrima,adult,FALSE,NA,FALSE,FALSE,NA
 Acrotona orbata,adult,FALSE,NA,TRUE,FALSE,NA
 Acrotona sp. A,adult,TRUE,NA,FALSE,FALSE,NA
 Acrotona sp. B,adult,TRUE,NA,FALSE,FALSE,NA
 Acrotona sp. C,adult,TRUE,NA,FALSE,FALSE,NA
-Acrotrichis henrici,adult,FALSE,NA,FALSE,TRUE,NA
+Acrotrichis cognata,adult,FALSE,NA,FALSE,FALSE,PH
+Acrotrichis henrici,adult,FALSE,NA,FALSE,TRUE,LO
 Acrotrichis sp.,adult,TRUE,NA,FALSE,FALSE,NA
 Acupalpus brunnipes,adult,FALSE,NA,FALSE,TRUE,NA
+Acupalpus dubius,adult,FALSE,NA,FALSE,FALSE,NA
 Acupalpus meridianus,adult,FALSE,NA,TRUE,FALSE,NA
 Acupalpus parvulus,adult,FALSE,NA,TRUE,FALSE,NA
 Acupalpus sp.,adult,TRUE,NA,FALSE,TRUE,NA
@@ -18,6 +24,7 @@ Adalia decempunctata,adult,FALSE,NA,TRUE,FALSE,NA
 Adistemia watsoni,adult,FALSE,NA,FALSE,TRUE,LO
 Agathidium marginatum,adult,FALSE,NA,TRUE,FALSE,NA
 Aleochara  cf. bipustulata,adult,FALSE,NA,TRUE,FALSE,NA
+Aleocharinae indet.,adult,FALSE,NA,FALSE,TRUE,NA
 Aleocharinae sp. A,adult,TRUE,NA,FALSE,TRUE,NA
 Aleocharinae sp. B,adult,TRUE,NA,FALSE,TRUE,NA
 Aleocharinae sp. C,adult,TRUE,NA,FALSE,FALSE,NA
@@ -31,6 +38,7 @@ Amischa bifoveolata,adult,FALSE,NA,TRUE,FALSE,NA
 Amischa cf. forcipata,adult,FALSE,NA,FALSE,TRUE,NA
 Amischa decipiens,adult,FALSE,NA,TRUE,FALSE,NA
 Amischa nigrofusca,adult,FALSE,NA,TRUE,FALSE,NA
+Amischa spp.,adult,FALSE,NA,FALSE,FALSE,NA
 Anotylus nitidulus,adult,FALSE,NA,TRUE,FALSE,NA
 Anotylus sp. B,adult,TRUE,NA,FALSE,FALSE,NA
 Anthobium melanocephalum,adult,FALSE,NA,TRUE,FALSE,NA
@@ -38,19 +46,22 @@ Anthobium unicolor,adult,FALSE,NA,FALSE,FALSE,NA
 Anurophorus laricis,adult,FALSE,"Nicolet, 1842",TRUE,FALSE,NA
 Anurophorus satchelli,adult,FALSE," Goto, 1956",FALSE,TRUE,NA
 Aphiodoidea spp. juv. and adult,nymph and adult,TRUE,NA,FALSE,FALSE,NA
+Aphodius granarius,adult,FALSE,NA,FALSE,FALSE,NA
+Aphodius haemorrhoidalis,adult,FALSE,NA,FALSE,FALSE,NA
 Aphodius prodromus,adult,FALSE,NA,FALSE,FALSE,NA
 Aranae spp.,adult,TRUE,NA,FALSE,FALSE,NA
 Arrhopalites sp. juv.,juvenile,TRUE,NA,FALSE,FALSE,NA
+Athena sp. A,adult,FALSE,NA,FALSE,FALSE,NA
+Atheta aeneicollis,adult,FALSE,NA,TRUE,FALSE,NA
 Atheta amicula,adult,FALSE,NA,TRUE,FALSE,NA
+Atheta autumnalis,adult,FALSE,NA,TRUE,FALSE,NA
+Atheta basicornis,adult,FALSE,NA,TRUE,FALSE,NA
 Atheta inquinula,adult,FALSE,NA,FALSE,TRUE,LO
 Atheta (Philhygra) sp.,adult,TRUE,NA,FALSE,FALSE,NA
 Atheta sordidula,adult,FALSE,NA,TRUE,FALSE,NA
 Atheta sp.9 (jfr. 2012),adult,TRUE,NA,FALSE,FALSE,NA
 Atheta sp. A,adult,TRUE,NA,FALSE,FALSE,NA
 Atheta sp. B,adult,TRUE,NA,FALSE,FALSE,NA
-Atheta (s.str.) aeneicollis,adult,FALSE,NA,TRUE,FALSE,NA
-Atheta (s.str.) autumnalis,adult,FALSE,NA,TRUE,FALSE,NA
-Atheta (s.str.) basicornis,adult,FALSE,NA,TRUE,FALSE,NA
 Atomaria atricapilla,adult,FALSE,NA,TRUE,FALSE,NA
 Atomaria fuscata,adult,FALSE,NA,TRUE,FALSE,NA
 Atomaria fuscipes,adult,FALSE,NA,TRUE,FALSE,NA
@@ -61,7 +72,8 @@ Atomaria sp.,adult,TRUE,NA,FALSE,FALSE,NA
 Aucheorrhyncha spp.,adult,TRUE,NA,FALSE,FALSE,NA
 Aucheorrhyncha spp. juv.,nymph,TRUE,NA,FALSE,FALSE,NA
 Balclutha punctata,adult,FALSE,NA,TRUE,FALSE,NA
-Ballistura schoetti,adult,FALSE,NA,FALSE,TRUE,NA
+Ballistura filifera,adult,FALSE,NA,FALSE,FALSE,NA
+Ballistura schoetti,adult,FALSE,"Dalla Torre, 1895",FALSE,TRUE,NA
 Barypeithes pellucidus,adult,FALSE,NA,TRUE,FALSE,NA
 Bembidion bruxellense,adult,FALSE,NA,TRUE,FALSE,NA
 Bembidion quadrimaculatum,adult,FALSE,NA,FALSE,FALSE,NA
@@ -69,11 +81,12 @@ Bembidion tetracolum,adult,FALSE,NA,FALSE,FALSE,NA
 Bibloplectus sp.,adult,TRUE,NA,FALSE,FALSE,NA
 Bledius gallicus,adult,FALSE,NA,TRUE,FALSE,NA
 Bledius opacus,adult,FALSE,NA,TRUE,FALSE,NA
-Boromorphus cf. italicus,adult,FALSE,NA,FALSE,TRUE,NR
+Boromorphus cf. italicus,adult,FALSE,NA,FALSE,TRUE,NA
 Bourletiella sp. juv.,juvenile,TRUE,NA,FALSE,FALSE,NA
 Brachystomella parvula,adult,FALSE,"(Schäffer, 1896)",TRUE,FALSE,NA
+Bradycellus harpalinus,adult,FALSE,NA,FALSE,FALSE,NA
 Bythinus burelli,adult,FALSE,NA,TRUE,FALSE,NA
-Campylosteira serena,adult,FALSE,NA,FALSE,TRUE,NR
+Campylosteira serena,adult,FALSE,NA,FALSE,TRUE,NA
 Cantharis cryptica,adult,FALSE,NA,FALSE,TRUE,LO
 Carpelimus corticinus,adult,FALSE,NA,TRUE,FALSE,NA
 Carpelimus rivularis,adult,FALSE,NA,FALSE,FALSE,NA
@@ -84,29 +97,33 @@ Carpelimus zealandicus,adult,FALSE,NA,FALSE,TRUE,PH
 Carpelimus zealandicus juv.,larvae,FALSE,NA,FALSE,TRUE,PH
 Cartodere bifasciata,adult,FALSE,NA,FALSE,TRUE,LO
 Cartodere nodifer,adult,FALSE,NA,FALSE,TRUE,PH
+Ceratophysella communis,adult,FALSE,"Folsom, 1897",FALSE,TRUE,NA
 Ceratophysella denticulata,adult,FALSE,"(Bagnall, 1941)",TRUE,FALSE,NA
-Ceratophysella engadinensis,adult,FALSE,"(Gisin, 1949)",FALSE,TRUE,LO
 Ceratophysella gibbosa,adult,FALSE,"(Bagnall, 1940)",FALSE,TRUE,LO
 Ceratophysella sp. juv.,juvenile,TRUE,NA,FALSE,FALSE,NA
 Ceratophysella succinea,adult,FALSE,"Gisin, 1949",TRUE,FALSE,NA
 Ceutorhynchus hirtulus,adult,FALSE,NA,TRUE,FALSE,NA
+Ceutorhynchus inaffectatus,adult,FALSE,NA,FALSE,FALSE,NA
 cf. Lepisma saccharina (sølvkre),adult,TRUE,NA,FALSE,FALSE,NA
 Chaetocnema concinna,adult,FALSE,NA,TRUE,FALSE,NA
 Chaetocnema hortensis,adult,FALSE,NA,TRUE,FALSE,NA
-Chaetophora spinosa,adult,FALSE,NA,FALSE,TRUE,NR
+Chaetophora spinosa,adult,FALSE,NA,FALSE,TRUE,NA
 Chilopoda spp.,adult,TRUE,NA,FALSE,FALSE,NA
 Cis micans,adult,FALSE,NA,TRUE,FALSE,NA
 Clambus simsoni,adult,FALSE,NA,FALSE,TRUE,LO
 Clivina fossor,adult,FALSE,NA,TRUE,FALSE,NA
 Coccinella undecimpunctata,adult,FALSE,NA,TRUE,FALSE,NA
 Coccioidea spp. juv. and adult,nymph and adult,TRUE,NA,FALSE,FALSE,NA
-Coleoptera spp. juv,larvae,TRUE,NA,FALSE,FALSE,NA
+Coleoptera spp. juv.,larvae,TRUE,NA,FALSE,FALSE,NA
 Colon sp.,adult,TRUE,NA,FALSE,FALSE,NA
 Corticaria cf. lapponica,adult,FALSE,NA,FALSE,FALSE,NA
 Corticarina cavicollis,adult,FALSE,NA,FALSE,TRUE,LO
 Corticarina fuscula,adult,FALSE,NA,TRUE,FALSE,NA
+Corticarina gibbosa,adult,FALSE,NA,FALSE,FALSE,NA
+Corticarina similata,adult,FALSE,NA,FALSE,FALSE,NA
 Cortinicara gibbosa,adult,FALSE,NA,TRUE,FALSE,NA
-Deraeocoris lutescens,adult,FALSE,NA,FALSE,TRUE,SE
+Dalotia coriaria,adult,FALSE,NA,FALSE,FALSE,LO
+Deraeocoris lutescens,adult,FALSE,NA,FALSE,TRUE,HI
 Dermaptera spp.,adult,TRUE,NA,FALSE,FALSE,NA
 Deruterosminthurus sp. juv.,juvenile,TRUE,NA,FALSE,FALSE,NA
 Desoria grisea,adult,FALSE,"(Lubbock, 1869)",TRUE,FALSE,NA
@@ -115,6 +132,7 @@ Desoria trispinata,adult,FALSE," (MacGillivray, 1896)",FALSE,TRUE,LO
 Dicyrtoma minuta,adult,FALSE," (Fabricius, 1783)",TRUE,FALSE,NA
 Dicyrtoma sp. juv.,juvenile,TRUE,NA,FALSE,FALSE,NA
 Dienerella filiformis,adult,FALSE,NA,FALSE,FALSE,NA
+Dienerella filum,adult,FALSE,NA,FALSE,FALSE,NA
 Dienerella vincenti,adult,FALSE,NA,FALSE,FALSE,NA
 Diplocephalus cristatus,adult,FALSE,NA,TRUE,FALSE,NA
 Diplopoda spp.,adult,TRUE,NA,FALSE,FALSE,NA
@@ -123,19 +141,22 @@ Diptera spp. juv.,larvae and pupae,TRUE,NA,FALSE,FALSE,NA
 Dyschirius thoracicus,adult,FALSE,NA,TRUE,FALSE,NA
 Dyschirius tristis,adult,FALSE,NA,TRUE,FALSE,NA
 Elaphropus haemorrhoidalis,adult,FALSE,NA,FALSE,TRUE,NA
-Elaphropus quadrisignatus,adult,FALSE,NA,FALSE,TRUE,NR
+Elaphropus quadrisignatus,adult,FALSE,NA,FALSE,TRUE,NA
 Elateridae spp. juv,larvae,TRUE,NA,FALSE,FALSE,NA
 Embioptera spp.,adult,TRUE,NA,FALSE,FALSE,NA
 Entomobrya cf. lanuginosa,adult,FALSE,"lanuginosa (Nicolet, 1841)",TRUE,FALSE,NA
+Entomobrya cf. schoetti,adult,FALSE,NA,FALSE,FALSE,NA
 Entomobrya nicoleti,adult,FALSE,"(Lubbock, 1867)",TRUE,FALSE,NA
 Entomobrya nigrocincta,adult,FALSE,"Denis, 1923",FALSE,TRUE,NA
 Entomobrya nigrocincta/multifasciata,adult,FALSE,NA,TRUE,FALSE,NA
+Entomobrya nivalis,adult,FALSE,NA,FALSE,FALSE,NA
 Entomobrya sp.,adult,TRUE,NA,FALSE,FALSE,NA
 Entomobrya sp. juv.,juvenile,TRUE,NA,FALSE,FALSE,NA
 Ephistemus globulus,adult,FALSE,NA,TRUE,FALSE,NA
+Epitrix pubescens,adult,FALSE,NA,FALSE,FALSE,NA
 Erichsonius signaticornis,adult,FALSE,NA,FALSE,TRUE,NK
 Erigone atra,adult,FALSE,NA,TRUE,FALSE,NA
-Erigone dentosa,adult,FALSE,NA,FALSE,TRUE,NR
+Erigone dentosa,adult,FALSE,NA,FALSE,TRUE,NA
 Euplectus karsteni,adult,FALSE,NA,TRUE,FALSE,NA
 Eupteryx decemnotata,adult,FALSE,NA,FALSE,TRUE,LO
 Folsomia candida,adult,FALSE,"(Willem, 1902)",TRUE,FALSE,NA
@@ -150,6 +171,7 @@ Folsomides parvulus,adult,FALSE,"Stach, 1922",TRUE,FALSE,NA
 Folsomides sp.,adult,TRUE,NA,FALSE,TRUE,NA
 Folsomina onychiurina,adult,FALSE," Denis, 1931",FALSE,TRUE,NA
 Formica rufa,adult,FALSE,NA,TRUE,FALSE,NA
+Formicidae spp.,adult,FALSE,NA,FALSE,FALSE,NA
 Friesea claviseta,adult,FALSE,"Axelson, 1900",TRUE,FALSE,NA
 Friesea mirabilis,adult,FALSE,"(Tullberg, 1871)",TRUE,FALSE,NA
 Friesea sp. 0+0 oc,adult,TRUE,NA,FALSE,TRUE,NA
@@ -174,9 +196,8 @@ Hemisotoma scapellifer,adult,FALSE,"(Gisin, 1955)",TRUE,FALSE,NA
 Hemisotoma thermophila,adult,FALSE,"(Axelson, 1990)",TRUE,FALSE,NA
 Heteromurus major,adult,FALSE,"Moniez, 1889",FALSE,TRUE,NA
 Heteroptera spp.,adult,TRUE,NA,FALSE,FALSE,NA
-Heteroptera spp. juv,juvenile,TRUE,NA,FALSE,FALSE,NA
 Heteroptera spp. juv.,nymph,TRUE,NA,FALSE,FALSE,NA
-Holoparamecus niger,adult,FALSE,NA,FALSE,TRUE,NR
+Holoparamecus niger,adult,FALSE,NA,FALSE,TRUE,NA
 Hydrosmecta leptotyphloides,adult,FALSE,NA,FALSE,FALSE,NA
 Hypogastrura assimilis,adult,FALSE,"Krausbauer, 1898",TRUE,FALSE,NA
 Hypogastrura distincta,adult,FALSE,NA,FALSE,TRUE,NA
@@ -200,11 +221,13 @@ Kleidocerys resedae,adult,FALSE,NA,TRUE,FALSE,NA
 Lasius fuliginosus,adult,FALSE,NA,TRUE,FALSE,NA
 Lasius niger,adult,FALSE,NA,TRUE,FALSE,NA
 Lasius platythorax,adult,FALSE,NA,TRUE,FALSE,NA
+Latridius minutus-gr. females,adult,FALSE,NA,FALSE,FALSE,NA
 Latridius porcatus,adult,FALSE,NA,FALSE,FALSE,NA
 Leiodes sp.,adult,TRUE,NA,FALSE,FALSE,NA
 Lepidocyrtus cf. lanuginosus,adult,FALSE,"lanuginosus (Gmelin, 1790)",TRUE,FALSE,NA
 Lepidocyrtus pallidus,adult,FALSE,"Reuter, 1890",FALSE,TRUE,LO
 Lepidocyrtus sp.,adult,TRUE,NA,TRUE,FALSE,NA
+Lepidocyrtus weidneri,adult,FALSE,NA,FALSE,FALSE,NA
 Lepidoptera spp.,adult,TRUE,NA,FALSE,FALSE,NA
 Lepidoptera spp. juv.,larvae,TRUE,NA,FALSE,FALSE,NA
 Lesteva longoelytrata,adult,FALSE,NA,TRUE,FALSE,NA
@@ -217,7 +240,7 @@ Medon sp.,adult,TRUE,NA,FALSE,TRUE,NA
 Megalothorax minimus,adult,FALSE,"Willem, 1900",TRUE,FALSE,NA
 Megasternum concinnum,adult,FALSE,NA,TRUE,FALSE,NA
 Megophthalmus scanicus,adult,FALSE,NA,TRUE,FALSE,NA
-Melanophthalma fuscipennis,adult,FALSE,NA,FALSE,TRUE,NR
+Melanophthalma fuscipennis,adult,FALSE,NA,FALSE,TRUE,NA
 Meotica cf. marchica,adult,FALSE,NA,FALSE,TRUE,NR
 Meotica sp.,adult,TRUE,NA,FALSE,TRUE,NA
 Meotica sp. A,adult,TRUE,NA,FALSE,FALSE,NA
@@ -247,16 +270,18 @@ Micraphorura absoloni,adult,FALSE,"(Börner, 1901)",TRUE,FALSE,NA
 Micropeplus porcatus,adult,FALSE,NA,TRUE,FALSE,NA
 Monotoma brevicollis,adult,FALSE,NA,TRUE,FALSE,NA
 Morychus aeneus,adult,FALSE,NA,TRUE,FALSE,NA
-Murcrosomia garretti,adult,FALSE,"(Bagnall, 1939)",FALSE,TRUE,NA
+Mucrosomia garretti,adult,FALSE,"(Bagnall, 1939)",FALSE,TRUE,NA
 Mycetoporus baudueri,adult,FALSE,NA,FALSE,FALSE,NA
 Myrmica rubra,adult,FALSE,NA,TRUE,FALSE,NA
 Myrmica ruginodis,adult,FALSE,(skogeitermaur),TRUE,FALSE,NA
 Neanura muscorum,adult,FALSE,"(Templeton, 1835)",TRUE,FALSE,NA
+Nebria salina,adult,FALSE,NA,FALSE,FALSE,NA
 Nematoda spp.,adult,TRUE,NA,FALSE,FALSE,NA
+Neonura reticulata,adult,FALSE,NA,FALSE,FALSE,NA
 Neuraphes sp.,adult,TRUE,NA,FALSE,FALSE,NA
 Neuroptera spp.,adult,TRUE,NA,FALSE,FALSE,NA
 Nysius ericae,adult,FALSE,NA,TRUE,FALSE,NA
-Nysius senecionis,adult,FALSE,NA,FALSE,TRUE,NR
+Nysius senecionis,adult,FALSE,NA,FALSE,TRUE,NA
 Olibrus aeneus,adult,FALSE,NA,TRUE,FALSE,NA
 Oligochaeta spp.,adult,TRUE,NA,FALSE,FALSE,NA
 Oligota pusillima,adult,FALSE,NA,TRUE,FALSE,NA
@@ -271,12 +296,14 @@ Orchesella sp. juv.,juvenile,TRUE,NA,FALSE,FALSE,NA
 Orius sp.,adult,TRUE,NA,FALSE,FALSE,NA
 Ostearius melanopygius,adult,FALSE,NA,FALSE,TRUE,PH
 Othius laeviusculus,adult,FALSE,NA,FALSE,TRUE,NA
+Otiorhynchus indefinitus,adult,FALSE,NA,FALSE,FALSE,LO
 Otiorhynchus ovatus,adult,FALSE,NA,TRUE,FALSE,NA
 Otiorhynchus sulcatus,adult,FALSE,NA,FALSE,FALSE,NA
 Oxidus gracilis,adult,FALSE,"(""drivhustusenbein"")",FALSE,TRUE,NR
 Oxypoda exoleta,adult,FALSE,NA,TRUE,FALSE,NA
 Oxypoda sp.1,adult,TRUE,NA,FALSE,FALSE,NA
 Oxypoda sp.2,adult,TRUE,NA,FALSE,TRUE,NA
+Oxypoda sp. 2,adult,FALSE,NA,FALSE,FALSE,NA
 Oxypoda sp.3,adult,TRUE,NA,FALSE,FALSE,NA
 Oxypoda sp.4,adult,TRUE,NA,FALSE,FALSE,NA
 Oxypoda sp.5,adult,TRUE,NA,FALSE,FALSE,NA
@@ -289,6 +316,7 @@ Parasitica spp.,adult,TRUE,NA,FALSE,FALSE,NA
 Paratullbergia callipygos,adult,FALSE,"(Börner, 1902)",TRUE,FALSE,NA
 Paratullbergia macdougalli,adult,FALSE," Bagnall, 1936",FALSE,TRUE,NA
 Parisotoma notabilis,adult,FALSE,"(Schäffer, 1896)",TRUE,FALSE,NA
+Parisotoma sp. (non European),adult,FALSE,NA,FALSE,FALSE,NA
 Pelecopsis mengei,adult,FALSE,NA,TRUE,FALSE,NA
 Peponocranium ludicrum,adult,FALSE,NA,TRUE,FALSE,NA
 Perapion marchicum,adult,FALSE,NA,TRUE,FALSE,NA
@@ -297,8 +325,9 @@ Philonthus cognatus,adult,FALSE,NA,TRUE,FALSE,NA
 Plagiolepis pygmaea,adult,FALSE,NA,FALSE,TRUE,NR
 Plagiolepis vindobonensis,adult,FALSE,NA,FALSE,TRUE,NR
 Platystethus capito,adult,FALSE,NA,FALSE,TRUE,NA
+Platystethus cf. alutaceus,adult,FALSE,NA,FALSE,FALSE,NA
 Platystethus degener,adult,FALSE,NA,FALSE,TRUE,LO
-Pleurophorus caesus,adult,FALSE,NA,FALSE,TRUE,NR
+Pleurophorus caesus,adult,FALSE,NA,FALSE,TRUE,NA
 Polyxenus lagurus,adult,FALSE,NA,FALSE,FALSE,NA
 Ponera testacea,adult,FALSE,NA,FALSE,TRUE,NR
 Pongeiella falca,adult,FALSE,"(Christiansen & Bellinger, 1980)",TRUE,FALSE,NA
@@ -314,27 +343,33 @@ Protapion fulvipes,adult,FALSE,NA,TRUE,FALSE,NA
 Proteinus laevigatus,adult,FALSE,NA,TRUE,FALSE,NA
 Proteinus ovalis,adult,FALSE,NA,FALSE,TRUE,NA
 Pseudachorutes parvulus,adult,FALSE,"Börner, 1901",TRUE,FALSE,NA
+Pseudanurophorus isotoma,adult,FALSE,NA,FALSE,TRUE,NA
 Pseudisotoma monochaeta,adult,FALSE,"(Kos, 1942)",TRUE,FALSE,NA
 Pseudisotoma sensibilis,adult,FALSE," (Tullberg, 1876)",TRUE,FALSE,NA
+Pseudoplectus perplexus,adult,FALSE,NA,FALSE,FALSE,NA
 Pseudoscorpiones spp.,adult,TRUE,NA,FALSE,FALSE,NA
 Pseudosinella alba,adult,FALSE,NA,FALSE,FALSE,NA
 Pseudosinella sexoculata,adult,FALSE,"Schött, 1902",TRUE,FALSE,NA
 Pseudosinella sp.,adult,TRUE,NA,FALSE,TRUE,NA
 Psocoptera spp.,adult,TRUE,NA,FALSE,FALSE,NA
 Ptenidium nitidum,adult,FALSE,NA,TRUE,FALSE,NA
+Ptinella mekura,adult,FALSE,NA,FALSE,FALSE,NA
 Quedius semiaeneus,adult,FALSE,NA,FALSE,TRUE,NA
-Rabigus pullus,adult,FALSE,NA,FALSE,TRUE,NR
+Rabigus pullus,adult,FALSE,NA,FALSE,TRUE,NA
 Rhinoncus perpendicularis,adult,FALSE,NA,TRUE,FALSE,NA
 Schistoglossa curtipennis,adult,FALSE,NA,TRUE,FALSE,NA
 Scolopostethus affinis,adult,FALSE,NA,TRUE,FALSE,NA
 Scopaeus cf. ryei,adult,FALSE,NA,FALSE,TRUE,NR
 Scopaeus laevigatus,adult,FALSE,NA,TRUE,FALSE,NA
 Scopaeus sp. A,adult,TRUE,NA,FALSE,TRUE,NA
+Scopaeus sp. B,adult,FALSE,NA,FALSE,FALSE,NA
 Sericoderus lateralis,adult,FALSE,NA,TRUE,FALSE,NA
 Silometopus ambiguus,adult,FALSE,NA,TRUE,FALSE,NA
 Simplocaria semistriata,adult,FALSE,NA,TRUE,FALSE,NA
+Sinella curviseta,adult,FALSE,NA,FALSE,TRUE,NA
 Sinella tenebricosa,adult,FALSE,"Folsom, 1902",FALSE,TRUE,LO
 Sminthurides sp. juv.,juvenile,TRUE,NA,FALSE,FALSE,NA
+Sminthurinus domesticus,adult,FALSE,NA,FALSE,FALSE,NA
 Sminthurinus elegans,adult,FALSE,"(Fitch, 1863)",TRUE,FALSE,NA
 Sminthurinus lawrencei,adult,FALSE,"(Gisin, 1963)",FALSE,TRUE,NA
 Sminthurinus niger,adult,FALSE,"(Lubbock, 1868)",FALSE,TRUE,LO
@@ -367,7 +402,7 @@ Temnothorax sp.,adult,TRUE,NA,FALSE,FALSE,NA
 Tetramorium caespitum,adult,FALSE,NA,TRUE,FALSE,NA
 Tetramorium semilaeve,adult,FALSE,NA,FALSE,TRUE,NR
 Thalassaphorura encarpata,adult,FALSE,"(Denis, 1931)",FALSE,TRUE,LO
-Thecturota marchii,adult,FALSE,NA,FALSE,TRUE,LO
+Thalassaphorura sp. (nec encarpata),adult,TRUE,NA,FALSE,TRUE,NA
 Theridiidae spp. juv.,juvenile,TRUE,NA,FALSE,FALSE,NA
 Thyreosthenius parasiticus,adult,FALSE,NA,FALSE,FALSE,NA
 Thysanoptera spp.,adult,TRUE,NA,FALSE,FALSE,NA
@@ -378,16 +413,18 @@ Tomocerus minor,adult,FALSE,"(Lubbock, 1862)",TRUE,FALSE,NA
 Tomocerus sp. juv.,juvenile,TRUE,NA,FALSE,FALSE,NA
 Tomocerus vulgaris,adult,FALSE,"(Tullberg, 1871)",TRUE,FALSE,NA
 Toramus cf. pulchellus,adult,FALSE,NA,FALSE,TRUE,NR
-Trichiusa immigrata,adult,FALSE,NA,FALSE,FALSE,NA
-Trotomma pubescens,adult,FALSE,NA,FALSE,TRUE,NR
+Trechus quadristriatus,adult,FALSE,NA,FALSE,FALSE,NA
+Trichiusa immigrata,adult,FALSE,NA,FALSE,FALSE,PH
+Trotomma pubescens,adult,FALSE,NA,FALSE,TRUE,NA
 Tychius picirostris,adult,FALSE,NA,TRUE,FALSE,NA
-Tychus pullus,adult,FALSE,NA,FALSE,TRUE,NR
+Tychus pullus,adult,FALSE,NA,FALSE,TRUE,NA
 Vertagopus arboreus,adult,FALSE,"(Linnaeus, 1758)",TRUE,FALSE,NA
 Vertagopus sp.,adult,TRUE,NA,FALSE,FALSE,NA
 Willemia anophthalma,adult,FALSE,"Börner, 1901",TRUE,FALSE,NA
 Willemia denisi,adult,FALSE,"Mills, 1932",TRUE,FALSE,NA
 Willemia intermedia,adult,FALSE,"Mills, 1934",TRUE,FALSE,NA
 Willemia sp. juv.,juvenile,TRUE,NA,FALSE,FALSE,NA
+Willowsia buski,adult,FALSE,"Lubbock, 1870",TRUE,FALSE,NA
 Willowsia nigromaculata,adult,FALSE,"(Lubbock, 1873)",TRUE,FALSE,NA
 Xantholinus longiventris,adult,FALSE,NA,TRUE,FALSE,NA
 Xantholinus sp. A,adult,TRUE,NA,FALSE,FALSE,NA

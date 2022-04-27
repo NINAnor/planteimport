@@ -1,0 +1,708 @@
+---
+title: "Dataimport of 2021 data - Planteimport"
+author: "Jens Åström"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: 
+  NinaR::jensAnalysis:
+    highlight: tango
+    fig_caption: yes
+    toc: yes
+---
+
+Adapted from 2020 version.
+
+
+```{r, include = F}
+#Some common packages, loading rmarkdown doesn't like the messages from tidyverse, so we don't include this in the document'
+require(tidyverse)
+require(DBI)
+require(RPostgres)
+require(ggplot2)
+require(xtable)
+require(NinaR)
+require(dbplyr)
+require(openxlsx)
+```
+
+
+```{r setup, include=FALSE}
+#This is optional
+#I choose the 'styler' package for tidying the code to preserve indentations
+#I set the cutoff for code tidying to 60, but this doesn't currently work with styler.
+#Set tidy = True to get the knitr default
+#I want all figures as png and pdf in high quality in a subfolder called figure 
+
+knitr::opts_chunk$set(echo = TRUE, 
+                      tidy = "styler",
+                      dev = c("png", "pdf"),
+                      dpi = 600,
+                      fig.path = "figure/",
+                      tidy.opts = list(width.cutoff = 60),
+                      eval = F
+                      )
+
+options(xtable.comment = F, 
+        xtable.include.rownames = F, 
+        nina.logo.y.pos = 0.15)
+palette(ninaPalette())
+```
+
+
+
+```{r, include = F, eval = T}
+#This connects to the gisdatabase with a DBI connection named `con`.
+#Use for example dbGetQuery(con, "SELECT * FROM ....") to query the database
+##Use your own "Windows" username and password
+source("~/.rpgpass")
+postgreSQLConnect(host = "ninradardata01.nina.no", 
+                 dbname = "planteimport", 
+                 username = username, 
+                 password = password)
+rm(list = c("username", "password"))
+```
+
+
+Intro
+===========
+This script imports the 2021 alien stowaway data to the database. 
+
+So far, we only deal with the container samples, where we have both plant and invertebrate data from soil samples of imported pots.
+
+
+Container data
+===========
+This will add new rows to the table `common.containers` (schema common, table containers).
+
+We first see what the latest sample in the database currently is.
+
+```{r}
+conTab <- tbl(con, in_schema("common", "containers"))
+
+conTab %>% 
+  arrange(desc(container),
+          subsample
+          ) %>% 
+  select(1:5)
+```
+So we have 110 containers and the last one is sampled in June 2020. 
+Time to load the new data.
+
+```{r}
+newConDataRaw <- read.xlsx("../../rawData/data_2021/Database2018 med 2019-21-data konteinere.xlsx",
+                        detectDates = T) %>% 
+  as_tibble()
+
+newConDataRaw %>% 
+  select(1:8)
+```
+
+So we subset the new data to contain only 2021 data.
+
+```{r}
+conData2021 <- newConDataRaw %>% 
+  filter(container > 110) #found above
+
+conData2021 %>% 
+  select(1:8)
+```
+
+And test an import, find out what's wrong and fix it.
+
+```{r}
+dbBegin(con)
+dbWriteTable(con,
+             Id(schema = "common", table = "containers"),
+             conData2021,
+             append = T)
+
+dbRollback(con)
+```
+
+```{r}
+conData2021 %>% 
+  select(species_latin) %>% 
+  distinct() %>% 
+  print(n = Inf)
+```
+
+
+Fixes to the container data
+==========
+This came up through the quality check.
+
+```{r}
+conData2021 %>% 
+  select(pdf_present) %>% 
+  distinct()
+
+conData2021 <- conData2021 %>% 
+  mutate(pdf_present = tolower(pdf_present)) %>% 
+  mutate(pdf_present = ifelse(pdf_present == "x", TRUE, pdf_present))
+
+```
+```{r}
+conData2021 %>% 
+  select(mattilsynet) %>% 
+  distinct()
+
+conData2021 <- conData2021 %>% 
+  mutate(mattilsynet = ifelse(is.na(mattilsynet), FALSE, mattilsynet)) 
+
+```
+
+```{r}
+conData2021 %>% 
+  select(country) %>% 
+  distinct()
+
+conData2021 <- conData2021 %>% 
+  mutate(country = ifelse(country == "Nederland", "Netherlands", country),
+         country = ifelse(country == "Tyskland", "Germany", country),
+         country = ifelse(country == "Italia", "Italy", country),
+         country = ifelse(country == "Spania", "Spain", country)) 
+
+```
+```{r}
+conData2021 %>% 
+  select(exporter) %>% 
+  distinct()
+
+conData2021 <- conData2021 %>% 
+  mutate(exporter = ifelse(exporter == "Noviflora Holland B.V. (3), Laeybaert (1)", "Noviflora Holland", exporter),
+         exporter = ifelse(exporter == "Noviflora Holland B.V.", "Noviflora Holland", exporter),
+         exporter = ifelse(exporter == "Floranordica bv.", "Floranordic", exporter),
+         exporter = ifelse(exporter == "Flora Nordic", "Floranordic", exporter),
+         exporter = ifelse(exporter == "Plantagen Source GmbH", "Plantagen source", exporter),
+         exporter = ifelse(exporter == "Az Aar Anania Patrizia &C. SS", "Anania Patrizia", exporter),
+         exporter = ifelse(exporter == "Giambö Piante di Vito Giambd", "GIAMBO PIANTE DI VITO GIAMBO", exporter)) 
+
+```
+```{r}
+conData2021 %>% 
+  select(transport_type) %>% 
+  distinct()
+
+conData2021 <- conData2021 %>% 
+  mutate(transport_type = ifelse(transport_type == "Båt", "Sea", transport_type),
+         transport_type = ifelse(transport_type == "Bil", "Road", transport_type),
+         transport_type = ifelse(transport_type == "?", NA, transport_type))
+
+```
+
+
+
+
+Update the species list with the new import species
+-------------------
+Fix obvious errors, like trim white spaces and uppercase genus.
+
+```{r}
+conData2021 <- conData2021 %>% 
+  mutate(species_latin = str_trim(species_latin)) %>% 
+  mutate(species_latin = str_to_sentence(species_latin))
+```
+
+Change some naming errors.
+```{r}
+conData2021 <- conData2021 %>% 
+  mutate(species_latin = ifelse(species_latin == "Astilbe japonicum", "Astilbe japonica", species_latin),
+         species_latin = ifelse(species_latin == "Fargesia murale", "Fargesia murielae", species_latin),
+         species_latin = ifelse(species_latin == "Ribes grossularia", "Ribes uva-crispa", species_latin),
+         species_latin = ifelse(species_latin == "Pinus pungens", "Picea pungens", species_latin),
+         species_latin = ifelse(species_latin == "Ficus carina", "Ficus carica", species_latin),
+         species_latin = ifelse(species_latin == "Citrus limon", "Citrus xlimon", species_latin),
+         species_latin = ifelse(species_latin == "Hydrangea arboresence", "Hydrangea arborescens", species_latin),
+         species_latin = ifelse(species_latin == "Salvia nemorum", "Salvia nemorosa", species_latin)
+         )
+
+
+```
+
+Adding missing species
+--------
+This time, I added missing species manually into the database. 
+
+
+
+Import the container data
+---------
+After this there is no further complaints from the database and we can import the data.
+
+```{r}
+dbWriteTable(con,
+             Id(schema = "common", table = "containers"),
+             conData2021,
+             append = T)
+```
+
+
+
+<!-- Import Collembola and acari -->
+<!-- ========== -->
+<!-- These files are aggregated by Oddvar, from Arne Fjellbergs raw data. -->
+
+<!-- ```{r} -->
+<!-- coll_raw <- read_csv("../../rawData/data_2020/Konteinere2020_Collembola_til-database.csv") -->
+
+<!-- #coll_raw[1,] -->
+<!-- #coll_raw %>%  -->
+<!-- #  tail -->
+
+<!-- collData2020 <- coll_raw -->
+<!-- ``` -->
+
+<!-- ```{r} -->
+<!-- dbBegin(con) -->
+<!-- dbWriteTable(con, -->
+<!--              Id(schema = "insects", table = "container_records"), -->
+<!--              collData2020, -->
+<!--              append = T) -->
+
+<!-- dbRollback(con) -->
+
+<!-- ``` -->
+
+<!-- ```{r} -->
+<!-- collData2020 <- collData2020 %>%  -->
+<!--   mutate(species_latin = ifelse(species_latin == "Onychiurus sp. volinensis", "Onychiurus cf. volinensis", species_latin)) -->
+<!-- ``` -->
+
+<!-- After this, the collembola is accepted. -->
+
+<!-- ```{r} -->
+<!-- dbWriteTable(con, -->
+<!--              Id(schema = "insects", table = "container_records"), -->
+<!--              collData2020, -->
+<!--              append = T) -->
+<!-- ``` -->
+
+
+<!-- ```{r} -->
+<!-- acari_raw <- read_csv("../../rawData/data_2020/Konteinere2020_Acari_til-database.csv") -->
+
+<!-- #acari_raw[1,] -->
+<!-- #acari_raw %>%  -->
+<!-- #  tail -->
+
+<!-- acariData2020 <- acari_raw -->
+<!-- ``` -->
+
+<!-- ```{r} -->
+<!-- acariData2020 <- acariData2020 %>%  -->
+<!--   mutate(species_latin = ifelse(species_latin == "Acari indet.", "Acari spp.", species_latin)) -->
+<!-- ``` -->
+
+
+
+<!-- ```{r} -->
+<!-- dbBegin(con) -->
+<!-- dbWriteTable(con, -->
+<!--              Id(schema = "insects", table = "container_records"), -->
+<!--              acariData2020, -->
+<!--              append = T) -->
+
+<!-- dbRollback(con) -->
+
+<!-- ``` -->
+
+<!-- ```{r} -->
+<!-- dbWriteTable(con, -->
+<!--              Id(schema = "insects", table = "container_records"), -->
+<!--              acariData2020, -->
+<!--              append = T) -->
+<!-- ``` -->
+
+
+
+
+Import the plant data
+=============
+I'm basing this on the excel file called "Copy of 2020-2023....", sheet nr 4. I've made another sheet where I get rid of the "contaminated" species (Betula pendula etc).
+
+
+
+```{r}
+plants2021Raw <- read.xlsx("../../rawData/data_2021/2021 Spiredata planteimport før vernalisering fra Anders O.xlsx",
+                           sheet = "Til_database") %>% 
+  as_tibble()
+
+plants2021 <- plants2021Raw %>% 
+    arrange(container,
+          subsample,
+          species_latin)
+
+plants2021
+```
+
+
+
+Next, we look at the species names that are new. (Have to do the later steps first to know which ones)
+
+```{r}
+plants2021 <- plants2021 %>% 
+  mutate(species_latin = ifelse(species_latin == "Amaranthus cf. blitum", "Amaranthus blitum", species_latin), 
+         species_latin = ifelse(species_latin == "Amaranthus cf. hybridus", "Amaranthus hybridus", species_latin),
+         species_latin = ifelse(species_latin == "Epilobium ciliatum", "Epilobium ciliatum ssp. ciliatum", species_latin),
+         species_latin = ifelse(species_latin == "Galiosoga quadriradiata", "Galinsoga quadriradiata", species_latin),
+         species_latin = ifelse(species_latin == "Galisoga quadriradiata", "Galinsoga quadriradiata", species_latin),
+         species_latin = ifelse(species_latin == "Portulaca oleraceus ssp. oleraceus", "Portulaca oleracea ssp. oleracea", species_latin)
+
+)
+
+
+```
+
+
+Next, we sum the total amounts of every species in each subsample and vernalisation criterion.
+
+```{r}
+plants2021 <- plants2021 %>% 
+  group_by(container,
+           subsample,
+           species_latin,
+           vernalisation) %>% 
+  summarise(amount = sum(amount)) %>% 
+  ungroup()
+
+plants2021 %>% print(n = Inf)
+
+```
+
+
+
+```{r}
+plantSpeciesInDatabase <- tbl(con,
+                              Id(schema = "plants",
+                                 table = "species"))
+```
+
+
+Note: I changed the name "Arabis thaliana" to "Arabidopsis thaliana".
+
+```{r}
+plantNames2021 <- plants2021 %>% 
+  select(species_latin) %>% 
+  distinct() %>% 
+  arrange(species_latin)
+
+
+plantNames2021 %>% 
+   left_join(plantSpeciesInDatabase,
+             copy = T) %>% 
+   filter(is.na(id)) %>% 
+  select(species_latin) %>% 
+  print(n = Inf)
+
+#1 Cerastium fontanum ssp.fontanum
+#2 Lamium purpureum               
+#3 Medicago lupulina              
+#4 Polygonum aviculare            
+#5 Setaria cf. faberi             
+#6 Setaria italica
+
+```
+
+
+
+Import new plant names to the species table
+----------
+Alien and native categories were added manually in the database for these few species. The species names and blacklist lookup seems to work.
+
+```{r, eval = F}
+plantNamesToImport <- plantNames2021 %>% 
+   left_join(plantSpeciesInDatabase,
+             copy = T) %>% 
+   filter(is.na(id)) %>% 
+  select(species_latin)
+
+dbWriteTable(con, 
+             Id(schema = "plants", table = "species"),
+             plantNamesToImport,
+             append = T)
+
+```
+
+
+Import plant germination data
+---------------
+
+```{r}
+dbBegin(con)
+dbWriteTable(con, 
+             Id(schema = "plants", table = "container_records"),
+             plants2021,
+             append = T)
+dbRollback(con)
+
+```
+Seems to work. Now do it for reals.
+
+```{r, eval = F}
+dbWriteTable(con, 
+             Id(schema = "plants", table = "container_records"),
+             plants2021,
+             append = T)
+```
+
+
+
+Import germination data after vernalisation
+===============
+This was done 2022-03-15.
+
+```{r}
+plants2021_vern_Raw <- read.xlsx("../../rawData/data_2021/spireliste 2020-2023 - nytt-prosjekt-2021-22-40.xlsx",
+                           sheet = "2021_etter_vernalisering") %>% 
+  as_tibble()
+
+plants2021_vern <- plants2021_vern_Raw %>% 
+    arrange(container,
+          subsample,
+          species_latin)
+
+plants2021_vern
+```
+
+
+
+Next, we look at the species names that are new. I first repeat some changes of ames that were identified on the non vernalised data.
+
+```{r}
+plants2021_vern <- plants2021_vern %>% 
+  mutate(species_latin = ifelse(species_latin == "Amaranthus cf. blitum", "Amaranthus blitum", species_latin), 
+         species_latin = ifelse(species_latin == "Amaranthus cf. hybridus", "Amaranthus hybridus", species_latin),
+         species_latin = ifelse(species_latin == "Epilobium ciliatum", "Epilobium ciliatum ssp. ciliatum", species_latin),
+         species_latin = ifelse(species_latin == "Galiosoga quadriradiata", "Galinsoga quadriradiata", species_latin),
+         species_latin = ifelse(species_latin == "Galisoga quadriradiata", "Galinsoga quadriradiata", species_latin),
+         species_latin = ifelse(species_latin == "Portulaca oleraceus ssp. oleraceus", "Portulaca oleracea ssp. oleracea", species_latin)
+
+)
+
+
+```
+
+And here some new ones. I Have to do the later steps first to know which ones, and talk to Kristine about some decisions.
+
+Note, changed these species names in the plants.species table (changes retroactivelly old records):
+
+Arabis hirsuta ssp. hirsuta to Arabis hirsuta
+Lade til Epilobium ciliatum coll.
+Lade til Montia fontana coll. 
+Lade til Silene gallica
+Lade til Eragrostis tef
+
+```{r}
+#Legg til Eragrostis tef ? (Ny art)
+
+plants2021_vern <- plants2021_vern %>% 
+  mutate(species_latin = ifelse(species_latin == "Arabis thaliana", "Arabidopsis thaliana", species_latin),
+         species_latin = ifelse(species_latin == "Conyza candensis", "Conyza canadensis", species_latin),
+         species_latin = ifelse(species_latin == "Coronopus didymus", "Lepidium didymum", species_latin),
+         species_latin = ifelse(species_latin == "Juncus bufonius ssp. Bufonius", "Juncus bufonius", species_latin),
+         species_latin = ifelse(species_latin == "Matricaria inodora", "Tripleurospermum inodorum", species_latin), #Legg til Tripleurospermum inodorum (Den finnes også i datasettet fra 2021 etter spiring)
+         species_latin = ifelse(species_latin == "Portulacca oleraceae ssp. sativa", "Portulaca oleraceae ssp. sativa", species_latin),
+         species_latin = ifelse(species_latin == "Solanum tuberosum", "Solanum tuberosum 'Amandine'", species_latin), #?Eneste solanum tuberosum vi har, alt. legg till Solanum tuberosum uten varitet.
+         species_latin = ifelse(species_latin == "Silene galllica", "Silene gallica", species_latin),
+         
+  )
+         
+         
+```
+
+
+
+Delete the Betula pendula (contamination). This wasn't done in the excel sheet.
+
+```{r}
+plants2021_vern <- plants2021_vern %>% 
+  filter(species_latin != "Betula pendula")
+```
+
+Next, we sum the total amounts of every species in each subsample and vernalisation criterion.
+
+```{r}
+plants2021_vern <- plants2021_vern %>% 
+  group_by(container,
+           subsample,
+           species_latin,
+           vernalisation) %>% 
+  summarise(amount = sum(amount)) %>% 
+  ungroup()
+
+plants2021_vern %>% print(n = Inf)
+
+```
+
+
+
+
+```{r}
+plantSpeciesInDatabase <- tbl(con,
+                              Id(schema = "plants",
+                                 table = "species"))
+```
+
+
+Note: I changed the name "Arabis thaliana" to "Arabidopsis thaliana".
+
+```{r}
+plantNames2021_vern <- plants2021_vern %>% 
+  select(species_latin) %>% 
+  distinct() %>% 
+  arrange(species_latin)
+
+
+plantNames2021_vern %>% 
+   left_join(plantSpeciesInDatabase,
+             copy = T) %>% 
+   filter(is.na(id)) %>% 
+  select(species_latin) %>% 
+  print(n = Inf)
+
+#  1 Arabis hirsuta                  
+#  2 Arabis thaliana                 
+#  3 Conyza candensis                
+#  4 Coronopus didymus               
+#  5 Epilobium ciliatum coll.        
+#  6 Eragrostis tef                  
+#  7 Juncus bufonius ssp. Bufonius   
+#  8 Matricaria inodora              
+#  9 Montia fontana coll.            
+# 10 Portulacca oleraceae ssp. sativa
+# 11 Silene galllica                 
+# 12 Solanum tuberosum               
+# 13 Tripleurospermum inodorum 
+
+```
+
+
+
+
+
+Import new plant names to the species table
+----------
+Alien and native categories were added manually in the database for these few species. The species names and blacklist lookup seems to work.
+
+```{r, eval = F}
+plantNamesToImport_vern <- plantNames2021_vern %>% 
+   left_join(plantSpeciesInDatabase,
+             copy = T) %>% 
+   filter(is.na(id)) %>% 
+  select(species_latin)
+
+dbWriteTable(con, 
+             Id(schema = "plants", table = "species"),
+             plantNamesToImport_vern,
+             append = T)
+
+```
+
+
+Import plant germination data
+---------------
+
+```{r}
+dbBegin(con)
+dbWriteTable(con, 
+             Id(schema = "plants", table = "container_records"),
+             plants2021_vern,
+             append = T)
+dbRollback(con)
+
+```
+Oh no. We have already imported one set of vernalised data. This new data needs to be added to that.
+
+We first retrieve the existing data, merge this with the new data, work out the new totals, and import it again.
+
+
+```{r}
+existing_2021_vern <- tbl(con,
+                          Id(schema = "plants", table = "container_records")) %>% 
+  filter(container >= 111 & vernalisation == TRUE) %>% 
+  select(container,
+         subsample,
+         species_latin,
+         vernalisation,
+         amount) %>% 
+  collect()
+  
+
+```
+
+```{r}
+vern_2021_merged <- plants2021_vern %>% 
+  full_join(existing_2021_vern,
+            by = c("container" = "container",
+                   "subsample" = "subsample",
+                   "species_latin" = "species_latin",
+                   "vernalisation" = "vernalisation")) %>% 
+  replace_na(list(amount.y = 0, 
+             amount.x = 0)) %>% 
+  mutate(amount = amount.y + amount.x)
+            
+
+
+vern_2021_merged %>% 
+  print(n = Inf)
+```
+```{r}
+vern_2021_merged <- vern_2021_merged %>% 
+  select(container,
+         subsample,
+         species_latin,
+         vernalisation,
+         amount)
+```
+
+Then remove the old records.
+```{r}
+delete_old_q <- "
+DELETE
+FROM plants.container_records
+WHERE container >= 111
+AND vernalisation = TRUE
+
+"
+
+dbSendStatement(con,
+           delete_old_q)
+
+```
+
+Fix a subsample 19, to 10. (probably mistype.)
+```{r}
+vern_2021_merged %>% 
+  filter(container == 115) %>% 
+  print(n = Inf)
+
+vern_2021_merged <- vern_2021_merged %>% 
+  mutate(subsample = ifelse(subsample == 19, 10, subsample))
+  
+```
+
+
+Test the import
+```{r, eval = F}
+dbBegin(con)
+dbWriteTable(con, 
+             Id(schema = "plants", table = "container_records"),
+             vern_2021_merged,
+             append = T)
+dbRollback(con)
+
+```
+Seems OK,
+
+```{r}
+dbWriteTable(con, 
+             Id(schema = "plants", table = "container_records"),
+             vern_2021_merged,
+             append = T)
+```
+
+
+
+
+
+
+
